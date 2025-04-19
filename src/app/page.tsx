@@ -1,18 +1,16 @@
 import { Metadata } from 'next';
 import HeroSection from '@/components/sections/HeroSection';
 import ServicesSection from '@/components/sections/ServicesSection';
-import AboutSection from '@/components/sections/AboutSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import CTASection from '@/components/sections/CTASection';
+import ContactSection from '@/components/sections/ContactSection';
 import MainLayout from '@/components/layout/MainLayout';
 
 export const metadata: Metadata = {
   title: 'Intention Infoservice - Web Design, Development & Digital Marketing',
-  description: 'At Intention Infoservice, we transform ideas into stunning digital realities with web design, mobile app development, digital marketing, and more.',
+  description: 'Transforming ideas into stunning digital realities with web design, mobile app development, digital marketing, and more.',
   openGraph: {
     url: 'https://intentioninfoservice.com',
     title: 'Intention Infoservice - Web Design, Development & Digital Marketing',
-    description: 'At Intention Infoservice, we transform ideas into stunning digital realities with web design, mobile app development, digital marketing, and more.',
+    description: 'Transforming ideas into stunning digital realities with web design, mobile app development, digital marketing, and more.',
     images: [
       {
         url: '/images/og-image.jpg',
@@ -39,9 +37,7 @@ export default function Home() {
     <MainLayout>
       <HeroSection />
       <ServicesSection />
-      <AboutSection />
-      <TestimonialsSection />
-      <CTASection />
+      <ContactSection />
     </MainLayout>
   );
 }
