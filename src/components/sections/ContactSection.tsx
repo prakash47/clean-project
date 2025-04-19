@@ -278,7 +278,7 @@ export default function ContactSection() {
             )}
           </div>
           {/* Contact Info Sidebar */}
-          <div className="lg:col-span-1 bg-gradient-to-b from-dark-900 to-dark-950 p-8 rounded-xl border border-gray-600/20">
+          <div className="lg:col-span-1 bg-gradient-to-b from-dark-900 to-dark-950 p-8 rounded-xl border border-gradient-to-r from-dark-1000 via-teal-500/20 to-dark-1000 shadow-[5px_5px_15px_rgba(0,0,0,0.3),-5px_-5px_15px_rgba(255,255,255,0.05)]">
             <h3 className="text-xl font-bold text-white mb-6">Contact Information</h3>
             <div className="space-y-6 text-gray-400">
               <div className="flex items-start gap-3">
