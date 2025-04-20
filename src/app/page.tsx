@@ -10,6 +10,7 @@ const ContactSection = dynamic(() => import('@/components/sections/ContactSectio
 export const metadata: Metadata = {
   title: 'Intention Infoservice - Web Design, Development & Digital Marketing',
   description: 'Transforming ideas into stunning digital realities with web design, mobile app development, digital marketing, and more.',
+  metadataBase: new URL('https://intentioninfoservice.com'), // Set metadataBase
   openGraph: {
     url: 'https://intentioninfoservice.com',
     title: 'Intention Infoservice - Web Design, Development & Digital Marketing',
@@ -32,25 +33,20 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://intentioninfoservice.com',
   },
-  viewport: 'width=device-width, initial-scale=1',
+};
+
+// Move viewport to a separate export
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function Home() {
   return (
-    <>
-      {/* Preload the font to reduce layout shifts */}
-      <link
-        rel="preload"
-        href="/_next/static/media/3534416bbfdcc9be-s.p.woff2"
-        as="font"
-        type="font/woff2"
-        crossOrigin="anonymous"
-      />
-      <MainLayout>
-        <HeroSection />
-        <ServicesSection />
-        <ContactSection />
-      </MainLayout>
-    </>
+    <MainLayout>
+      <HeroSection />
+      <ServicesSection />
+      <ContactSection />
+    </MainLayout>
   );
 }

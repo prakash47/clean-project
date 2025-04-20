@@ -11,9 +11,8 @@ export default function Header() {
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
     { name: 'Our Services', href: '/services', hasSubmenu: true },
-    { name: 'Portfolio', href: '/portfolio' },
     { name: 'Blog', href: '/blog' },
-    { name: 'Career', href: '/career' },
+    { name: 'Careers', href: '/careers' },
     { name: 'Contact Us', href: '/contact' },
   ];
 
@@ -28,9 +27,47 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-dark-900">
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+      <style jsx global>{`
+        @keyframes bg-spin {
+          to {
+            --border-angle: 1turn;
+          }
+        }
+
+        .contact-us-button {
+          --border-angle: 0turn;
+          --main-bg: conic-gradient(
+            from var(--border-angle),
+            #213,
+            #112 5%,
+            #112 60%,
+            #213 95%
+          );
+          --gradient-border: conic-gradient(
+            from var(--border-angle),
+            transparent 25%,
+            #08f,
+            #f03 99%,
+            transparent
+          );
+          border: solid 2px transparent;
+          border-radius: 0.5em;
+          background: 
+            var(--main-bg) padding-box,
+            var(--gradient-border) border-box, 
+            var(--main-bg) border-box;
+          background-position: center center;
+          animation: bg-spin 3s linear infinite;
+        }
+
+        .contact-us-button:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
+      <div className="mx-auto w-full px-4 md:px-[10%] py-4 flex items-center justify-between">
         <Link href="/" className="text-2xl font-bold text-white flex items-center gap-2">
-          <img src="/images/logo.webp" alt="Intention Infoservice Logo" className="h-12 w-10" width="40" height="48" />
+          <img src="/images/logo.png" alt="Intention Infoservice Logo" className="h-12 w-10" />
           Intention Infoservice
         </Link>
         <nav className="hidden lg:flex items-center gap-6">
@@ -60,7 +97,7 @@ export default function Header() {
               ) : index === navLinks.length - 1 ? (
                 <Link
                   href={link.href}
-                  className="text-white font-medium px-4 py-2 border border-white rounded hover:bg-white/10 transition-all"
+                  className="contact-us-button text-white font-medium px-4 py-2 rounded"
                 >
                   {link.name}
                 </Link>
@@ -107,7 +144,7 @@ export default function Header() {
                 ) : index === navLinks.length - 1 ? (
                   <Link
                     href={link.href}
-                    className="text-white font-medium px-4 py-2 border border-white rounded hover:bg-white/10 transition-all"
+                    className="contact-us-button text-white font-medium px-4 py-2 rounded"
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}

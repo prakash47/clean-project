@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .prose {
+    font-family: 'Inter', sans-serif;
+    @apply text-gray-800;
+  }
+  .prose h1 {
+    @apply text-[2.5rem] text-[#1a5f7a] font-bold mb-6;
+  }
+  .prose h2 {
+    @apply text-[1.75rem] text-[#1a5f7a] font-semibold mt-8 mb-4;
+  }
+  .prose p {
+    @apply text-lg leading-[1.65] mb-5;
+  }
+  .prose ul {
+    @apply list-disc mb-5 pl-6;
+  }
+  .prose li {
+    @apply text-lg leading-[1.65] mb-2;
+  }
+  .prose a {
+    @apply text-[#14b8a6] underline transition-colors duration-200;
+  }
+  .prose a:hover {
+    @apply text-[#0d9488];
+  }
+}

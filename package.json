@@ -10,7 +10,6 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@next/font": "^14.2.15",
     "critters": "^0.0.23",
     "framer-motion": "^10.18.0",
     "gsap": "^3.12.7",
@@ -22,6 +21,7 @@
     "sharp": "^0.32.6"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

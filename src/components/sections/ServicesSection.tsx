@@ -120,10 +120,13 @@ export default function ServicesSection() {
     if (window.innerWidth >= 768) {
       const icon = document.querySelectorAll('.service-icon')[index];
       const animation = gsap.getTweensOf(icon)[0];
-      if (hoveredIndex === index) {
-        animation.reverse();
-      } else {
-        animation.play();
+      // Guard clause to prevent calling methods on undefined animation
+      if (animation) {
+        if (hoveredIndex === index) {
+          animation.reverse();
+        } else {
+          animation.play();
+        }
       }
     } else {
       setExpandedIndex(expandedIndex === index ? null : index);

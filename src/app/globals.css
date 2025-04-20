@@ -14,13 +14,7 @@
   }
 }
 
-@font-face {
-  font-family: 'Manrope';
-  src: url('/_next/static/media/3534416bbfdcc9be-s.p.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap; /* Ensure text is visible during font loading */
-}
+
 
 body {
   background: var(--background);
