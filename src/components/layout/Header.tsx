@@ -30,7 +30,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-dark-900">
       <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="text-2xl font-bold text-white flex items-center gap-2">
-          <img src="/images/logo.png" alt="Intention Infoservice Logo" className="h-12 w-10" />
+          <img src="/images/logo.webp" alt="Intention Infoservice Logo" className="h-12 w-10" width="40" height="48" />
           Intention Infoservice
         </Link>
         <nav className="hidden lg:flex items-center gap-6">

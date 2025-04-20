@@ -1,39 +1,20 @@
-import type { Metadata } from 'next';
-import { Inter, Manrope } from 'next/font/google';
-import './globals.css';
+import './globals.css'; // Import the global CSS file
+import { ReactNode } from 'react';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
-const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-inter' });
-const manrope = Manrope({ subsets: ['latin'], display: 'swap', variable: '--font-manrope' });
+interface RootLayoutProps {
+  children: ReactNode;
+}
 
-export const metadata: Metadata = {
-  title: {
-    default: 'Intention Infoservice',
-    template: '%s | Intention Infoservice',
-  },
-  description: 'Transforming ideas into digital realities with web design, mobile app development, digital marketing, and more.',
-  openGraph: {
-    siteName: 'Intention Infoservice',
-    type: 'website',
-    locale: 'en_US',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@intentioninfo',
-  },
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/icons/apple-touch-icon.png',
-  },
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className={`${inter.className} ${manrope.variable} font-manrope`}>{children}</body>
+      <body className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

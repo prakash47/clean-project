@@ -1,7 +1,9 @@
 'use client';
-import { useState } from 'react';
-import Card from '@/components/ui/Card';
-import { FaCode, FaMobileAlt, FaCog, FaPaintBrush, FaChartLine, FaTools } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { gsap } from 'gsap';
+import { motion } from 'framer-motion';
+import { FaArrowRight } from 'react-icons/fa';
+import Link from 'next/link';
 
 export default function ServicesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -9,123 +11,220 @@ export default function ServicesSection() {
 
   const services = [
     {
-      icon: <FaCode size={40} className="text-teal-500" />,
-      title: 'Web Design & Development',
-      description: 'Stunning, responsive websites optimized for performance and SEO.',
+      title: 'Web Design & Development Services',
+      description: 'Custom Web Design & Development Services – Build stunning, responsive websites optimized for performance, SEO, and user experience to grow your online presence.',
+      className: 'web-laptop',
+      link: '/services/web-design-development',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 40 40" className="web-laptop-icon">
+          <rect x="0" y="0" width="40" height="25" rx="3" fill="#14B8A6" />
+          <rect x="3" y="3" width="34" height="19" fill="#0F172A" />
+          <rect x="3" y="8" width="34" height="14" fill="#1A2526" />
+          <rect x="5" y="10" width="15" height="10" fill="#0F172A" />
+          <rect x="22" y="10" width="12" height="10" fill="#0F172A" />
+          <rect x="0" y="25" width="40" height="5" rx="1" fill="#14B8A6" />
+        </svg>
+      ),
     },
     {
-      icon: <FaMobileAlt size={40} className="text-teal-500" />,
-      title: 'Mobile App Development',
-      description: 'Intuitive iOS and Android apps with seamless user experiences.',
+      title: 'Mobile App Development Solutions',
+      description: 'Top Mobile App Development Solutions – Create intuitive iOS and Android apps with seamless user experiences to engage your audience on the go.',
+      className: 'mobile-phone',
+      link: '/services/mobile-app-development',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 40 40" className="mobile-phone-icon">
+          <rect x="0" y="0" width="20" height="35" rx="3" fill="#14B8A6" />
+          <rect x="3" y="3" width="14" height="29" fill="#0F172A" />
+          <rect x="5" y="8" width="10" height="5" rx="1" fill="#00CED1" />
+          <rect x="5" y="15" width="10" height="5" rx="1" fill="#00CED1" />
+          <circle cx="17" cy="32" r="3" fill="#00CED1" />
+        </svg>
+      ),
     },
     {
-      icon: <FaCog size={40} className="text-teal-500" />,
-      title: 'Website Maintenance',
-      description: 'Reliable updates and security for your digital presence.',
+      title: 'Website Maintenance Services',
+      description: 'Reliable Website Maintenance Services – Ensure your site stays secure, updated, and running smoothly with our expert maintenance solutions.',
+      className: 'maintenance-gear',
+      link: '/services/website-maintenance',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 40 40" className="maintenance-gear-icon">
+          <path d="M0,0 L5,-5 L10,0 L5,5 Z" fill="#14B8A6" transform="translate(20, 20) rotate(0)" />
+          <path d="M0,0 L5,-5 L10,0 L5,5 Z" fill="#14B8A6" transform="translate(20, 20) rotate(45)" />
+          <path d="M0,0 L5,-5 L10,0 L5,5 Z" fill="#14B8A6" transform="translate(20, 20) rotate(90)" />
+          <path d="M0,0 L5,-5 L10,0 L5,5 Z" fill="#14B8A6" transform="translate(20, 20) rotate(135)" />
+          <circle cx="20" cy="20" r="5" fill="#0F172A" />
+        </svg>
+      ),
     },
     {
-      icon: <FaPaintBrush size={40} className="text-teal-500" />,
       title: 'UI/UX Design & Branding',
-      description: 'Memorable designs that elevate your brand identity.',
+      description: 'Professional UI/UX Design & Branding – Elevate your brand with memorable designs and user-focused interfaces that captivate and convert.',
+      className: 'uiux-brush',
+      link: '/services/ui-ux-design-branding',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 40 40" className="uiux-brush-icon">
+          <rect x="0" y="0" width="5" height="20" rx="1" fill="#FF69B4" transform="translate(10, 10) rotate(-45)" />
+          <path d="M0,0 Q10,5 20,0" fill="none" stroke="#FF69B4" strokeWidth="1" transform="translate(25, 5)" />
+        </svg>
+      ),
     },
     {
-      icon: <FaChartLine size={40} className="text-teal-500" />,
-      title: 'Digital Marketing',
-      description: 'Strategic campaigns to boost engagement and growth.',
+      title: 'Digital Marketing Solutions',
+      description: 'Effective Digital Marketing Solutions for Businesses – Boost engagement and growth with strategic campaigns, SEO, and social media marketing.',
+      className: 'marketing-graph',
+      link: '/services/digital-marketing',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 40 40" className="marketing-graph-icon">
+          <polyline
+            points="0,25 10,15 20,25 30,5 40,15"
+            fill="none"
+            stroke="#10B981"
+            strokeWidth="1"
+          />
+          <circle cx="30" cy="5" r="3" fill="#10B981" />
+          <circle cx="40" cy="15" r="3" fill="#10B981" />
+        </svg>
+      ),
     },
     {
-      icon: <FaTools size={40} className="text-teal-500" />,
       title: 'Custom Business Solutions',
-      description: 'Tailored software to optimize your operations.',
+      description: 'Tailored Custom Business Solutions – Optimize your operations with bespoke software designed to meet your unique business needs.',
+      className: 'business-cube',
+      link: '/services/custom-business-solutions',
+      icon: (
+        <svg width="40" height="40" viewBox="0 0 40 40" className="business-cube-icon">
+          <rect x="0" y="0" width="20" height="20" fill="#14B8A6" transform="translate(10, 10) rotate(45)" />
+          <rect x="3" y="3" width="14" height="14" fill="#0F172A" transform="translate(10, 10) rotate(45)" />
+          <text x="17" y="23" fill="#14B8A6" fontSize="5" fontFamily="monospace">101</text>
+        </svg>
+      ),
     },
   ];
 
-  const handleCardInteraction = (index: number) => {
-    setExpandedIndex(expandedIndex === index ? null : index); // Toggle expanded state on mobile
+  useEffect(() => {
+    // Hover animations for icons
+    gsap.utils.toArray('.service-icon').forEach((icon, index) => {
+      gsap.to(icon, {
+        scale: 1.2,
+        boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)',
+        duration: 0.3,
+        paused: true,
+        ease: 'power2.out',
+        onStart: () => setHoveredIndex(index),
+        onReverseComplete: () => setHoveredIndex(null),
+      });
+    });
+  }, []);
+
+  const handleInteraction = (index: number) => {
+    if (window.innerWidth >= 768) {
+      const icon = document.querySelectorAll('.service-icon')[index];
+      const animation = gsap.getTweensOf(icon)[0];
+      if (hoveredIndex === index) {
+        animation.reverse();
+      } else {
+        animation.play();
+      }
+    } else {
+      setExpandedIndex(expandedIndex === index ? null : index);
+    }
   };
 
   return (
-    <section className="bg-gradient-to-b from-dark-950 to-dark-900 py-16 md:py-24 relative overflow-hidden">
+    <section className="bg-gradient-to-b from-dark-950 to-dark-800 mb-4 md:py-8 relative overflow-hidden">
       {/* Starry Texture */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.05)_0%,_rgba(255,255,255,0)_70%)] opacity-30 pointer-events-none" />
-      <div className="max-w-5xl mx-auto px-6 relative z-10">
+      <div className="w-full px-[10%] relative z-10">
+        {/* Schema Markup */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Service",
+              "serviceType": "Web Development, Mobile App Development, Digital Marketing, Custom Business Solutions",
+              "provider": {
+                "@type": "Organization",
+                "name": "Intention Infoservice",
+                "address": {
+                  "@type": "PostalAddress",
+                  "streetAddress": "123 Digital Avenue",
+                  "addressLocality": "Tech City",
+                  "postalCode": "TC 12345"
+                }
+              },
+              "description": "Intention Infoservice offers custom web design, mobile app development, digital marketing, and tailored business solutions to help businesses grow globally."
+            }
+          `}
+        </script>
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-            Our Solutions
+            Our Services
           </h2>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
             Discover how we can elevate your business with our expert services.
           </p>
         </div>
-        {/* Desktop: Hexagonal Grid Layout */}
-        <div className="hidden md:grid grid-cols-3 gap-4 auto-rows-min">
+        {/* Desktop: Two-Column Grid of Services */}
+        <div className="hidden md:grid grid-cols-2 gap-x-6 gap-y-10">
           {services.map((service, index) => (
-            <div
+            <motion.div
               key={service.title}
-              className={`group ${index % 2 === 1 ? 'mt-16' : ''}`}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              className="flex items-start gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              onMouseEnter={() => handleInteraction(index)}
+              onMouseLeave={() => handleInteraction(index)}
             >
-              <Card
-                className={`bg-dark-900/50 backdrop-blur-lg border border-teal-500/50 bg-gradient-to-br from-teal-500/20 to-transparent transition-all duration-300 flex items-center justify-center overflow-hidden w-56 h-64 mx-auto ${
-                  hoveredIndex === index
-                    ? 'scale-105 shadow-[0_0_15px_rgba(20,184,166,0.5)]'
-                    : 'opacity-90'
-                }`}
-                style={{
-                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                }}
-                padding="none"
-                hoverEffect={false}
-              >
-                <div className="flex flex-col items-center justify-center text-center p-10 gap-8">
-                  <div className="p-4 bg-dark-1000 rounded-full border border-teal-500/50 mt-4 mb-8">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-lg font-bold text-white">{service.title}</h3>
-                  <p className="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 line-clamp-2">
-                    {service.description}
-                  </p>
-                </div>
-              </Card>
-            </div>
+              <div className={`service-icon ${service.className}-icon transition-all duration-300 ${hoveredIndex === index ? 'scale-110 shadow-[0_0_10px_rgba(20,184,166,0.5)]' : ''}`}>
+                {service.icon}
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-2">{service.title}</h3>
+                <p className="text-base text-gray-400">{service.description}</p>
+                <Link href={service.link}>
+                  <button className="mt-4 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded flex items-center gap-2">
+                    Learn More <FaArrowRight />
+                  </button>
+                </Link>
+              </div>
+            </motion.div>
           ))}
         </div>
-        {/* Mobile: Vertical Stack */}
-        <div className="md:hidden space-y-4">
+        {/* Mobile: Stacked Layout with Click-to-Expand */}
+        <div className="md:hidden space-y-6">
           {services.map((service, index) => (
-            <div
+            <motion.div
               key={service.title}
-              className="group cursor-pointer"
-              onClick={() => handleCardInteraction(index)}
+              className="flex items-start gap-6"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              onClick={() => handleInteraction(index)}
             >
-              <Card
-                className={`bg-dark-900/50 backdrop-blur-lg border border-teal-500/50 bg-gradient-to-br from-teal-500/20 to-transparent transition-all duration-300 w-full max-w-sm h-64 mx-auto flex items-center justify-center overflow-hidden ${
-                  expandedIndex === index
-                    ? 'shadow-[0_0_15px_rgba(20,184,166,0.5)]'
-                    : 'opacity-90'
-                }`}
-                style={{
-                  clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-                }}
-                padding="none"
-                hoverEffect={false}
-              >
-                <div className="flex flex-col items-center justify-center text-center p-10 gap-8">
-                  <div className="p-4 bg-dark-1000 rounded-full border border-teal-500/50 mt-4 mb-8">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-lg font-bold text-white">{service.title}</h3>
-                  <p
-                    className={`text-gray-300 text-sm transition-all duration-300 ${
-                      expandedIndex === index ? 'opacity-100' : 'opacity-0 h-0'
-                    }`}
-                  >
-                    {service.description}
-                  </p>
+              <div className={`service-icon ${service.className}-icon transition-all duration-300 ${expandedIndex === index ? 'scale-110 shadow-[0_0_10px_rgba(20,184,166,0.5)]' : ''}`}>
+                {service.icon}
+              </div>
+              <div className="flex flex-col">
+                <h3 className="text-xl font-bold text-white mb-2">{service.title}</h3>
+                <p
+                  className={`text-sm text-gray-400 transition-all duration-300 ${
+                    expandedIndex === index ? 'opacity-100 h-auto' : 'opacity-0 h-0'
+                  }`}
+                >
+                  {service.description}
+                </p>
+                <div className={`flex justify-start ${expandedIndex === index ? 'opacity-100 h-auto' : 'opacity-0 h-0'} transition-all duration-300`}>
+                  <Link href={service.link}>
+                    <button className="mt-2 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded flex items-center gap-2">
+                      Learn More <FaArrowRight />
+                    </button>
+                  </Link>
                 </div>
-              </Card>
-            </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -44,6 +44,7 @@ export default function ContactSection() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isCountryCodeOpen, setIsCountryCodeOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -59,6 +60,11 @@ export default function ContactSection() {
       return { ...prev, services };
     });
     setErrors((prev) => ({ ...prev, services: '' }));
+  };
+
+  const handleCountryCodeSelect = (code: string) => {
+    setFormData((prev) => ({ ...prev, phoneCode: code }));
+    setIsCountryCodeOpen(false);
   };
 
   const validateForm = () => {
@@ -203,23 +209,27 @@ export default function ContactSection() {
                   )}
                   {errors.services && <p className="text-teal-500 text-sm mt-1">{errors.services}</p>}
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="relative flex-shrink-0">
-                    <select
-                      id="phoneCode"
-                      name="phoneCode"
-                      value={formData.phoneCode}
-                      onChange={handleChange}
-                      className="bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white py-3 px-4 rounded-md focus:outline-none appearance-none"
+                <div className="relative">
+                  <div className="relative w-full">
+                    <div
+                      className="absolute left-0 top-0 h-full flex items-center px-4 bg-dark-950 border border-gray-600 rounded-tl-md rounded-bl-md cursor-pointer"
+                      onClick={() => setIsCountryCodeOpen(!isCountryCodeOpen)}
                     >
-                      {countryCodes.map((country) => (
-                        <option key={country.code} value={country.code}>
-                          {country.flag} {country.code} ({country.name})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="relative flex-grow">
+                      <span className="text-white">{selectedCountry.flag} {selectedCountry.code}</span>
+                    </div>
+                    {isCountryCodeOpen && (
+                      <div className="absolute z-10 left-0 top-full mt-1 w-64 bg-dark-900 border border-gray-600 rounded-md max-h-48 overflow-y-auto">
+                        {countryCodes.map((country) => (
+                          <div
+                            key={country.code}
+                            className="px-4 py-2 hover:bg-dark-950 cursor-pointer text-white"
+                            onClick={() => handleCountryCodeSelect(country.code)}
+                          >
+                            {country.flag} {country.code} ({country.name})
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <input
                       type="text"
                       id="phoneNumber"
@@ -227,17 +237,11 @@ export default function ContactSection() {
                       value={formData.phoneNumber}
                       onChange={handleChange}
                       maxLength={selectedCountry.maxLength}
-                      className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                      placeholder=" "
+                      className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 pl-24 pr-4 rounded-r-md focus:outline-none"
+                      placeholder="Phone Number"
                     />
-                    <label
-                      htmlFor="phoneNumber"
-                      className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
-                    >
-                      Phone Number
-                    </label>
-                    {errors.phoneNumber && <p className="text-teal-500 text-sm mt-1">{errors.phoneNumber}</p>}
                   </div>
+                  {errors.phoneNumber && <p className="text-teal-500 text-sm mt-1">{errors.phoneNumber}</p>}
                 </div>
                 <div className="relative">
                   <textarea
