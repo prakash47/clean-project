@@ -1,31 +1,25 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FaCode, FaCogs, FaChartLine } from 'react-icons/fa';
-
-// Define the GSAP type based on the entire module
-type GSAP = typeof import('gsap');
+import { gsap } from 'gsap';
 
 export default function CustomBusinessSolutionsWhatWeOfferSection() {
-  const [gsap, setGsap] = useState<GSAP | null>(null);
-
   useEffect(() => {
-    import('gsap').then((module) => {
-      const gsapInstance = module; // The entire module is the GSAP instance
-      setGsap(gsapInstance);
+    // Ensure GSAP animations are only applied on the client side
+    if (typeof window === 'undefined') return;
 
-      // Ensure elements exist before applying animations
-      const serviceIcons = gsapInstance.utils.toArray('.service-icon') as HTMLElement[];
-      if (gsapInstance && serviceIcons.length > 0) {
-        serviceIcons.forEach((icon, index) => {
-          gsapInstance.to(icon, {
-            scale: 1.2,
-            boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)',
-            duration: 0.3,
-            delay: index * 0.1,
-          });
+    // Ensure elements exist before applying animations
+    const serviceIcons = document.querySelectorAll('.service-icon');
+    if (serviceIcons.length > 0) {
+      serviceIcons.forEach((icon, index) => {
+        gsap.to(icon, {
+          scale: 1.2,
+          boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)',
+          duration: 0.3,
+          delay: index * 0.1,
         });
-      }
-    });
+      });
+    }
   }, []);
 
   const offerings = [

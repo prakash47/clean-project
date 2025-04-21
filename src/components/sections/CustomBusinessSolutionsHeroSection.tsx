@@ -1,40 +1,34 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
-
-// Define the GSAP type based on the entire module
-type GSAP = typeof import('gsap');
+import { gsap } from 'gsap';
 
 export default function CustomBusinessSolutionsHeroSection() {
-  const [gsap, setGsap] = useState<GSAP | null>(null);
-
   useEffect(() => {
-    import('gsap').then((module) => {
-      const gsapInstance = module; // The entire module is the GSAP instance
-      setGsap(gsapInstance);
+    // Ensure GSAP animations are only applied on the client side
+    if (typeof window === 'undefined') return;
 
-      // Ensure elements exist before applying animations
-      const workspace = document.querySelector('.workspace');
-      const automationGear = document.querySelector('.automation-gear');
+    // Ensure elements exist before applying animations
+    const workspace = document.querySelector('.workspace');
+    const automationGear = document.querySelector('.automation-gear');
 
-      if (workspace && gsapInstance) {
-        gsapInstance.fromTo(
-          workspace,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
-        );
-      }
-      if (automationGear && gsapInstance) {
-        gsapInstance.to(automationGear, {
-          rotation: 360,
-          duration: 5,
-          repeat: -1,
-          ease: 'linear',
-        });
-      }
-    });
+    if (workspace) {
+      gsap.fromTo(
+        workspace,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
+      );
+    }
+    if (automationGear) {
+      gsap.to(automationGear, {
+        rotation: 360,
+        duration: 5,
+        repeat: -1,
+        ease: 'linear',
+      });
+    }
   }, []);
 
   return (

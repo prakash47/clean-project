@@ -1,39 +1,33 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
-
-// Define the GSAP type based on the entire module
-type GSAP = typeof import('gsap');
+import { gsap } from 'gsap';
 
 export default function DigitalMarketingHeroSection() {
-  const [gsap, setGsap] = useState<GSAP | null>(null);
-
   useEffect(() => {
-    import('gsap').then((module) => {
-      const gsapInstance = module; // The entire module is the GSAP instance
-      setGsap(gsapInstance);
+    // Ensure GSAP animations are only applied on the client side
+    if (typeof window === 'undefined') return;
 
-      // Ensure elements exist before applying animations
-      const dashboard = document.querySelector('.dashboard');
-      const chart = document.querySelector('.chart');
+    // Ensure elements exist before applying animations
+    const dashboard = document.querySelector('.dashboard');
+    const chart = document.querySelector('.chart');
 
-      if (dashboard && gsapInstance) {
-        gsapInstance.fromTo(
-          dashboard,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
-        );
-      }
-      if (chart && gsapInstance) {
-        gsapInstance.fromTo(
-          chart,
-          { strokeDasharray: 100, strokeDashoffset: 100 },
-          { strokeDashoffset: 0, duration: 1, delay: 0.5, ease: 'power2.out' }
-        );
-      }
-    });
+    if (dashboard) {
+      gsap.fromTo(
+        dashboard,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
+      );
+    }
+    if (chart) {
+      gsap.fromTo(
+        chart,
+        { strokeDasharray: 100, strokeDashoffset: 100 },
+        { strokeDashoffset: 0, duration: 1, delay: 0.5, ease: 'power2.out' }
+      );
+    }
   }, []);
 
   return (
