@@ -1,98 +1,96 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
+import { gsap } from 'gsap';
 
 export default function WebsiteMaintenanceHeroSection() {
-  const [gsap, setGsap] = useState(null);
-
   useEffect(() => {
-    import('gsap').then((module) => {
-      const gsapInstance = module.default;
-      setGsap(() => gsapInstance);
+    // Ensure GSAP animations are only applied on the client side
+    if (typeof window === 'undefined') return;
 
-      const dashboard = document.querySelector('.dashboard');
-      const gear = document.querySelector('.gear');
-      const shield = document.querySelector('.shield');
-      const speedometer = document.querySelector('.speedometer');
-      const connectionLineElements = document.querySelectorAll('.connection-line');
-      const connectionNodeElements = document.querySelectorAll('.connection-node');
-      const supportIconElements = document.querySelectorAll('.support-icon');
+    // Ensure elements exist before applying animations
+    const dashboard = document.querySelector('.dashboard');
+    const gear = document.querySelector('.gear');
+    const shield = document.querySelector('.shield');
+    const speedometer = document.querySelector('.speedometer');
+    const connectionLineElements = document.querySelectorAll('.connection-line');
+    const connectionNodeElements = document.querySelectorAll('.connection-node');
+    const supportIconElements = document.querySelectorAll('.support-icon');
 
-      if (dashboard) {
-        gsapInstance.fromTo(
-          dashboard,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
+    if (dashboard) {
+      gsap.fromTo(
+        dashboard,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
+      );
+    }
+    if (gear) {
+      gsap.to(gear, {
+        rotation: 360,
+        duration: 2,
+        repeat: -1,
+        ease: 'linear',
+        delay: 1,
+      });
+    }
+    if (shield) {
+      gsap.fromTo(
+        shield,
+        { opacity: 0, scale: 0.5 },
+        { opacity: 1, scale: 1, duration: 0.5, delay: 1.5, ease: 'power2.out' }
+      );
+    }
+    if (speedometer) {
+      gsap.fromTo(
+        speedometer,
+        { opacity: 0, scale: 0.5 },
+        { opacity: 1, scale: 1, duration: 0.5, delay: 2, ease: 'power2.out' }
+      );
+      gsap.to(speedometer, {
+        rotation: 90,
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: 2.5,
+      });
+    }
+    if (connectionLineElements.length > 0) {
+      connectionLineElements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { strokeDasharray: 100, strokeDashoffset: 100 },
+          { strokeDashoffset: 0, duration: 1, delay: 2.5, ease: 'power2.out', stagger: 0.2 }
         );
-      }
-      if (gear) {
-        gsapInstance.to(gear, {
+      });
+    }
+    if (connectionNodeElements.length > 0) {
+      connectionNodeElements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { opacity: 0, scale: 0 },
+          { opacity: 1, scale: 1, duration: 0.5, delay: 2.7, ease: 'power2.out', stagger: 0.1 }
+        );
+      });
+    }
+    if (supportIconElements.length > 0) {
+      supportIconElements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { opacity: 0, scale: 0 },
+          { opacity: 1, scale: 1, duration: 0.5, delay: 2.9, ease: 'power2.out', stagger: 0.1 }
+        );
+        gsap.to(element, {
           rotation: 360,
-          duration: 2,
+          duration: 5,
           repeat: -1,
           ease: 'linear',
-          delay: 1,
+          stagger: 0.2,
         });
-      }
-      if (shield) {
-        gsapInstance.fromTo(
-          shield,
-          { opacity: 0, scale: 0.5 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 1.5, ease: 'power2.out' }
-        );
-      }
-      if (speedometer) {
-        gsapInstance.fromTo(
-          speedometer,
-          { opacity: 0, scale: 0.5 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 2, ease: 'power2.out' }
-        );
-        gsapInstance.to(speedometer, {
-          rotation: 90,
-          duration: 1,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          delay: 2.5,
-        });
-      }
-      if (connectionLineElements.length > 0) {
-        connectionLineElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { strokeDasharray: 100, strokeDashoffset: 100 },
-            { strokeDashoffset: 0, duration: 1, delay: 2.5, ease: 'power2.out', stagger: 0.2 }
-          );
-        });
-      }
-      if (connectionNodeElements.length > 0) {
-        connectionNodeElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 2.7, ease: 'power2.out', stagger: 0.1 }
-          );
-        });
-      }
-      if (supportIconElements.length > 0) {
-        supportIconElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 2.9, ease: 'power2.out', stagger: 0.1 }
-          );
-          gsapInstance.to(element, {
-            rotation: 360,
-            duration: 5,
-            repeat: -1,
-            ease: 'linear',
-            stagger: 0.2,
-          });
-        });
-      }
-    });
+      });
+    }
   }, []);
 
   return (

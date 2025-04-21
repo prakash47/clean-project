@@ -1,80 +1,78 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
+import { gsap } from 'gsap';
 
 export default function WebDesignHeroSection() {
-  const [gsap, setGsap] = useState(null);
-
   useEffect(() => {
-    import('gsap').then((module) => {
-      const gsapInstance = module.default;
-      setGsap(() => gsapInstance);
+    // Ensure GSAP animations are only applied on the client side
+    if (typeof window === 'undefined') return;
 
-      const webScreen = document.querySelector('.web-screen');
-      const wireframe = document.querySelector('.wireframe');
-      const interactivePage = document.querySelector('.interactive-page');
-      const connectionLineElements = document.querySelectorAll('.connection-line');
-      const connectionNodeElements = document.querySelectorAll('.connection-node');
-      const supportIconElements = document.querySelectorAll('.support-icon');
+    // Ensure elements exist before applying animations
+    const webScreen = document.querySelector('.web-screen');
+    const wireframe = document.querySelector('.wireframe');
+    const interactivePage = document.querySelector('.interactive-page');
+    const connectionLineElements = document.querySelectorAll('.connection-line');
+    const connectionNodeElements = document.querySelectorAll('.connection-node');
+    const supportIconElements = document.querySelectorAll('.support-icon');
 
-      if (webScreen) {
-        gsapInstance.fromTo(
-          webScreen,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
+    if (webScreen) {
+      gsap.fromTo(
+        webScreen,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
+      );
+    }
+    if (wireframe) {
+      gsap.fromTo(
+        wireframe,
+        { opacity: 1 },
+        { opacity: 0, duration: 1, delay: 1, ease: 'power2.out' }
+      );
+    }
+    if (interactivePage) {
+      gsap.fromTo(
+        interactivePage,
+        { opacity: 0 },
+        { opacity: 1, duration: 1, delay: 1.5, ease: 'power2.out' }
+      );
+    }
+    if (connectionLineElements.length > 0) {
+      connectionLineElements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { strokeDasharray: 100, strokeDashoffset: 100 },
+          { strokeDashoffset: 0, duration: 1, delay: 2, ease: 'power2.out', stagger: 0.2 }
         );
-      }
-      if (wireframe) {
-        gsapInstance.fromTo(
-          wireframe,
-          { opacity: 1 },
-          { opacity: 0, duration: 1, delay: 1, ease: 'power2.out' }
+      });
+    }
+    if (connectionNodeElements.length > 0) {
+      connectionNodeElements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { opacity: 0, scale: 0 },
+          { opacity: 1, scale: 1, duration: 0.5, delay: 2.2, ease: 'power2.out', stagger: 0.1 }
         );
-      }
-      if (interactivePage) {
-        gsapInstance.fromTo(
-          interactivePage,
-          { opacity: 0 },
-          { opacity: 1, duration: 1, delay: 1.5, ease: 'power2.out' }
+      });
+    }
+    if (supportIconElements.length > 0) {
+      supportIconElements.forEach((element) => {
+        gsap.fromTo(
+          element,
+          { opacity: 0, scale: 0 },
+          { opacity: 1, scale: 1, duration: 0.5, delay: 2.4, ease: 'power2.out', stagger: 0.1 }
         );
-      }
-      if (connectionLineElements.length > 0) {
-        connectionLineElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { strokeDasharray: 100, strokeDashoffset: 100 },
-            { strokeDashoffset: 0, duration: 1, delay: 2, ease: 'power2.out', stagger: 0.2 }
-          );
+        gsap.to(element, {
+          rotation: 360,
+          duration: 5,
+          repeat: -1,
+          ease: 'linear',
+          stagger: 0.2,
         });
-      }
-      if (connectionNodeElements.length > 0) {
-        connectionNodeElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 2.2, ease: 'power2.out', stagger: 0.1 }
-          );
-        });
-      }
-      if (supportIconElements.length > 0) {
-        supportIconElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 2.4, ease: 'power2.out', stagger: 0.1 }
-          );
-          gsapInstance.to(element, {
-            rotation: 360,
-            duration: 5,
-            repeat: -1,
-            ease: 'linear',
-            stagger: 0.2,
-          });
-        });
-      }
-    });
+      });
+    }
   }, []);
 
   return (

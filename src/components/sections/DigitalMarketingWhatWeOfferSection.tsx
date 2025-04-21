@@ -9,7 +9,7 @@ export default function DigitalMarketingWhatWeOfferSection() {
     if (typeof window === 'undefined') return;
 
     // Ensure elements exist before applying animations
-    const serviceIcons = document.querySelectorAll('.service-icon');
+    const serviceIcons = gsap.utils.toArray('.service-icon') as HTMLElement[];
     if (serviceIcons.length > 0) {
       serviceIcons.forEach((icon, index) => {
         gsap.to(icon, {

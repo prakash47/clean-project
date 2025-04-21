@@ -56,7 +56,12 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
   ];
 
   useEffect(() => {
-    gsap.utils.toArray('.service-icon').forEach((icon, index) => {
+    // Ensure GSAP animations are only applied on the client side
+    if (typeof window === 'undefined') return;
+
+    // Hover animations for icons
+    const serviceIcons = gsap.utils.toArray('.service-icon') as HTMLElement[];
+    serviceIcons.forEach((icon, index) => {
       gsap.to(icon, {
         scale: 1.2,
         boxShadow: '0 0 10px rgba(20, 184, 166, 0.5)',

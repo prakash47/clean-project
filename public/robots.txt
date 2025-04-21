@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://intentioninfoservice.com
+
+# Sitemaps
+Sitemap: https://intentioninfoservice.com/sitemap.xml

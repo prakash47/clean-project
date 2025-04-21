@@ -234,7 +234,7 @@ export default function HeroSection() {
               </Button>
             </motion.div>
           </div>
-          {/* Right: 2D Animated SVG Illustration */}
+          {/* Right: Animated SVG Illustration */}
           <div className="md:w-1/2 flex justify-center">
             <svg width="500" height="400" viewBox="0 0 500 400" className="w-full max-w-[500px]">
               {/* Dashboard Background */}
@@ -257,7 +257,7 @@ export default function HeroSection() {
               {/* Code Snippet Overlay */}
               <g transform="translate(200, 40)" className="code-snippet">
                 <rect x="0" y="0" width="100" height="40" rx="5" fill="#0F172A" stroke="#14B8A6" strokeWidth="1" />
-                <text x="10" y="25" fill="#14B8A6" fontSize="12" fontFamily="monospace">&lt;code/&gt;</text>
+                <text x="10" y="25" fill="#14B8A6" fontSize="12" fontFamily="monospace">{`{ }`}</text>
               </g>
               {/* Digital Business Solutions: Panel */}
               <g transform="translate(330, 80)" className="business-panel">
