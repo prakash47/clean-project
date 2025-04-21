@@ -4,13 +4,16 @@ import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
 
+// Define the GSAP type based on the entire module
+type GSAP = typeof import('gsap');
+
 export default function AboutHeroSection() {
-  const [gsap, setGsap] = useState(null);
+  const [gsap, setGsap] = useState<GSAP | null>(null);
 
   useEffect(() => {
     import('gsap').then((module) => {
-      const gsapInstance = module.default;
-      setGsap(() => gsapInstance);
+      const gsapInstance = module; // The entire module is the GSAP instance
+      setGsap(gsapInstance);
 
       // Ensure elements exist before applying animations
       const growthChart = document.querySelector('.growth-chart');
@@ -21,21 +24,21 @@ export default function AboutHeroSection() {
       const supportIconElements = document.querySelectorAll('.support-icon');
 
       // Apply GSAP animations only if elements exist
-      if (growthChart) {
+      if (growthChart && gsapInstance) {
         gsapInstance.fromTo(
           growthChart,
           { opacity: 0, scale: 0.8 },
           { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
         );
       }
-      if (chartLine) {
+      if (chartLine && gsapInstance) {
         gsapInstance.fromTo(
           chartLine,
           { strokeDasharray: 100, strokeDashoffset: 100 },
           { strokeDashoffset: 0, duration: 1, delay: 0.5, ease: 'power2.out' }
         );
       }
-      if (chartDotElements.length > 0) {
+      if (chartDotElements.length > 0 && gsapInstance) {
         chartDotElements.forEach((element) => {
           gsapInstance.fromTo(
             element,
@@ -44,7 +47,7 @@ export default function AboutHeroSection() {
           );
         });
       }
-      if (connectionLineElements.length > 0) {
+      if (connectionLineElements.length > 0 && gsapInstance) {
         connectionLineElements.forEach((element) => {
           gsapInstance.fromTo(
             element,
@@ -53,7 +56,7 @@ export default function AboutHeroSection() {
           );
         });
       }
-      if (connectionNodeElements.length > 0) {
+      if (connectionNodeElements.length > 0 && gsapInstance) {
         connectionNodeElements.forEach((element) => {
           gsapInstance.fromTo(
             element,
@@ -62,7 +65,7 @@ export default function AboutHeroSection() {
           );
         });
       }
-      if (supportIconElements.length > 0) {
+      if (supportIconElements.length > 0 && gsapInstance) {
         supportIconElements.forEach((element) => {
           gsapInstance.fromTo(
             element,

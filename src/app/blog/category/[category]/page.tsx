@@ -2,9 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import BlogSidebar from '@/components/BlogSidebar';
 
-// Sample blog posts data (13 posts)
+// Sample blog posts data (same as in [slug]/page.tsx)
 const blogPosts = [
   {
     id: '1',
@@ -16,17 +15,19 @@ const blogPosts = [
     date: 'April 15, 2025',
     author: 'Jane Doe',
     authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
   },
   {
     id: '2',
     slug: 'why-your-business-needs-custom-software',
     title: 'Why Your Business Needs Custom Software in 2025',
     excerpt: 'Learn how custom software solutions can streamline operations, improve efficiency, and give your business a competitive edge.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Custom+Software',
+    featuredImage: 'https://placehold.co/800x400.webp?-bundle=Custom+Software',
     category: 'Business Solutions',
     date: 'April 10, 2025',
     author: 'John Smith',
     authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
   },
   {
     id: '3',
@@ -38,6 +39,7 @@ const blogPosts = [
     date: 'April 5, 2025',
     author: 'Jane Doe',
     authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
   },
   {
     id: '4',
@@ -49,6 +51,7 @@ const blogPosts = [
     date: 'April 1, 2025',
     author: 'John Smith',
     authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
   },
   {
     id: '5',
@@ -60,6 +63,7 @@ const blogPosts = [
     date: 'March 28, 2025',
     author: 'Alice Johnson',
     authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
   },
   {
     id: '6',
@@ -71,6 +75,7 @@ const blogPosts = [
     date: 'March 25, 2025',
     author: 'Bob Wilson',
     authorImage: 'https://placehold.co/40x40.webp?text=BW',
+    authorBio: 'Bob Wilson is a cybersecurity expert with over 15 years of experience in protecting businesses from digital threats.',
   },
   {
     id: '7',
@@ -82,6 +87,7 @@ const blogPosts = [
     date: 'March 20, 2025',
     author: 'Jane Doe',
     authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
   },
   {
     id: '8',
@@ -93,6 +99,7 @@ const blogPosts = [
     date: 'March 15, 2025',
     author: 'Alice Johnson',
     authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
   },
   {
     id: '9',
@@ -104,6 +111,7 @@ const blogPosts = [
     date: 'March 10, 2025',
     author: 'John Smith',
     authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
   },
   {
     id: '10',
@@ -115,6 +123,7 @@ const blogPosts = [
     date: 'March 5, 2025',
     author: 'Bob Wilson',
     authorImage: 'https://placehold.co/40x40.webp?text=BW',
+    authorBio: 'Bob Wilson is a cybersecurity expert with over 15 years of experience in protecting businesses from digital threats.',
   },
   {
     id: '11',
@@ -126,6 +135,7 @@ const blogPosts = [
     date: 'March 1, 2025',
     author: 'Alice Johnson',
     authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
   },
   {
     id: '12',
@@ -137,6 +147,7 @@ const blogPosts = [
     date: 'February 25, 2025',
     author: 'John Smith',
     authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
   },
   {
     id: '13',
@@ -148,44 +159,50 @@ const blogPosts = [
     date: 'February 20, 2025',
     author: 'Jane Doe',
     authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
   },
 ];
 
-// Sample categories
-const categories = [
-  'Software Development',
-  'Business Solutions',
-  'Digital Marketing',
-  'UI/UX Design',
-  'Technology',
-];
-
 // Dynamic metadata based on the category
-export async function generateMetadata({ params }: { params: { category: string } }): Promise<Metadata> {
-  const category = params.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-  const categoryPosts = blogPosts.filter(post => post.category === category);
+export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
+  const resolvedParams = await params; // Await the params Promise
+  const category = resolvedParams.category.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+  const postsInCategory = blogPosts.filter(post => post.category === category);
 
-  if (categoryPosts.length === 0) {
+  if (postsInCategory.length === 0) {
     return {
       title: 'Category Not Found - Intention Infoservice',
-      description: 'The category you are looking for does not exist.',
+      description: 'The blog category you are looking for does not exist.',
     };
   }
 
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": `${category} - Intention Infoservice Blog`,
+    "description": `Explore blog posts in the ${category} category on the Intention Infoservice blog.`,
+    "url": `https://intentioninfoservice.com/blog/category/${resolvedParams.category}`,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Intention Infoservice",
+      "url": "https://intentioninfoservice.com",
+    },
+  };
+
   return {
     title: `${category} - Intention Infoservice Blog`,
-    description: `Explore posts in the ${category} category on the Intention Infoservice Blog.`,
+    description: `Explore blog posts in the ${category} category on the Intention Infoservice blog.`,
     metadataBase: new URL('https://intentioninfoservice.com'),
     openGraph: {
-      url: `https://intentioninfoservice.com/blog/category/${params.category}`,
+      url: `https://intentioninfoservice.com/blog/category/${resolvedParams.category}`,
       title: `${category} - Intention Infoservice Blog`,
-      description: `Explore posts in the ${category} category on the Intention Infoservice Blog.`,
+      description: `Explore blog posts in the ${category} category on the Intention Infoservice blog.`,
       images: [
         {
-          url: categoryPosts[0].featuredImage,
+          url: postsInCategory[0].featuredImage,
           width: 1200,
           height: 630,
-          alt: `${category} Category`,
+          alt: `${category} Blog Posts`,
         },
       ],
       siteName: 'Intention Infoservice',
@@ -196,18 +213,24 @@ export async function generateMetadata({ params }: { params: { category: string 
       creator: '@IInfoservice',
     },
     alternates: {
-      canonical: `https://intentioninfoservice.com/blog/category/${params.category}`,
+      canonical: `https://intentioninfoservice.com/blog/category/${resolvedParams.category}`,
+    },
+    other: {
+      'script:ld+json': JSON.stringify(schemaMarkup),
     },
   };
 }
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
-  const category = params.category.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-  const categoryPosts = blogPosts.filter(post => post.category === category);
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+  const resolvedParams = await params; // Await the params Promise
+  const category = resolvedParams.category.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+  const postsInCategory = blogPosts.filter(post => post.category === category);
 
-  if (categoryPosts.length === 0) {
+  if (postsInCategory.length === 0) {
     notFound();
   }
+
+  const categories = [...new Set(blogPosts.map(post => post.category))];
 
   return (
     <div className="bg-dark-950 text-white">
@@ -215,61 +238,104 @@ export default function CategoryPage({ params }: { params: { category: string } 
       <section className="relative bg-dark-900 py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-[10%] text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-            {category} Posts
+            {category}
           </h1>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-            Explore the latest insights and updates in the {category} category.
+            Explore our blog posts in the {category} category.
           </p>
         </div>
       </section>
 
-      {/* Main Blog Section with Sidebar */}
+      {/* Main Content Section */}
       <section className="container mx-auto px-4 md:px-[10%] py-12 flex flex-col lg:flex-row gap-8">
-        {/* Blog Posts Grid */}
+        {/* Blog Posts */}
         <div className="lg:w-2/3">
-          <h2 className="text-3xl font-bold text-white mb-8">Posts in {category}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {categoryPosts.map(post => (
-              <article key={post.id} className="bg-dark-900 rounded-lg overflow-hidden">
-                <Link href={`/blog/${post.slug}`}>
-                  <div className="relative w-full h-[200px]">
+          <div className="grid grid-cols-1 gap-8">
+            {postsInCategory.map(post => (
+              <div key={post.id} className="bg-dark-900 rounded-lg shadow-lg overflow-hidden">
+                <div className="relative w-full h-48">
+                  <Image
+                    src={post.featuredImage}
+                    alt={post.title}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    priority={postsInCategory.indexOf(post) === 0}
+                  />
+                </div>
+                <div className="p-6">
+                  <span className="inline-block bg-teal-500 text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                    {post.category}
+                  </span>
+                  <h2 className="text-2xl font-semibold text-white mb-2">
+                    <Link href={`/blog/${post.slug}`} className="hover:text-teal-500 transition-colors">
+                      {post.title}
+                    </Link>
+                  </h2>
+                  <p className="text-gray-400 mb-4">{post.excerpt}</p>
+                  <div className="flex items-center gap-3">
                     <Image
-                      src={post.featuredImage}
-                      alt={post.title}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      className="transition-transform duration-300 hover:scale-105"
-                      loading="lazy"
+                      src={post.authorImage}
+                      alt={post.author}
+                      width={40}
+                      height={40}
+                      className="rounded-full"
                     />
-                  </div>
-                  <div className="p-6">
-                    <span className="inline-block bg-teal-500 text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
-                      {post.category}
-                    </span>
-                    <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
-                    <p className="text-gray-400 mb-4">{post.excerpt}</p>
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src={post.authorImage}
-                        alt={post.author}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
-                      />
-                      <div>
-                        <p className="text-sm text-gray-400">{post.author}</p>
-                        <p className="text-sm text-gray-400">{post.date}</p>
-                      </div>
+                    <div>
+                      <p className="text-sm text-gray-300">{post.author}</p>
+                      <p className="text-sm text-gray-300">{post.date}</p>
                     </div>
                   </div>
-                </Link>
-              </article>
+                </div>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Sidebar */}
-        <BlogSidebar blogPosts={blogPosts} categories={categories} />
+        <aside className="lg:w-1/3 sticky top-8">
+          {/* Categories */}
+          <div className="mb-8 bg-dark-900 p-8 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-white mb-4">Categories</h3>
+            <ul className="space-y-2">
+              {categories.map(cat => (
+                <li key={cat}>
+                  <Link
+                    href={`/blog/category/${cat.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="text-gray-300 hover:text-teal-500 transition-colors"
+                  >
+                    {cat}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Recent Posts */}
+          <div className="bg-dark-900 p-8 rounded-lg shadow-lg">
+            <h3 className="text-xl font-semibold text-white mb-4">Recent Posts</h3>
+            <ul className="space-y-4">
+              {blogPosts.slice(0, 3).map(post => (
+                <li key={post.id} className="flex gap-4">
+                  <div className="relative w-20 h-20 rounded-md overflow-hidden">
+                    <Image
+                      src={post.featuredImage}
+                      alt={post.title}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div>
+                    <Link href={`/blog/${post.slug}`} className="text-gray-300 hover:text-teal-500 transition-colors">
+                      <h4 className="text-sm font-semibold">{post.title}</h4>
+                    </Link>
+                    <p className="text-xs text-gray-400">{post.date}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </aside>
       </section>
     </div>
   );
@@ -277,7 +343,8 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
 // Generate static params for static generation
 export async function generateStaticParams() {
+  const categories = [...new Set(blogPosts.map(post => post.category.toLowerCase().replace(/\s+/g, '-')))];
   return categories.map(category => ({
-    category: category.toLowerCase().replace(/\s+/g, '-'),
+    category,
   }));
 }

@@ -24,17 +24,6 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.webmanifest" />
-      </head>
-      <body className={`${manrope.className} flex min-h-screen flex-col`}>
-        <ClientLayout>
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer />
-        </ClientLayout>
-      </body>
-    </html>
+    <html lang="en" className="dark"><head><link rel="manifest" href="/manifest.webmanifest" /></head><body className={`${manrope.className} flex min-h-screen flex-col bg-dark-950`}><ClientLayout><Header /><main className="flex-grow">{children}</main><Footer /></ClientLayout></body></html>
   );
 }

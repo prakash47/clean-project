@@ -46,7 +46,7 @@ const blogPosts = [
     slug: 'why-your-business-needs-custom-software',
     title: 'Why Your Business Needs Custom Software in 2025',
     excerpt: 'Learn how custom software solutions can streamline operations, improve efficiency, and give your business a competitive edge.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Custom+Software',
+    featuredImage: 'https://placehold.co/800x400.webp?-bundle=Custom+Software',
     category: 'Business Solutions',
     date: 'April 10, 2025',
     author: 'John Smith',
@@ -395,8 +395,9 @@ const blogPosts = [
 ];
 
 // Dynamic metadata based on the slug
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = blogPosts.find(p => p.slug === params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const resolvedParams = await params; // Await the params Promise
+  const post = blogPosts.find(p => p.slug === resolvedParams.slug);
   if (!post) {
     return {
       title: 'Post Not Found - Intention Infoservice',
@@ -459,8 +460,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find(p => p.slug === params.slug);
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params; // Await the params Promise
+  const post = blogPosts.find(p => p.slug === resolvedParams.slug);
   if (!post) {
     notFound();
   }
@@ -473,7 +475,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const schemaMarkup = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline":post.title,
+    "headline": post.title,
     "description": post.excerpt,
     "url": `https://intentioninfoservice.com/blog/${post.slug}`,
     "datePublished": post.date,
@@ -607,7 +609,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         {/* Sidebar */}
         <aside className="lg:w-1/3 sticky top-8">
           {/* Categories */}
-          <div className="mb-8 bg-gray-200 p-6 rounded-lg shadow-lg">
+          <div className="mb-8 bg-gray-200 p-8 rounded-lg shadow-lg">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Categories</h3>
             <ul className="space-y-2">
               {['Software Development', 'Business Solutions', 'Digital Marketing', 'UI/UX Design', 'Technology'].map(category => (
@@ -622,7 +624,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
           {/* Related Posts */}
           {relatedPosts.length > 0 && (
-            <div className="bg-gray-200 p-6 rounded-lg shadow-lg">
+            <div className="bg-gray-200 p-8 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Related Posts</h3>
               <ul className="space-y-4">
                 {relatedPosts.map(relatedPost => (

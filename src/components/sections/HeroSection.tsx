@@ -4,167 +4,176 @@ import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
 
+// Define the GSAP type based on the entire module
+type GSAP = typeof import('gsap');
+
 export default function HeroSection() {
-  const [gsap, setGsap] = useState(null);
+  const [gsap, setGsap] = useState<GSAP | null>(null);
 
   useEffect(() => {
     // Dynamically import GSAP to defer its loading
-    import('gsap').then((module) => {
-      const gsapInstance = module.default;
-      setGsap(() => gsapInstance);
+    import('gsap')
+      .then((module) => {
+        const gsapInstance = module; // The entire module is the GSAP instance
+        console.log('GSAP Instance:', gsapInstance); // Debug: Log the GSAP instance
+        console.log('GSAP fromTo:', gsapInstance.fromTo); // Debug: Log the fromTo method
+        setGsap(gsapInstance);
 
-      // Ensure elements exist before applying animations
-      const dashboardScreen = document.querySelector('.dashboard-screen');
-      const webpageHeader = document.querySelector('.webpage-header');
-      const webpageContentElements = document.querySelectorAll('.webpage-content');
-      const appInterfaceElements = document.querySelectorAll('.app-interface');
-      const appButtonElements = document.querySelectorAll('.app-button');
-      const codeSnippet = document.querySelector('.code-snippet');
-      const businessPanel = document.querySelector('.business-panel');
-      const businessCube = document.querySelector('.business-cube');
-      const graphLine = document.querySelector('.graph-line');
-      const graphDotElements = document.querySelectorAll('.graph-dot');
-      const connectionLineElements = document.querySelectorAll('.connection-line');
-      const connectionNodeElements = document.querySelectorAll('.connection-node');
-      const supportIconElements = document.querySelectorAll('.support-icon');
+        // Ensure elements exist before applying animations
+        const dashboardScreen = document.querySelector('.dashboard-screen');
+        const webpageHeader = document.querySelector('.webpage-header');
+        const webpageContentElements = document.querySelectorAll('.webpage-content');
+        const appInterfaceElements = document.querySelectorAll('.app-interface');
+        const appButtonElements = document.querySelectorAll('.app-button');
+        const codeSnippet = document.querySelector('.code-snippet');
+        const businessPanel = document.querySelector('.business-panel');
+        const businessCube = document.querySelector('.business-cube');
+        const graphLine = document.querySelector('.graph-line');
+        const graphDotElements = document.querySelectorAll('.graph-dot');
+        const connectionLineElements = document.querySelectorAll('.connection-line');
+        const connectionNodeElements = document.querySelectorAll('.connection-node');
+        const supportIconElements = document.querySelectorAll('.support-icon');
 
-      // Debugging: Log elements to confirm they are found
-      console.log('Dashboard Screen:', dashboardScreen);
-      console.log('Webpage Header:', webpageHeader);
-      console.log('Webpage Content Elements:', webpageContentElements);
-      console.log('App Interface Elements:', appInterfaceElements);
-      console.log('App Button Elements:', appButtonElements);
+        // Debugging: Log elements to confirm they are found
+        console.log('Dashboard Screen:', dashboardScreen);
+        console.log('Webpage Header:', webpageHeader);
+        console.log('Webpage Content Elements:', webpageContentElements);
+        console.log('App Interface Elements:', appInterfaceElements);
+        console.log('App Button Elements:', appButtonElements);
 
-      // Apply GSAP animations only if elements exist
-      if (dashboardScreen) {
-        gsapInstance.fromTo(
-          dashboardScreen,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
-        );
-      }
-      if (webpageHeader) {
-        gsapInstance.fromTo(
-          webpageHeader,
-          { opacity: 0, y: -20 },
-          { opacity: 1, y: 0, duration: 0.5, delay: 0.5, ease: 'power2.out' }
-        );
-      }
-      if (webpageContentElements.length > 0) {
-        webpageContentElements.forEach((element) => {
+        // Apply GSAP animations only if elements exist
+        if (dashboardScreen && gsapInstance && typeof gsapInstance.fromTo === 'function') {
           gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0.5 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 0.7, ease: 'power2.out' }
+            dashboardScreen,
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
           );
-        });
-      }
-      if (appInterfaceElements.length > 0) {
-        appInterfaceElements.forEach((element) => {
+        }
+        if (webpageHeader && gsapInstance && typeof gsapInstance.fromTo === 'function') {
           gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0.5 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 0.9, ease: 'power2.out' }
+            webpageHeader,
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.5, delay: 0.5, ease: 'power2.out' }
           );
-        });
-      }
-      if (appButtonElements.length > 0) {
-        appButtonElements.forEach((element) => {
+        }
+        if (webpageContentElements.length > 0 && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          webpageContentElements.forEach((element) => {
+            gsapInstance.fromTo(
+              element,
+              { opacity: 0, scale: 0.5 },
+              { opacity: 1, scale: 1, duration: 0.5, delay: 0.7, ease: 'power2.out' }
+            );
+          });
+        }
+        if (appInterfaceElements.length > 0 && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          appInterfaceElements.forEach((element) => {
+            gsapInstance.fromTo(
+              element,
+              { opacity: 0, scale: 0.5 },
+              { opacity: 1, scale: 1, duration: 0.5, delay: 0.9, ease: 'power2.out' }
+            );
+          });
+        }
+        if (appButtonElements.length > 0 && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          appButtonElements.forEach((element) => {
+            gsapInstance.fromTo(
+              element,
+              { opacity: 0, scale: 0.5 },
+              { opacity: 1, scale: 1, duration: 0.3, delay: 1.1, ease: 'power2.out', stagger: 0.2 }
+            );
+            // Pulsing animation
+            gsapInstance.to(element, {
+              scale: 1.1,
+              duration: 1,
+              repeat: -1,
+              yoyo: true,
+              ease: 'sine.inOut',
+              stagger: 0.2,
+            });
+          });
+        }
+        if (codeSnippet && gsapInstance && typeof gsapInstance.fromTo === 'function') {
           gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0.5 },
-            { opacity: 1, scale: 1, duration: 0.3, delay: 1.1, ease: 'power2.out', stagger: 0.2 }
+            codeSnippet,
+            { opacity: 0, y: -20 },
+            { opacity: 1, y: 0, duration: 0.5, delay: 1.3, ease: 'power2.out' }
           );
-          // Pulsing animation
-          gsapInstance.to(element, {
+        }
+        if (businessPanel && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          gsapInstance.fromTo(
+            businessPanel,
+            { opacity: 0, x: 20 },
+            { opacity: 1, x: 0, duration: 0.5, delay: 1.5, ease: 'power2.out' }
+          );
+        }
+        if (businessCube && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          gsapInstance.fromTo(
+            businessCube,
+            { opacity: 0, scale: 0.5 },
+            { opacity: 1, scale: 1, duration: 0.5, delay: 1.7, ease: 'power2.out' }
+          );
+          gsapInstance.to(businessCube, {
             scale: 1.1,
-            duration: 1,
+            duration: 1.5,
             repeat: -1,
             yoyo: true,
             ease: 'sine.inOut',
-            stagger: 0.2,
           });
-        });
-      }
-      if (codeSnippet) {
-        gsapInstance.fromTo(
-          codeSnippet,
-          { opacity: 0, y: -20 },
-          { opacity: 1, y: 0, duration: 0.5, delay: 1.3, ease: 'power2.out' }
-        );
-      }
-      if (businessPanel) {
-        gsapInstance.fromTo(
-          businessPanel,
-          { opacity: 0, x: 20 },
-          { opacity: 1, x: 0, duration: 0.5, delay: 1.5, ease: 'power2.out' }
-        );
-      }
-      if (businessCube) {
-        gsapInstance.fromTo(
-          businessCube,
-          { opacity: 0, scale: 0.5 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 1.7, ease: 'power2.out' }
-        );
-        gsapInstance.to(businessCube, {
-          scale: 1.1,
-          duration: 1.5,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-        });
-      }
-      if (graphLine) {
-        gsapInstance.fromTo(
-          graphLine,
-          { strokeDasharray: 100, strokeDashoffset: 100 },
-          { strokeDashoffset: 0, duration: 1, delay: 1.9, ease: 'power2.out' }
-        );
-      }
-      if (graphDotElements.length > 0) {
-        graphDotElements.forEach((element) => {
+        }
+        if (graphLine && gsapInstance && typeof gsapInstance.fromTo === 'function') {
           gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.3, delay: 2.5, ease: 'power2.out', stagger: 0.1 }
-          );
-        });
-      }
-      if (connectionLineElements.length > 0) {
-        connectionLineElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
+            graphLine,
             { strokeDasharray: 100, strokeDashoffset: 100 },
-            { strokeDashoffset: 0, duration: 1, delay: 2, ease: 'power2.out', stagger: 0.2 }
+            { strokeDashoffset: 0, duration: 1, delay: 1.9, ease: 'power2.out' }
           );
-        });
-      }
-      if (connectionNodeElements.length > 0) {
-        connectionNodeElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 2.2, ease: 'power2.out', stagger: 0.1 }
-          );
-        });
-      }
-      if (supportIconElements.length > 0) {
-        supportIconElements.forEach((element) => {
-          gsapInstance.fromTo(
-            element,
-            { opacity: 0, scale: 0 },
-            { opacity: 1, scale: 1, duration: 0.5, delay: 2.5, ease: 'power2.out', stagger: 0.1 }
-          );
-          gsapInstance.to(element, {
-            rotation: 360,
-            duration: 5,
-            repeat: -1,
-            ease: 'linear',
-            stagger: 0.2,
+        }
+        if (graphDotElements.length > 0 && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          graphDotElements.forEach((element) => {
+            gsapInstance.fromTo(
+              element,
+              { opacity: 0, scale: 0 },
+              { opacity: 1, scale: 1, duration: 0.3, delay: 2.5, ease: 'power2.out', stagger: 0.1 }
+            );
           });
-        });
-      }
-    });
+        }
+        if (connectionLineElements.length > 0 && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          connectionLineElements.forEach((element) => {
+            gsapInstance.fromTo(
+              element,
+              { strokeDasharray: 100, strokeDashoffset: 100 },
+              { strokeDashoffset: 0, duration: 1, delay: 2, ease: 'power2.out', stagger: 0.2 }
+            );
+          });
+        }
+        if (connectionNodeElements.length > 0 && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          connectionNodeElements.forEach((element) => {
+            gsapInstance.fromTo(
+              element,
+              { opacity: 0, scale: 0 },
+              { opacity: 1, scale: 1, duration: 0.5, delay: 2.2, ease: 'power2.out', stagger: 0.1 }
+            );
+          });
+        }
+        if (supportIconElements.length > 0 && gsapInstance && typeof gsapInstance.fromTo === 'function') {
+          supportIconElements.forEach((element) => {
+            gsapInstance.fromTo(
+              element,
+              { opacity: 0, scale: 0 },
+              { opacity: 1, scale: 1, duration: 0.5, delay: 2.5, ease: 'power2.out', stagger: 0.1 }
+            );
+            gsapInstance.to(element, {
+              rotation: 360,
+              duration: 5,
+              repeat: -1,
+              ease: 'linear',
+              stagger: 0.2,
+            });
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to load GSAP:', error); // Debug: Log any import errors
+      });
   }, []);
 
   return (

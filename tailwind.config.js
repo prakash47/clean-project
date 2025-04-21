@@ -7,33 +7,23 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
       colors: {
         dark: {
-          900: '#1A2526',
-          950: '#0F172A',
-          1000: '#000000',
+          900: '#111827',
+          950: '#0a0f1c',
         },
-        slate: {
-          800: '#1E293B',
+        primary: {
+          500: '#0d9488',
+          600: '#0c8377',
         },
-        gray: {
-          400: '#A1A1AA',
+        brand: {
+          blue: '#00a0e3',
+          indigo: '#393185',
         },
-        teal: {
-          500: '#14B8A6',
-        },
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        manrope: ['Manrope', 'sans-serif'],
       },
     },
   },
   plugins: [
-    require('@tailwindcss/typography'), // Add Typography plugin
+    require('@tailwindcss/typography'),
   ],
 };
