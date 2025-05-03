@@ -4,13 +4,39 @@ import { useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
 export default function ContactForm() {
+  // Country data (sample for brevity; full list should include ~240 countries)
+  const countries = [
+    { code: '+91', name: 'India', flag: '🇮🇳', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+1', name: 'United States', flag: '🇺🇸', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+44', name: 'United Kingdom', flag: '🇬🇧', maxLength: 11, regex: /^\d{9,11}$/ },
+    { code: '+1', name: 'Canada', flag: '🇨🇦', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+61', name: 'Australia', flag: '🇦🇺', maxLength: 10, regex: /^\d{9,10}$/ },
+    { code: '+33', name: 'France', flag: '🇫🇷', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+49', name: 'Germany', flag: '🇩🇪', maxLength: 11, regex: /^\d{10,11}$/ },
+    { code: '+81', name: 'Japan', flag: '🇯🇵', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+86', name: 'China', flag: '🇨🇳', maxLength: 11, regex: /^\d{11}$/ },
+    { code: '+55', name: 'Brazil', flag: '🇧🇷', maxLength: 11, regex: /^\d{10,11}$/ },
+    { code: '+27', name: 'South Africa', flag: '🇿🇦', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+7', name: 'Russia', flag: '🇷🇺', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+82', name: 'South Korea', flag: '🇰🇷', maxLength: 10, regex: /^\d{9,10}$/ },
+    { code: '+34', name: 'Spain', flag: '🇪🇸', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+39', name: 'Italy', flag: '🇮🇹', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+971', name: 'United Arab Emirates', flag: '🇦🇪', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+65', name: 'Singapore', flag: '🇸🇬', maxLength: 8, regex: /^\d{8}$/ },
+    { code: '+64', name: 'New Zealand', flag: '🇳🇿', maxLength: 10, regex: /^\d{9,10}$/ },
+    { code: '+41', name: 'Switzerland', flag: '🇨🇭', maxLength: 10, regex: /^\d{10}$/ },
+    { code: '+31', name: 'Netherlands', flag: '🇳🇱', maxLength: 10, regex: /^\d{10}$/ },
+    // Note: Full list (~240 countries) should be sourced from a JSON file or library like libphonenumber-js in production
+  ];
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    countryCode: '+91', // Default to India
     company: '',
     requirements: '',
-    service: '', // New field for Services or Purpose of Enquiry
+    service: '',
     contactMethod: 'email',
     agreePrivacy: false,
   });
@@ -44,24 +70,41 @@ export default function ContactForm() {
     };
     let isValid = true;
 
+    // Name validation
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
       isValid = false;
+    } else if (!/^[A-Za-z\s'-]{2,50}$/.test(formData.name)) {
+      newErrors.name = 'Name can only contain letters, spaces, hyphens, or apostrophes (2–50 characters)';
+      isValid = false;
     }
+
+    // Email validation
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
       isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
       isValid = false;
     }
+
+    // Phone validation
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
       isValid = false;
-    } else if (!/^\d{10}$/.test(formData.phone)) {
-      newErrors.phone = 'Phone number must be 10 digits';
-      isValid = false;
+    } else {
+      const selectedCountry = countries.find(country => country.code === formData.countryCode);
+      if (selectedCountry) {
+        if (!selectedCountry.regex.test(formData.phone)) {
+          newErrors.phone = `Phone number must be ${selectedCountry.maxLength} digits for ${selectedCountry.name}`;
+          isValid = false;
+        }
+      } else {
+        newErrors.phone = 'Invalid country code';
+        isValid = false;
+      }
     }
+
     if (!formData.requirements.trim()) {
       newErrors.requirements = 'Project requirements are required';
       isValid = false;
@@ -88,6 +131,7 @@ export default function ContactForm() {
         name: '',
         email: '',
         phone: '',
+        countryCode: '+91',
         company: '',
         requirements: '',
         service: '',
@@ -149,16 +193,29 @@ export default function ContactForm() {
                 {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
 
-              {/* Phone */}
+              {/* Phone with Country Code Dropdown in Single Field */}
               <div className="relative">
-                <div className="flex items-center">
-                  <span className="absolute left-4 text-gray-400">+91</span>
+                <div className="flex items-center bg-dark-900/70 border border-gray-600 rounded-md focus-within:border-teal-500 transition-all">
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode}
+                    onChange={handleChange}
+                    className="bg-dark-900/70 text-white border-none py-3 px-4 focus:outline-none w-22"
+                    aria-label="Country Code"
+                  >
+                    {countries.map((country) => (
+                      <option key={country.code + country.name} value={country.code}>
+                        {`${country.flag} ${country.code}`}
+                      </option>
+                    ))}
+                  </select>
                   <input
                     type="text"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-md py-3 pl-12 pr-4 focus:outline-none focus:border-teal-500 transition-all peer"
+                    maxLength={countries.find(country => country.code === formData.countryCode)?.maxLength || 10}
+                    className="flex-1 bg-dark-900/70 text-white border-none py-3 px-4 focus:outline-none peer"
                     placeholder=" "
                     aria-label="Your Phone Number"
                   />
@@ -229,7 +286,7 @@ export default function ContactForm() {
                   aria-label="Your Project Requirements"
                 />
                 <label
-                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-6 peer Focaltext-sm peer-focus:text-teal-500 peer-valid:-top-6 peer-valid:text-sm peer-valid:text-teal-500"
+                  className="absolute left-4 top-3 text-gray-400 transition-all duration-300 pointer-events-none peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-6 peer-focus:text-sm peer-focus:text-teal-500 peer-valid:-top-6 peer-valid:text-sm peer-valid:text-teal-500"
                 >
                   Your Project Requirements *
                 </label>
