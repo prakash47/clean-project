@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { FaCheckCircle } from 'react-icons/fa';
 
 export default function ContactForm() {
@@ -49,6 +50,8 @@ export default function ContactForm() {
     agreePrivacy: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -58,6 +61,10 @@ export default function ContactForm() {
       [name]: type === 'checkbox' ? checked : value,
     }));
   };
+
+  const onReCAPTCHAChange = useCallback((token: string | null) => {
+    setRecaptchaToken(token);
+  }, []);
 
   const validateForm = () => {
     const newErrors = {
@@ -122,23 +129,55 @@ export default function ContactForm() {
     return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError('');
+    if (!recaptchaToken) {
+      setSubmitError('Please complete the reCAPTCHA verification.');
+      return;
+    }
     if (validateForm()) {
-      // Simulate form submission (replace with actual API call)
-      setSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        countryCode: '+91',
-        company: '',
-        requirements: '',
-        service: '',
-        contactMethod: 'email',
-        agreePrivacy: false,
-      });
-      setTimeout(() => setSubmitted(false), 5000); // Reset success message after 5 seconds
+      try {
+        const response = await fetch('/api/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: `${formData.countryCode} ${formData.phone}`,
+            company: formData.company || 'Not provided',
+            service: formData.service,
+            requirements: formData.requirements,
+            contactMethod: formData.contactMethod,
+            agreePrivacy: formData.agreePrivacy,
+            recaptchaToken,
+          }),
+        });
+
+        if (response.ok) {
+          setSubmitted(true);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            countryCode: '+91',
+            company: '',
+            requirements: '',
+            service: '',
+            contactMethod: 'email',
+            agreePrivacy: false,
+          });
+          setRecaptchaToken(null);
+          setTimeout(() => setSubmitted(false), 5000); // Reset success message after 5 seconds
+        } else {
+          const errorData = await response.json();
+          setSubmitError(errorData.message || 'Failed to send email. Please try again later.');
+        }
+      } catch (error) {
+        setSubmitError('An error occurred while sending the email. Please try again later.');
+      }
     }
   };
 
@@ -155,6 +194,7 @@ export default function ContactForm() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
+              {submitError && <p className="text-red-500 text-center mb-4">{submitError}</p>}
               {/* Name */}
               <div className="relative">
                 <input
@@ -335,6 +375,15 @@ export default function ContactForm() {
               </div>
               {errors.agreePrivacy && <p className="text-red-500 text-sm">{errors.agreePrivacy}</p>}
 
+              {/* reCAPTCHA */}
+              <div className="flex justify-center">
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LfXn7cqAAAAAIjkhhX7PTqvopyMgy5DbMEvXTum'}
+                  onChange={onReCAPTCHAChange}
+                  theme="dark"
+                />
+              </div>
+
               {/* Submit Button */}
               <button
                 type="submit"
@@ -373,7 +422,7 @@ export default function ContactForm() {
             border-radius: 0.5em;
             background: 
               var(--main-bg) padding-box,
-              var(--gradient-border) border-box, 
+              var(--gradient-border) border-box,
               var(--main-bg) border-box;
             background-position: center center;
             animation: bg-spin 3s linear infinite;
