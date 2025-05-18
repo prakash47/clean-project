@@ -335,7 +335,7 @@ export default function ContactForm() {
                   className={`absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform z-10 origin-[0]  bg-gray-900 px-2 ${
                     isPhoneSectionActive
                       ? '-translate-y-4 scale-75 top-2 text-teal-500'
-                      : 'scale-100 -translate-y-1/2 top-1/2 left-32'
+                      : 'scale-100 -translate-y-1/2 top-1/2 left-32 '
                   }`}
                 >
                   Your Phone Number *
