@@ -181,6 +181,9 @@ export default function ContactForm() {
     }
   };
 
+  // Debug log for reCAPTCHA key (remove after testing)
+  console.log('reCAPTCHA Site Key:', process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+
   return (
     <>
       {/* Contact Form Section */}
@@ -378,7 +381,7 @@ export default function ContactForm() {
               {/* reCAPTCHA */}
               <div className="flex justify-center">
                 <ReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '6LfXn7cqAAAAAIjkhhX7PTqvopyMgy5DbMEvXTum'}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || 'your-recaptcha-site-key'}
                   onChange={onReCAPTCHAChange}
                   theme="dark"
                 />
