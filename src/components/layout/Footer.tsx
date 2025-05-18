@@ -17,14 +17,14 @@ const quickLinks = [
   // { name: 'Portfolio', href: '/portfolio' },
   { name: 'Blog', href: '/blog' },
   { name: 'Careers', href: '/careers' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Contact', href: '/contact-us' }, // Updated from /contact to /contact-us
 ];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-dark text-white">
+    <footer className="bg-dark text-white border-t border-gray-700  pt-8">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full px-4 md:px-[10%]">
           {/* Company Info */}
@@ -127,8 +127,8 @@ export default function Footer() {
                 <div className="w-5 h-5 flex items-center justify-center mr-3 text-primary-500">
                   <FaPhone className="w-[18px] h-[18px]" />
                 </div>
-                <a href="tel:+916386530639" className="text-gray-300 hover:text-primary-500 transition-colors">
-                  +91 6386 530639
+                <a href="tel:+917021539267" className="text-gray-300 hover:text-primary-500 transition-colors">
+                  +91 70215 39267
                 </a>
               </li>
               <li className="flex items-center">

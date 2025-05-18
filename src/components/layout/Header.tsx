@@ -13,7 +13,7 @@ export default function Header() {
     { name: 'Our Services', href: '/services', hasSubmenu: true },
     { name: 'Blog', href: '/blog' },
     { name: 'Careers', href: '/careers' },
-    { name: 'Contact Us', href: '/contact' },
+    { name: 'Contact Us', href: '/contact-us' },
   ];
 
   const servicesSubmenu = [

@@ -9,7 +9,7 @@ const rateLimiter = new RateLimiterMemory({
   duration: 60, // 60 seconds
 });
 
-// Helper function to verify reCAPTCHA
+// Helper function to verify reCAPTCHA v2
 async function verifyRecaptcha(token: string): Promise<boolean> {
   const secretKey = process.env.RECAPTCHA_SECRET_KEY || 'your-recaptcha-secret-key';
   try {
@@ -19,7 +19,8 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
         response: token,
       },
     });
-    return response.data.success && response.data.score >= 0.5;
+    // For v2, only check success (no score like v3)
+    return response.data.success;
   } catch (error) {
     console.error('reCAPTCHA verification error:', error);
     return false;
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: 'Too many requests. Please try again later.' }, { status: 429 });
   }
 
-  // Verify reCAPTCHA
+  // Verify reCAPTCHA v2
   const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
   if (!isRecaptchaValid) {
     return NextResponse.json({ message: 'reCAPTCHA verification failed. Please try again.' }, { status: 400 });
@@ -63,7 +64,15 @@ export async function POST(req: NextRequest) {
   // Extract first name for confirmation email
   const firstName = name.split(' ')[0] || name;
 
-  // Form submission email to admin
+  // Convert service array to a readable string for text email
+  const serviceText = Array.isArray(service) ? service.join(', ') : service;
+
+  // Generate HTML list for services
+  const serviceListHtml = Array.isArray(service)
+    ? `<ul style="padding-left: 20px; margin: 10px 0;">${service.map((s: string) => `<li>${s}</li>`).join('')}</ul>`
+    : `<p>${service}</p>`;
+
+  // Form submission email to admin with HTML template
   const adminMailOptions = {
     from: '"Intention Infoservice" <contact@intentioninfoservice.com>',
     to: 'contact@intentioninfoservice.com',
@@ -75,27 +84,106 @@ export async function POST(req: NextRequest) {
       Email: ${email}
       Phone: ${phone}
       Company: ${company}
-      Service or Purpose of Enquiry: ${service}
+      Service or Purpose of Enquiry: ${serviceText}
       Project Requirements: ${requirements}
       Preferred Contact Method: ${contactMethod}
       Privacy Policy Agreement: ${agreePrivacy ? 'Agreed' : 'Not Agreed'}
       Submission Time: ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
     `,
     html: `
-      <h2>New Contact Form Submission from Website</h2>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone}</p>
-      <p><strong>Company:</strong> ${company}</p>
-      <p><strong>Service or Purpose of Enquiry:</strong> ${service}</p>
-      <p><strong>Project Requirements:</strong> ${requirements}</p>
-      <p><strong>Preferred Contact Method:</strong> ${contactMethod}</p>
-      <p><strong>Privacy Policy Agreement:</strong> ${agreePrivacy ? 'Agreed' : 'Not Agreed'}</p>
-      <p><strong>Submission Time:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>New Contact Form Submission</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+          }
+          .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+          }
+          .header {
+            background-color: #1a3c34;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+          }
+          .header h1 {
+            margin: 0;
+            font-size: 24px;
+          }
+          .content {
+            padding: 20px;
+          }
+          .content p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333333;
+          }
+          .content ul {
+            padding-left: 20px;
+            margin: 10px 0;
+          }
+          .content ul li {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 5px;
+          }
+          .content .label {
+            font-weight: bold;
+            color: #1a3c34;
+          }
+          .footer {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #777777;
+          }
+          .footer a {
+            color: #1a3c34;
+            text-decoration: none;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>New Contact Form Submission</h1>
+          </div>
+          <div class="content">
+            <p><span class="label">Name:</span> ${name}</p>
+            <p><span class="label">Email:</span> ${email}</p>
+            <p><span class="label">Phone:</span> ${phone}</p>
+            <p><span class="label">Company:</span> ${company}</p>
+            <p><span class="label">Service or Purpose of Enquiry:</span></p>
+            ${serviceListHtml}
+            <p><span class="label">Project Requirements:</span> ${requirements}</p>
+            <p><span class="label">Preferred Contact Method:</span> ${contactMethod}</p>
+            <p><span class="label">Privacy Policy Agreement:</span> ${agreePrivacy ? 'Agreed' : 'Not Agreed'}</p>
+            <p><span class="label">Submission Time:</span> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+          </div>
+          <div class="footer">
+            <p>Intention Infoservice | <a href="mailto:contact@intentioninfoservice.com">contact@intentioninfoservice.com</a> | +91 7021539267</p>
+            <p><a href="https://www.intentioninfoservice.com">www.intentioninfoservice.com</a></p>
+          </div>
+        </div>
+      </body>
+      </html>
     `,
   };
 
-  // Confirmation email to user
+  // Confirmation email to user with HTML template
   const userMailOptions = {
     from: '"Intention Infoservice" <contact@intentioninfoservice.com>',
     to: email,
@@ -116,24 +204,108 @@ export async function POST(req: NextRequest) {
 
       Best Regards,
       Intention Infoservice
-      contact@intentioninfoservice.com | +91 7039550278
+      contact@intentioninfoservice.com | +91 7021539267
       www.intentioninfoservice.com
     `,
     html: `
-      <h2>Dear ${firstName},</h2>
-      <p>Thank you for contacting Intention Infoservice! We’ve successfully received your inquiry from our Contact Us page, and we’re excited to connect with you.</p>
-      <p>At Intention Infoservice, we specialize in delivering innovative web design, mobile app development, UI/UX branding services, digital marketing, and custom software solutions tailored to your business needs. Whether you’re looking to build a stunning website, launch a cutting-edge mobile app, or transform your digital presence, our team is here to bring your vision to life.</p>
-      <h3>What’s Next?</h3>
-      <ul>
-        <li>Our team will review your message and get back to you within 24-48 hours.</li>
-        <li>If you provided specific details about your project, we’ll prepare tailored recommendations to meet your goals.</li>
-        <li>Feel free to reply to this email for immediate assistance.</li>
-      </ul>
-      <p>Thank you for choosing Intention Infoservice as your trusted partner in innovation. We look forward to collaborating with you!</p>
-      <p><strong>Best Regards,</strong><br />
-      Intention Infoservice<br />
-      <a href="mailto:contact@intentioninfoservice.com">contact@intentioninfoservice.com</a> | +91 7039550278<br />
-      <a href="https://www.intentioninfoservice.com">www.intentioninfoservice.com</a></p>
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Thank You for Your Enquiry</title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+          }
+          .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+          }
+          .header {
+            background-color: #1a3c34;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+          }
+          .header h1 {
+            margin: 0;
+            font-size: 24px;
+          }
+          .content {
+            padding: 20px;
+          }
+          .content p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333333;
+            line-height: 1.6;
+          }
+          .content h2 {
+            font-size: 20px;
+            color: #1a3c34;
+            margin-top: 0;
+          }
+          .content h3 {
+            font-size: 18px;
+            color: #1a3c34;
+            margin-bottom: 10px;
+          }
+          .content ul {
+            padding-left: 20px;
+            margin: 10px 0;
+          }
+          .content ul li {
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 10px;
+          }
+          .footer {
+            background-color: #f4f4f4;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            color: #777777;
+          }
+          .footer a {
+            color: #1a3c34;
+            text-decoration: none;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>Thank You for Your Enquiry</h1>
+          </div>
+          <div class="content">
+            <h2>Dear ${firstName},</h2>
+            <p>Thank you for contacting <strong>Intention Infoservice</strong>! We’ve successfully received your inquiry from our Contact Us page regarding <strong>${serviceText}</strong>, and we’re excited to connect with you.</p>
+            <p>At Intention Infoservice, we specialize in delivering innovative web design, mobile app development, UI/UX branding services, digital marketing, and custom software solutions tailored to your business needs. Whether you’re looking to build a stunning website, launch a cutting-edge mobile app, or transform your digital presence, our team is here to bring your vision to life.</p>
+            <h3>What’s Next?</h3>
+            <ul>
+              <li>Our team will review your message and get back to you within 24-48 hours.</li>
+              <li>If you provided specific details about your project, we’ll prepare tailored recommendations to meet your goals.</li>
+              <li>Feel free to reply to this email for immediate assistance.</li>
+            </ul>
+            <p>Thank you for choosing Intention Infoservice as your trusted partner in innovation. We look forward to collaborating with you!</p>
+          </div>
+          <div class="footer">
+            <p><strong>Best Regards,</strong><br />
+            Intention Infoservice<br />
+            <a href="mailto:contact@intentioninfoservice.com">contact@intentioninfoservice.com</a> | +91 7021539267<br />
+            <a href="https://www.intentioninfoservice.com">www.intentioninfoservice.com</a></p>
+          </div>
+        </div>
+      </body>
+      </html>
     `,
   };
 
