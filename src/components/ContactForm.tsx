@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { FaCheckCircle, FaEnvelope, FaPhone, FaEnvelope as FaEmail, FaSpinner } from 'react-icons/fa';
 
@@ -66,6 +66,9 @@ export default function ContactForm() {
 
   // State to track if the country code select or phone input has been interacted with
   const [isPhoneSectionActive, setIsPhoneSectionActive] = useState(false);
+
+  // Ref to the form container for scrolling
+  const formContainerRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -193,52 +196,102 @@ export default function ContactForm() {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
-        const response = await fetch('/api/send-email', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: `${formData.countryCode} ${formData.phone}`,
-            company: formData.company || 'Not provided',
-            service: formData.service,
-            requirements: formData.requirements,
-            contactMethod: formData.contactMethod,
-            agreePrivacy: formData.agreePrivacy,
-            recaptchaToken,
-          }),
-        });
+        // Prepare the payload for both API requests
+        const payload = {
+          name: formData.name,
+          email: formData.email,
+          phone: `${formData.countryCode} ${formData.phone}`,
+          company: formData.company || 'Not provided',
+          service: formData.service,
+          requirements: formData.requirements,
+          contactMethod: formData.contactMethod,
+          agreePrivacy: formData.agreePrivacy,
+          recaptchaToken,
+        };
 
-        if (response.ok) {
-          setSubmitted(true);
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            countryCode: '+91',
-            company: '',
-            requirements: '',
-            service: [],
-            contactMethod: 'email',
-            agreePrivacy: false,
-          });
-          setRecaptchaToken(null);
-          setIsPhoneSectionActive(false); // Reset phone section state
-          setTimeout(() => {
-            setShowEmailAnimation(true);
-          }, 2000);
-          setTimeout(() => {
-            setSubmitted(false);
-            setShowEmailAnimation(false);
-          }, 5000);
-        } else {
-          const errorData = await response.json();
-          setSubmitError(errorData.message || 'Failed to send email. Please try again later.');
+        // Step 1 & 2: Send data to email and Google Sheets APIs in parallel
+        const [emailResponse, sheetsResponse] = await Promise.all([
+          fetch('/api/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          }),
+          fetch('/api/send-to-google-sheets', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ...payload,
+              recaptchaToken: undefined, // Not needed for Google Sheets
+            }),
+          }),
+        ]);
+
+        // Handle email response
+        if (!emailResponse.ok) {
+          let errorMessage = 'Failed to send email.';
+          try {
+            const errorData = await emailResponse.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (jsonError) {
+            const errorText = await emailResponse.text();
+            console.error('Non-JSON response from /api/send-email:', errorText);
+          }
+          throw new Error(errorMessage);
         }
-      } catch (error) {
-        setSubmitError('An error occurred while sending the email. Please try again later.');
+
+        // Handle Google Sheets response
+        if (!sheetsResponse.ok) {
+          let errorMessage = 'Failed to send data to Google Sheets.';
+          try {
+            const errorData = await sheetsResponse.json();
+            errorMessage = errorData.message || errorMessage;
+          } catch (jsonError) {
+            const errorText = await sheetsResponse.text();
+            console.error('Non-JSON response from /api/send-to-google-sheets:', errorText);
+          }
+          throw new Error(errorMessage);
+        }
+
+        // If both requests succeed, update the form state
+        setSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          countryCode: '+91',
+          company: '',
+          requirements: '',
+          service: [],
+          contactMethod: 'email',
+          agreePrivacy: false,
+        });
+        setRecaptchaToken(null);
+        setIsPhoneSectionActive(false); // Reset phone section state
+
+        // Scroll to the top of the form container to show the success message
+        if (formContainerRef.current) {
+          formContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Show email animation immediately
+        setShowEmailAnimation(true);
+
+        // Reset the form after 5 seconds
+        setTimeout(() => {
+          setSubmitted(false);
+          setShowEmailAnimation(false);
+        }, 5000);
+      } catch (error: unknown) {
+        // Type guard to safely access error.message
+        if (error instanceof Error) {
+          setSubmitError(error.message || 'An error occurred while submitting the form. Please try again later.');
+        } else {
+          setSubmitError('An unexpected error occurred while submitting the form. Please try again later.');
+        }
       } finally {
         setIsSubmitting(false);
       }
@@ -247,7 +300,10 @@ export default function ContactForm() {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto bg-dark-900 backdrop-blur-md rounded-lg p-8 shadow-xl border border-gray-600/20 animate-fade-in">
+      <div
+        ref={formContainerRef}
+        className="max-w-2xl mx-auto bg-dark-900 backdrop-blur-md rounded-lg p-8 shadow-xl border border-gray-600/20 animate-fade-in"
+      >
         <h2 className="text-3xl font-bold text-white mb-8 text-center">Get in Touch</h2>
         {submitted ? (
           <div className="text-center text-teal-500 mb-6 animate-pulse">
@@ -332,7 +388,7 @@ export default function ContactForm() {
                 />
                 <label
                   htmlFor="phone"
-                  className={`absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform z-10 origin-[0]  bg-gray-900 px-2 ${
+                  className={`absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform z-10 origin-[0] bg-gray-900 px-2 ${
                     isPhoneSectionActive
                       ? '-translate-y-4 scale-75 top-2 text-teal-500'
                       : 'scale-100 -translate-y-1/2 top-1/2 left-32 '
