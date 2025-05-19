@@ -1,13 +1,27 @@
 import { google } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Initialize Google Sheets API client
-const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(process.env.GOOGLE_SHEETS_CREDENTIALS!),
-  scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-});
+// Lazy-initialize the Google Sheets client to avoid build-time execution
+let sheetsClient: ReturnType<typeof google.sheets> | null = null;
 
-const sheets = google.sheets({ version: 'v4', auth });
+const initializeSheetsClient = () => {
+  if (sheetsClient) {
+    return sheetsClient;
+  }
+
+  const credentials = process.env.GOOGLE_SHEETS_CREDENTIALS;
+  if (!credentials) {
+    throw new Error('GOOGLE_SHEETS_CREDENTIALS environment variable is not set');
+  }
+
+  const auth = new google.auth.GoogleAuth({
+    credentials: JSON.parse(credentials),
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
+  sheetsClient = google.sheets({ version: 'v4', auth });
+  return sheetsClient;
+};
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -23,6 +37,15 @@ export async function POST(req: NextRequest) {
   } = body;
 
   try {
+    // Initialize the client at runtime
+    const sheets = initializeSheetsClient();
+
+    // Validate GOOGLE_SHEET_ID
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    if (!spreadsheetId) {
+      throw new Error('GOOGLE_SHEET_ID environment variable is not set');
+    }
+
     // Prepare the data to append to the Google Sheet
     const timestamp = new Date().toISOString();
     const values = [
@@ -41,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     // Append the data to the Google Sheet
     await sheets.spreadsheets.values.append({
-      spreadsheetId: process.env.GOOGLE_SHEET_ID!,
+      spreadsheetId,
       range: 'Sheet1!A:I',
       valueInputOption: 'RAW',
       requestBody: {
