@@ -11,7 +11,10 @@ const rateLimiter = new RateLimiterMemory({
 
 // Helper function to verify reCAPTCHA v2
 async function verifyRecaptcha(token: string): Promise<boolean> {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY || 'your-recaptcha-secret-key';
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secretKey) {
+    throw new Error('RECAPTCHA_SECRET_KEY environment variable is not set');
+  }
   try {
     const response = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
       params: {
@@ -19,13 +22,32 @@ async function verifyRecaptcha(token: string): Promise<boolean> {
         response: token,
       },
     });
-    // For v2, only check success (no score like v3)
     return response.data.success;
   } catch (error) {
     console.error('reCAPTCHA verification error:', error);
     return false;
   }
 }
+
+// Utility function for retry with exponential backoff
+const retryWithBackoff = async <T>(
+  operation: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<T> => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error: unknown) {
+      if (attempt === maxRetries) {
+        throw error;
+      }
+      const delay = baseDelay * Math.pow(2, attempt - 1); // Exponential backoff
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error('Max retries reached');
+};
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -47,17 +69,22 @@ export async function POST(req: NextRequest) {
   // Verify reCAPTCHA v2
   const isRecaptchaValid = await verifyRecaptcha(recaptchaToken);
   if (!isRecaptchaValid) {
-    return NextResponse.json({ message: 'reCAPTCHA verification failed. Please try again.' }, { status: 400 });
+    return NextResponse.json({ message: 'reCAPTCHA verification failed. Please try again.', error: 'Invalid reCAPTCHA token' }, { status: 400 });
   }
 
   // Create transporter with Gmail SMTP configuration
+  const appPassword = process.env.GMAIL_APP_PASSWORD;
+  if (!appPassword) {
+    return NextResponse.json({ message: 'Failed to send emails', error: 'GMAIL_APP_PASSWORD environment variable is not set' }, { status: 500 });
+  }
+
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
     secure: false, // true for 465, false for 587
     auth: {
       user: 'contact@intentioninfoservice.com',
-      pass: 'ljgvbkwbldxanmym',
+      pass: appPassword,
     },
   });
 
@@ -309,19 +336,19 @@ export async function POST(req: NextRequest) {
     `,
   };
 
-  // Defer email sending to the background using setImmediate
-  setImmediate(async () => {
-    try {
-      await Promise.all([
+  try {
+    // Send both emails with retry logic
+    await retryWithBackoff(() =>
+      Promise.all([
         transporter.sendMail(adminMailOptions),
         transporter.sendMail(userMailOptions),
-      ]);
-      console.log('Emails sent successfully');
-    } catch (error) {
-      console.error('Background email sending failed:', error);
-    }
-  });
-
-  // Return response immediately without waiting for emails to send
-  return NextResponse.json({ message: 'Emails queued for sending' }, { status: 200 });
+      ])
+    );
+    console.log('Emails sent successfully');
+    return NextResponse.json({ message: 'Emails sent successfully' }, { status: 200 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Email sending failed:', errorMessage);
+    return NextResponse.json({ message: 'Failed to send emails', error: errorMessage }, { status: 500 });
+  }
 }
