@@ -476,7 +476,7 @@ export default function ContactForm() {
               {errors.requirements && <p className="text-red-500 text-sm mt-1">{errors.requirements}</p>}
             </div>
 
-            {/* Preferred Contact Method */}
+            
             <div className="relative">
               <select
                 name="contactMethod"
