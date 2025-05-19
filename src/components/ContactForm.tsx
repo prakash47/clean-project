@@ -148,7 +148,7 @@ export default function ContactForm() {
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
       isValid = false;
-    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0.9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
       isValid = false;
     }
@@ -246,14 +246,16 @@ export default function ContactForm() {
         // Handle Google Sheets response
         if (!sheetsResponse.ok) {
           let errorMessage = 'Failed to send data to Google Sheets.';
+          let detailedError = '';
           try {
             const errorData = await sheetsResponse.json();
             errorMessage = errorData.message || errorMessage;
+            detailedError = errorData.error || '';
           } catch (jsonError) {
             const errorText = await sheetsResponse.text();
             console.error('Non-JSON response from /api/send-to-google-sheets:', errorText);
           }
-          throw new Error(errorMessage);
+          throw new Error(`${errorMessage}${detailedError ? `: ${detailedError}` : ''}`);
         }
 
         // If both requests succeed, update the form state
@@ -391,7 +393,7 @@ export default function ContactForm() {
                   className={`absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform z-10 origin-[0] bg-gray-900 px-2 ${
                     isPhoneSectionActive
                       ? '-translate-y-4 scale-75 top-2 text-teal-500'
-                      : 'scale-100 -translate-y-1/2 top-1/2 left-32 '
+                      : 'scale-100 -translate-y-1/2 top-1/2 left-32'
                   }`}
                 >
                   Your Phone Number *
@@ -476,7 +478,7 @@ export default function ContactForm() {
               {errors.requirements && <p className="text-red-500 text-sm mt-1">{errors.requirements}</p>}
             </div>
 
-            
+            {/* Preferred Contact Method */}
             <div className="relative">
               <select
                 name="contactMethod"
