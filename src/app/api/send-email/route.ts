@@ -309,15 +309,19 @@ export async function POST(req: NextRequest) {
     `,
   };
 
-  try {
-    // Send both emails
-    await Promise.all([
-      transporter.sendMail(adminMailOptions),
-      transporter.sendMail(userMailOptions),
-    ]);
-    return NextResponse.json({ message: 'Emails sent successfully' }, { status: 200 });
-  } catch (error) {
-    console.error('Error sending emails:', error);
-    return NextResponse.json({ message: 'Failed to send emails' }, { status: 500 });
-  }
+  // Defer email sending to the background using setImmediate
+  setImmediate(async () => {
+    try {
+      await Promise.all([
+        transporter.sendMail(adminMailOptions),
+        transporter.sendMail(userMailOptions),
+      ]);
+      console.log('Emails sent successfully');
+    } catch (error) {
+      console.error('Background email sending failed:', error);
+    }
+  });
+
+  // Return response immediately without waiting for emails to send
+  return NextResponse.json({ message: 'Emails queued for sending' }, { status: 200 });
 }
