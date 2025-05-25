@@ -1,101 +1,166 @@
 'use client';
 import { motion } from 'framer-motion';
-import Section from '@/components/ui/Section';
-import Card from '@/components/ui/Card';
-import { FaQuoteLeft } from 'react-icons/fa';
+import { gsap } from 'gsap';
 
-export interface TestimonialsSectionProps {
-  testimonials?: Testimonial[];
-}
+export default function TestimonialsSection() {
+  const testimonials = [
+    {
+      quote: 'Intention Infoservice transformed our online presence! Our website now drives 50% more leads.',
+      author: 'John Doe, CEO of XYZ Corp',
+      rating: 5,
+    },
+    {
+      quote: 'The team’s expertise in SEO and performance optimization doubled our site’s traffic in just 3 months.',
+      author: 'Jane Smith, Marketing Director at ABC Inc.',
+      rating: 5,
+    },
+    {
+      quote: 'Their custom web app streamlined our operations, saving us countless hours every week.',
+      author: 'Mike Johnson, Founder of HealthTech Solutions',
+      rating: 5,
+    },
+  ];
 
-interface Testimonial {
-  id: number;
-  name: string;
-  position: string;
-  company: string;
-  content: string;
-  image?: string;
-}
+  const handleMouseEnter = (index: number) => {
+    const card = document.querySelectorAll('.testimonial-card')[index];
+    gsap.killTweensOf(card);
+    gsap.to(card, {
+      y: -10,
+      backgroundColor: '#1A2526',
+      shadow: 'xl',
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  };
 
-const defaultTestimonials: Testimonial[] = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    position: 'Marketing Director',
-    company: 'TechNova Solutions',
-    content: 'Intention Infoservice transformed our outdated website into a modern, user-friendly platform that perfectly represents our brand. Their team was professional, responsive, and delivered beyond our expectations.',
-    image: '/images/testimonial-1.jpg'
-  },
-  {
-    id: 2,
-    name: 'Michael Chen',
-    position: 'CEO',
-    company: 'GrowthWave Startups',
-    content: 'Working with Intention Infoservice on our mobile app was a game-changer for our business. Their expertise in UI/UX design and development resulted in an app that our customers love to use.',
-    image: '/images/testimonial-2.jpg'
-  },
-  {
-    id: 3,
-    name: 'Emily Rodriguez',
-    position: 'E-commerce Manager',
-    company: 'StyleHub Boutique',
-    content: 'The digital marketing strategy developed by Intention Infoservice increased our online sales by 45% in just three months. Their data-driven approach and creative campaigns have made a significant impact on our business.',
-    image: '/images/testimonial-3.jpg'
-  }
-];
+  const handleMouseLeave = (index: number) => {
+    const card = document.querySelectorAll('.testimonial-card')[index];
+    gsap.killTweensOf(card);
+    gsap.to(card, {
+      y: 0,
+      backgroundColor: '#0F172A',
+      shadow: 'lg',
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  };
 
-export default function TestimonialsSection({ testimonials = defaultTestimonials }: TestimonialsSectionProps) {
+  const handleFocus = (index: number) => {
+    handleMouseEnter(index);
+  };
+
+  const handleBlur = (index: number) => {
+    handleMouseLeave(index);
+  };
+
+  // Structured data for testimonials
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: testimonials.map((testimonial, index) => ({
+      '@type': 'Review',
+      position: index + 1,
+      reviewBody: testimonial.quote,
+      author: {
+        '@type': 'Person',
+        name: testimonial.author,
+      },
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: testimonial.rating,
+        bestRating: '5',
+      },
+    })),
+  };
+
   return (
-    <Section background="light" paddingY="lg">
-      <div className="text-center mb-12">
-        <motion.h2 
-          className="text-3xl md:text-4xl font-bold mb-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-        >
-          What Our Clients Say
-        </motion.h2>
-        <motion.p 
-          className="text-lg text-gray-600 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          Don&apos;t just take our word for it. Here&apos;s what our clients have to say about working with us.
-        </motion.p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {testimonials.map((testimonial, index) => (
-          <motion.div
-            key={testimonial.id}
+    <section id="testimonials" className="bg-gradient-to-b from-dark-900 to-dark-950 py-16 md:py-24 relative overflow-hidden">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      {/* Subtle Grain Texture with Animation */}
+      <div
+        className="absolute inset-0 opacity-10 pointer-events-none"
+        style={{ backgroundImage: "url('/textures/grain.webp')" }}
+      />
+      <div className="w-full px-[10%] relative z-10">
+        <div className="text-center mb-12">
+          <motion.h2
+            className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            transition={{ duration: 0.8 }}
           >
-            <Card variant="elevated" padding="lg" className="h-full">
-              <div className="flex flex-col h-full">
-                <FaQuoteLeft className="text-primary-200 text-4xl mb-4" />
-                <p className="text-gray-600 mb-6 flex-grow">{testimonial.content}</p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 mr-4">
-                    {/* Replace with actual image when available */}
-                    <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200"></div>
+            What Our Clients Say
+          </motion.h2>
+          <motion.p
+            className="text-xl text-teal-500 font-semibold mb-6"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            Trusted by Businesses Worldwide
+          </motion.p>
+          <motion.p
+            className="text-lg text-gray-400 max-w-3xl mx-auto"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            Hear from our satisfied clients who have experienced the impact of our web design and development services.
+          </motion.p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={index}
+              className="testimonial-card bg-dark-950 rounded-lg p-6 shadow-lg transition-all duration-300 relative"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={() => handleMouseLeave(index)}
+              onFocus={() => handleFocus(index)}
+              onBlur={() => handleBlur(index)}
+              tabIndex={0}
+              aria-describedby={`testimonial-description-${index}`}
+            >
+              {/* Quote Bubble Tail */}
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                className="absolute bottom-0 left-6 transform translate-y-full"
+                fill="#0F172A"
+              >
+                <path d="M0,0 L20,0 L10,20 Z" />
+              </svg>
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center text-white font-bold">
+                  {testimonial.author.charAt(0)}
+                </div>
+                <div>
+                  <div className="flex mb-2">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <svg key={i} width="20" height="20" viewBox="0 0 20 20" fill="#14B8A6">
+                        <path d="M10 15l-5.5 3 2-6L2 7l6-1L10 1l2 5h6l-4.5 5 2 6z" />
+                      </svg>
+                    ))}
                   </div>
-                  <div>
-                    <h4 className="font-bold">{testimonial.name}</h4>
-                    <p className="text-sm text-gray-500">{testimonial.position}, {testimonial.company}</p>
-                  </div>
+                  <p id={`testimonial-description-${index}`} className="text-lg text-gray-400 italic mb-2">"{testimonial.quote}"</p>
+                  <p className="text-teal-500 font-semibold">{testimonial.author}</p>
                 </div>
               </div>
-            </Card>
-          </motion.div>
-        ))}
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

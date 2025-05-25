@@ -11,75 +11,127 @@ export default function WebDesignHeroSection() {
     if (typeof window === 'undefined') return;
 
     // Ensure elements exist before applying animations
-    const webScreen = document.querySelector('.web-screen');
-    const wireframe = document.querySelector('.wireframe');
-    const interactivePage = document.querySelector('.interactive-page');
-    const connectionLineElements = document.querySelectorAll('.connection-line');
-    const connectionNodeElements = document.querySelectorAll('.connection-node');
-    const supportIconElements = document.querySelectorAll('.support-icon');
+    const websiteMonitor = document.querySelector('.website-monitor');
+    const websiteElements = document.querySelectorAll('.website-element');
+    const codeMonitor = document.querySelector('.code-monitor');
+    const codeLines = document.querySelectorAll('.code-line');
+    const cursor = document.querySelector('.cursor');
+    const dataStream = document.querySelectorAll('.data-stream');
+    const tablet = document.querySelector('.tablet');
+    const mobile = document.querySelector('.mobile');
+    const grainTexture = document.querySelector('.grain-texture');
 
-    if (webScreen) {
+    if (websiteMonitor) {
       gsap.fromTo(
-        webScreen,
-        { opacity: 0, scale: 0.8 },
+        websiteMonitor,
+        { opacity: 0, scale: 0.9 },
         { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
       );
     }
-    if (wireframe) {
+    if (websiteElements.length > 0) {
+      websiteElements.forEach((element, index) => {
+        gsap.fromTo(
+          element,
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.5, delay: 1 + index * 0.3, ease: 'power2.out' }
+        );
+      });
+    }
+    if (codeMonitor) {
       gsap.fromTo(
-        wireframe,
-        { opacity: 1 },
-        { opacity: 0, duration: 1, delay: 1, ease: 'power2.out' }
+        codeMonitor,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
       );
     }
-    if (interactivePage) {
+    if (codeLines.length > 0) {
+      codeLines.forEach((line, index) => {
+        gsap.fromTo(
+          line,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, delay: 1.5 + index * 0.5, ease: 'power2.out' }
+        );
+      });
+    }
+    if (cursor) {
+      gsap.to(cursor, {
+        opacity: 0,
+        duration: 0.5,
+        repeat: -1,
+        ease: 'step.end',
+        delay: 2,
+      });
+      gsap.to(cursor, {
+        x: 80,
+        duration: 2.5,
+        repeat: -1,
+        ease: 'none',
+        delay: 2,
+      });
+    }
+    if (dataStream.length > 0) {
+      dataStream.forEach((particle, index) => {
+        gsap.fromTo(
+          particle,
+          { opacity: 1, x: 0 },
+          { opacity: 0, x: 100, duration: 1, delay: 2 + index * 0.2, repeat: -1, ease: 'power2.out' }
+        );
+      });
+    }
+    if (tablet) {
       gsap.fromTo(
-        interactivePage,
-        { opacity: 0 },
-        { opacity: 1, duration: 1, delay: 1.5, ease: 'power2.out' }
+        tablet,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.5, delay: 2.5, ease: 'power2.out' }
       );
     }
-    if (connectionLineElements.length > 0) {
-      connectionLineElements.forEach((element) => {
-        gsap.fromTo(
-          element,
-          { strokeDasharray: 100, strokeDashoffset: 100 },
-          { strokeDashoffset: 0, duration: 1, delay: 2, ease: 'power2.out', stagger: 0.2 }
-        );
-      });
+    if (mobile) {
+      gsap.fromTo(
+        mobile,
+        { opacity: 0, x: 20 },
+        { opacity: 1, x: 0, duration: 0.5, delay: 2.7, ease: 'power2.out' }
+      );
     }
-    if (connectionNodeElements.length > 0) {
-      connectionNodeElements.forEach((element) => {
-        gsap.fromTo(
-          element,
-          { opacity: 0, scale: 0 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 2.2, ease: 'power2.out', stagger: 0.1 }
-        );
-      });
+    if (grainTexture) {
+      gsap.fromTo(
+        grainTexture,
+        { opacity: 0.1 },
+        { opacity: 0.05, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' }
+      );
     }
-    if (supportIconElements.length > 0) {
-      supportIconElements.forEach((element) => {
-        gsap.fromTo(
-          element,
-          { opacity: 0, scale: 0 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 2.4, ease: 'power2.out', stagger: 0.1 }
-        );
-        gsap.to(element, {
-          rotation: 360,
-          duration: 5,
-          repeat: -1,
-          ease: 'linear',
-          stagger: 0.2,
-        });
-      });
-    }
-  }, []);
+  });
+
+  // Structured data for the service
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    'serviceType': 'Web Design and Development',
+    'provider': {
+      '@type': 'Organization',
+      'name': 'Intention Infoservice',
+      'url': 'https://intentioninfoservice.com',
+      'logo': 'https://intentioninfoservice.com/images/logo.webp',
+    },
+    'description': 'Transform your online presence with custom web design and mobile-first web development. Get a free quote for SEO-optimized websites that drive results in 2025.',
+    'areaServed': 'Global',
+    'offers': {
+      '@type': 'Offer',
+      'url': 'https://intentioninfoservice.com/services/web-design-development',
+      'name': 'Custom Web Design and Development',
+    },
+  };
 
   return (
     <section className="relative bg-dark-950 pt-8 md:py-24 overflow-hidden">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+
       {/* Inline Critical CSS for LCP Element */}
       <style jsx>{`
-        h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
+        h1 {
           font-size: 2.25rem;
           line-height: 2.5rem;
           font-weight: 700;
@@ -88,30 +140,30 @@ export default function WebDesignHeroSection() {
           letter-spacing: -0.025em;
         }
         @media (min-width: 640px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
+          h1 {
             font-size: 3rem;
             line-height: 1;
           }
         }
         @media (min-width: 1024px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
-            font-size: 4.5rem;
+          h1 {
+            font-size: 3.75rem;
             line-height: 1;
           }
         }
       `}</style>
 
-      {/* Subtle Grain Texture */}
+      {/* Subtle Grain Texture with Animation */}
       <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
+        className="absolute inset-0 opacity-10 pointer-events-none grain-texture"
         style={{ backgroundImage: "url('/textures/grain.webp')" }}
       />
       <div className="w-full px-[10%] relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Left: Headline, Tagline, Body, and CTA */}
+          {/* Left: Headline, Tagline, Body, and CTAs */}
           <div className="md:w-1/2 text-center md:text-left">
             <motion.h1
-              className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight"
               style={{
                 textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.1)',
               }}
@@ -122,7 +174,7 @@ export default function WebDesignHeroSection() {
               Custom Web Design & Development That Powers Your Success
             </motion.h1>
             <motion.p
-              className="text-2xl md:text-3xl font-semibold text-teal-500 mb-4"
+              className="text-lg md:text-xl font-semibold text-teal-500 mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -130,7 +182,7 @@ export default function WebDesignHeroSection() {
               Create Stunning, High-Performing Websites That Drive Results in 2025
             </motion.p>
             <motion.p
-              className="text-lg text-gray-400 mb-8"
+              className="text-md md:text-lg text-gray-400 mb-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
@@ -141,6 +193,7 @@ export default function WebDesignHeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex gap-4 justify-center md:justify-start"
             >
               <Button
                 size="lg"
@@ -148,54 +201,104 @@ export default function WebDesignHeroSection() {
                 className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
                 icon={<FaArrowRight />}
                 iconPosition="right"
-                href="/contact"
+                href="/contact-us"
               >
                 Get Your Free Quote Today
               </Button>
+              {/* <Button
+                size="lg"
+                variant="secondary"
+                className="bg-transparent border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white font-semibold"
+                href="/portfolio"
+              >
+                See Our Work
+              </Button> */}
             </motion.div>
           </div>
-          {/* Right: Animated SVG (Website Transitioning from Wireframe to Interactive Page) */}
+          {/* Right: SVG Illustration (Live Web Dev Studio - Refined) */}
           <div className="md:w-1/2 flex justify-center">
-            <svg width="500" height="400" viewBox="0 0 500 400" className="w-full max-w-[500px]">
-              {/* Web Screen Background */}
-              <rect x="50" y="50" width="400" height="300" rx="20" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" className="web-screen" />
-              {/* Wireframe (Fades Out) */}
-              <g className="wireframe" transform="translate(80, 80)">
-                <rect x="0" y="0" width="340" height="30" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                <rect x="0" y="40" width="340" height="180" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                <rect x="10" y="50" width="320" height="40" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                <rect x="10" y="100" width="150" height="110" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                <rect x="180" y="100" width="150" height="110" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
+            <svg
+              width="500"
+              height="400"
+              viewBox="0 0 500 400"
+              className="w-full max-w-[500px]"
+              role="img"
+              aria-label="Illustration of a website and code editor open on desktop screens with tablet and mobile views"
+            >
+              {/* Website Desktop Monitor (Left Side) */}
+              <g transform="translate(50, 50)" className="website-monitor">
+                {/* Monitor Frame */}
+                <rect x="0" y="0" width="200" height="200" fill="#1E293B" stroke="#14B8A6" strokeWidth="3" rx="10" />
+                <path d="M80,200 L120,200 L100,220 Z" fill="#1E293B" stroke="#14B8A6" strokeWidth="3" />
+                <rect x="100" y="220" width="20" height="20" fill="#1E293B" stroke="#14B8A6" strokeWidth="3" />
+                {/* Website Content */}
+                <g transform="translate(10, 10)">
+                  <rect x="0" y="0" width="180" height="180" fill="#0F172A" rx="5" />
+                  {/* Header */}
+                  <rect x="5" y="5" width="170" height="30" fill="#14B8A6" rx="3" className="website-element" />
+                  {/* Main Image */}
+                  <rect x="5" y="40" width="170" height="60" fill="#1E293B" rx="3" className="website-element" />
+                  {/* Content Blocks */}
+                  <rect x="5" y="105" width="85" height="40" fill="#1E293B" rx="3" className="website-element" />
+                  <rect x="90" y="105" width="85" height="40" fill="#1E293B" rx="3" className="website-element" />
+                  {/* Button */}
+                  <rect x="65" y="150" width="50" height="20" fill="#14B8A6" rx="3" className="website-element" />
+                </g>
               </g>
-              {/* Interactive Page (Fades In) */}
-              <g className="interactive-page" transform="translate(80, 80)">
-                <rect x="0" y="0" width="340" height="30" fill="#14B8A6" />
-                <rect x="0" y="40" width="340" height="180" fill="#0F172A" stroke="#14B8A6" strokeWidth="1" />
-                <rect x="10" y="50" width="320" height="40" fill="#1A2526" />
-                <rect x="10" y="100" width="150" height="110" fill="#1A2526" />
-                <rect x="180" y="100" width="150" height="110" fill="#1A2526" />
+
+              {/* Code Desktop Monitor (Right Side) */}
+              <g transform="translate(250, 50)" className="code-monitor">
+                {/* Monitor Frame */}
+                <rect x="0" y="0" width="200" height="200" fill="#1E293B" stroke="#14B8A6" strokeWidth="3" rx="10" />
+                <path d="M80,200 L120,200 L100,220 Z" fill="#1E293B" stroke="#14B8A6" strokeWidth="3" />
+                <rect x="100" y="220" width="20" height="20" fill="#1E293B" stroke="#14B8A6" strokeWidth="3" />
+                <g transform="translate(10, 10)">
+                  <rect x="0" y="0" width="180" height="180" fill="#0F172A" rx="5" />
+                  {/* Code Lines */}
+                  <text x="10" y="30" fill="#14B8A6" fontSize="12" fontFamily="monospace" className="code-line">
+                    &lt;div class="header"&gt;
+                  </text>
+                  <text x="20" y="50" fill="#FFFFFF" fontSize="12" fontFamily="monospace" className="code-line">
+                    &lt;nav&gt;...&lt;/nav&gt;
+                  </text>
+                  <text x="10" y="70" fill="#14B8A6" fontSize="12" fontFamily="monospace" className="code-line">
+                    &lt;/div&gt;
+                  </text>
+                  <text x="10" y="90" fill="#14B8A6" fontSize="12" fontFamily="monospace" className="code-line">
+                    &lt;main&gt;
+                  </text>
+                  <text x="20" y="110" fill="#FFFFFF" fontSize="12" fontFamily="monospace" className="code-line">
+                    &lt;img src="hero.jpg"&gt;
+                  </text>
+                  <text x="10" y="130" fill="#14B8A6" fontSize="12" fontFamily="monospace" className="code-line">
+                    &lt;/main&gt;
+                  </text>
+                  {/* Blinking Cursor */}
+                  <rect x="10" y="140" width="10" height="14" fill="#14B8A6" className="cursor" />
+                </g>
               </g>
-              {/* Connection Lines and Nodes */}
-              <line x1="80" y1="80" x2="50" y2="50" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="50" cy="50" r="5" fill="#14B8A6" className="connection-node" />
-              <line x1="420" y1="80" x2="450" y2="50" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="450" cy="50" r="5" fill="#14B8A6" className="connection-node" />
-              <line x1="80" y1="320" x2="50" y2="350" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="50" cy="350" r="5" fill="#14B8A6" className="connection-node" />
-              <line x1="420" y1="320" x2="450" y2="350" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="450" cy="350" r="5" fill="#14B8A6" className="connection-node" />
-              {/* Supporting Icons */}
-              <g transform="translate(50, 50)" className="support-icon">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#14B8A6" />
+
+              {/* Data Stream (Connecting Screens) */}
+              <g transform="translate(250, 150)">
+                <circle cx="0" cy="0" r="3" fill="#14B8A6" className="data-stream" />
+                <circle cx="20" cy="0" r="3" fill="#14B8A6" className="data-stream" />
+                <circle cx="40" cy="0" r="3" fill="#14B8A6" className="data-stream" />
+                <circle cx="60" cy="0" r="3" fill="#14B8A6" className="data-stream" />
+                <circle cx="80" cy="0" r="3" fill="#14B8A6" className="data-stream" />
               </g>
-              <g transform="translate(450, 50)" className="support-icon">
-                <circle cx="5" cy="5" r="5" fill="#14B8A6" />
+
+              {/* Tablet (Responsive Design) - Bottom Center */}
+              <g transform="translate(190, 340)" className="tablet">
+                <rect x="0" y="0" width="80" height="50" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" rx="5" />
+                <rect x="5" y="5" width="70" height="40" fill="#0F172A" rx="3" />
+                <rect x="7" y="7" width="66" height="5" fill="#14B8A6" rx="2" />
               </g>
-              <g transform="translate(50, 350)" className="support-icon">
-                <rect x="0" y="0" width="10" height="10" fill="#14B8A6" />
-              </g>
-              <g transform="translate(450, 350)" className="support-icon">
-                <path d="M0,5 L5,0 L10,5 L5,10 Z" fill="#14B8A6" />
+
+              {/* Mobile (Responsive Design) - Bottom Center */}
+              <g transform="translate(280, 340)" className="mobile">
+                <rect x="0" y="0" width="40" height="60" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" rx="5" />
+                <rect x="5" y="5" width="30" height="50" fill="#0F172A" rx="3" />
+                <rect x="7" y="7" width="26" height="5" fill="#14B8A6" rx="2" />
               </g>
             </svg>
           </div>
