@@ -37,7 +37,7 @@ export const viewport = {
   initialScale: 1,
 };
 
-// Sample blog posts data (13 posts)
+// Updated blog posts data (16 posts, including the 3 new ones)
 const blogPosts = [
   {
     id: '1',
@@ -181,6 +181,39 @@ const blogPosts = [
     date: 'February 20, 2025',
     author: 'Jane Doe',
     authorImage: 'https://placehold.co/40x40.webp?text=JD',
+  },
+  {
+    id: '14',
+    slug: 'web-design-trends-2025',
+    title: 'Top 5 Web Design Trends for 2025',
+    excerpt: 'Explore the latest trends in web design that can elevate your online presence, from minimalist layouts to immersive experiences.',
+    featuredImage: 'https://placehold.co/800x400.webp?text=Web+Design+Trends+2025',
+    category: 'UI/UX Design',
+    date: 'May 15, 2025',
+    author: 'Jane Doe',
+    authorImage: 'https://placehold.co/40x40.webp?text=JD',
+  },
+  {
+    id: '15',
+    slug: 'optimize-mobile-app-ux',
+    title: 'How to Optimize Your Mobile App for Better UX',
+    excerpt: 'Learn key strategies to improve user experience in mobile apps, including intuitive navigation and performance optimization.',
+    featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+UX',
+    category: 'Software Development',
+    date: 'May 10, 2025',
+    author: 'John Smith',
+    authorImage: 'https://placehold.co/40x40.webp?text=JS',
+  },
+  {
+    id: '16',
+    slug: 'digital-marketing-guide-2025',
+    title: 'The Ultimate Guide to Digital Marketing in 2025',
+    excerpt: 'Discover effective digital marketing strategies to boost your brand’s visibility, including SEO, social media, and PPC tips.',
+    featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing+Guide',
+    category: 'Digital Marketing',
+    date: 'May 5, 2025',
+    author: 'Alice Johnson',
+    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
   },
 ];
 

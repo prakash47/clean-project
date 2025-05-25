@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import MainLayout from '@/components/layout/MainLayout';
+import CTABannerSection from '@/components/sections/CTABannerSection';
 
 // Dynamically import components to reduce initial bundle size
 const HeroSection = dynamic(() => import('@/components/sections/HeroSection'), { ssr: true });
 const ServicesSection = dynamic(() => import('@/components/sections/ServicesSection'), { ssr: true });
-const ContactSection = dynamic(() => import('@/components/sections/ContactSection'), { ssr: true });
+const BlogHighlightsSection = dynamic(() => import('@/components/sections/BlogHighlightsSection'), { ssr: true });
 
 export const metadata: Metadata = {
   title: 'Intention Infoservice - Web Design, Development & Digital Marketing',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
     description: 'Transforming ideas into stunning digital realities with web design, mobile app development, digital marketing, and more.',
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: '/images/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Intention Infoservice',
@@ -46,7 +47,8 @@ export default function Home() {
     <MainLayout>
       <HeroSection />
       <ServicesSection />
-      <ContactSection />
+      <BlogHighlightsSection />
+      <CTABannerSection />
     </MainLayout>
   );
 }

@@ -9,7 +9,7 @@ export default function Header() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'About Us', href: '/about' },
+    { name: 'About Us', href: '/about-us' }, // Updated from /about to /about-us
     { name: 'Our Services', href: '/services', hasSubmenu: true },
     { name: 'Blog', href: '/blog' },
     { name: 'Careers', href: '/careers' },

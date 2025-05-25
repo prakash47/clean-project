@@ -12,19 +12,19 @@ const services = [
 
 const quickLinks = [
   { name: 'Home', href: '/' },
-  { name: 'About Us', href: '/about' },
+  { name: 'About Us', href: '/about-us' }, // Updated from /about to /about-us
   // Commented out Portfolio menu item
   // { name: 'Portfolio', href: '/portfolio' },
   { name: 'Blog', href: '/blog' },
   { name: 'Careers', href: '/careers' },
-  { name: 'Contact', href: '/contact-us' }, // Updated from /contact to /contact-us
+  { name: 'Contact', href: '/contact-us' },
 ];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-dark text-white border-t border-gray-700  pt-8">
+    <footer className="bg-dark text-white border-t border-gray-700 pt-8">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full px-4 md:px-[10%]">
           {/* Company Info */}
@@ -121,7 +121,7 @@ export default function Footer() {
                 <div className="w-5 h-5 flex items-center justify-center mt-1 mr-3 text-primary-500">
                   <FaMapMarkerAlt className="w-[18px] h-[18px]" />
                 </div>
-                <span className="text-gray-300">Naigaon East, Juchandra Mahrashtra -  401208</span>
+                <span className="text-gray-300">Naigaon East, Juchandra Mahrashtra - 401208</span>
               </li>
               <li className="flex items-center">
                 <div className="w-5 h-5 flex items-center justify-center mr-3 text-primary-500">

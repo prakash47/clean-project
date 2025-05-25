@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
 
-// Sample blog posts data (13 posts)
+// Updated blog posts data (16 posts, including the 3 new ones)
 const blogPosts = [
   {
     id: '1',
@@ -46,7 +46,7 @@ const blogPosts = [
     slug: 'why-your-business-needs-custom-software',
     title: 'Why Your Business Needs Custom Software in 2025',
     excerpt: 'Learn how custom software solutions can streamline operations, improve efficiency, and give your business a competitive edge.',
-    featuredImage: 'https://placehold.co/800x400.webp?-bundle=Custom+Software',
+    featuredImage: 'https://placehold.co/800x400.webp?text=Custom+Software',
     category: 'Business Solutions',
     date: 'April 10, 2025',
     author: 'John Smith',
@@ -390,6 +390,183 @@ const blogPosts = [
       
       <h2>Conclusion</h2>
       <p>Video marketing in 2025 will be all about engagement and interactivity. Intention Infoservice can help you create a winning video marketing strategy. Contact us today!</p>
+    `,
+  },
+  {
+    id: '14',
+    slug: 'web-design-trends-2025',
+    title: 'Top 5 Web Design Trends for 2025',
+    excerpt: 'Explore the latest trends in web design that can elevate your online presence, from minimalist layouts to immersive experiences.',
+    featuredImage: 'https://placehold.co/800x400.webp?text=Web+Design+Trends+2025',
+    category: 'UI/UX Design',
+    date: 'May 15, 2025',
+    author: 'Jane Doe',
+    authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
+    content: `
+      <h2>Introduction</h2>
+      <p>Web design continues to evolve at a rapid pace, with new trends emerging each year that redefine how businesses connect with their audiences online. As we move into 2025, staying ahead of these trends is crucial for creating modern, user-friendly websites that stand out. In this article, we explore the <strong>top 5 web design trends for 2025</strong> that can elevate your online presence, from minimalist layouts to immersive experiences.</p>
+      
+      <h2>1. Minimalist Web Design: Less is More</h2>
+      <p>Minimalist web design remains a dominant trend in 2025, focusing on simplicity, clean layouts, and functional aesthetics. By reducing clutter and emphasizing whitespace, minimalist designs improve user focus and enhance readability. This trend is particularly effective for businesses aiming to convey clarity and professionalism.</p>
+      <ul>
+        <li><strong>Clean Layouts:</strong> Use simple grids with ample spacing to guide user attention.</li>
+        <li><strong>Typography Focus:</strong> Bold, sans-serif fonts for headings paired with legible body text.</li>
+        <li><strong>Neutral Palettes:</strong> Soft colors like whites, grays, and pastels to create a calming effect.</li>
+      </ul>
+      
+      <h2>2. Immersive Web Experiences with 3D Elements</h2>
+      <p>Immersive web experiences are taking center stage in 2025, with 3D elements, animations, and interactive features that captivate users. Advances in WebGL and browser performance make it easier to integrate 3D visuals without sacrificing load times.</p>
+      <ul>
+        <li><strong>3D Graphics:</strong> Use tools like Three.js to create interactive 3D models or backgrounds.</li>
+        <li><strong>Scroll Animations:</strong> Parallax effects and animated transitions to engage users as they scroll.</li>
+        <li><strong>Interactive Elements:</strong> Hover effects on buttons or cards to create a dynamic feel.</li>
+      </ul>
+      
+      <h2>3. Dark Mode Web Design: A Timeless Trend</h2>
+      <p>Dark mode web design continues to be popular in 2025, offering a sleek, modern look while reducing eye strain for users. With many devices now supporting dark mode by default, websites that offer a dark theme can provide a more seamless user experience.</p>
+      <ul>
+        <li><strong>High Contrast:</strong> Use white or light text on dark backgrounds for readability.</li>
+        <li><strong>Accent Colors:</strong> Incorporate vibrant accents (e.g., teal, neon green) to highlight CTAs.</li>
+        <li><strong>Toggle Option:</strong> Allow users to switch between light and dark modes effortlessly.</li>
+      </ul>
+      
+      <h2>4. AI-Driven Personalization in Web Design</h2>
+      <p>AI-driven personalization is transforming web design in 2025, enabling websites to adapt content, layouts, and recommendations based on user behavior. This trend enhances user engagement by delivering tailored experiences.</p>
+      <ul>
+        <li><strong>Dynamic Content:</strong> Show personalized product recommendations or blog posts.</li>
+        <li><strong>Behavioral Triggers:</strong> Use AI to display pop-ups or offers based on user actions.</li>
+        <li><strong>Chatbots:</strong> Integrate AI chatbots for real-time user support and engagement.</li>
+      </ul>
+      
+      <h2>5. Voice User Interface (VUI) Integration</h2>
+      <p>With the rise of voice assistants like Alexa and Siri, Voice User Interface (VUI) integration is becoming a key web design trend in 2025. Websites that support voice navigation can improve accessibility and user convenience.</p>
+      <ul>
+        <li><strong>Voice Search:</strong> Optimize for voice search queries with conversational keywords.</li>
+        <li><strong>Voice Commands:</strong> Allow users to navigate the site using voice inputs.</li>
+        <li><strong>Accessibility:</strong> Ensure VUI features are compatible with screen readers for inclusivity.</li>
+      </ul>
+      
+      <h2>Conclusion</h2>
+      <p>The web design landscape in 2025 is all about creating user-centric, visually stunning, and technologically advanced websites. By embracing trends like minimalist design, immersive experiences, dark mode, AI personalization, and VUI integration, you can build a website that not only looks modern but also delivers exceptional user experiences. Ready to implement these trends? <a href="/services/web-design-development" class="text-teal-500 hover:underline">Contact us</a> to elevate your web design game!</p>
+    `,
+  },
+  {
+    id: '15',
+    slug: 'optimize-mobile-app-ux',
+    title: 'How to Optimize Your Mobile App for Better UX',
+    excerpt: 'Learn key strategies to improve user experience in mobile apps, including intuitive navigation and performance optimization.',
+    featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+UX',
+    category: 'Software Development',
+    date: 'May 10, 2025',
+    author: 'John Smith',
+    authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
+    content: `
+      <h2>Introduction</h2>
+      <p>User experience (UX) is the cornerstone of a successful mobile app. In 2025, with millions of apps competing for attention, delivering a seamless and intuitive UX is more important than ever. This article explores <strong>how to optimize your mobile app for better UX</strong>, covering strategies for intuitive navigation, performance improvements, and user-friendly design.</p>
+      
+      <h2>1. Prioritize Intuitive Navigation</h2>
+      <p>Navigation is a critical aspect of mobile app UX. Users should be able to find what they need quickly and effortlessly. Poor navigation can lead to frustration and app abandonment.</p>
+      <ul>
+        <li><strong>Simple Menu Structure:</strong> Use a clear, hierarchical menu with no more than three levels of navigation.</li>
+        <li><strong>Bottom Navigation Bar:</strong> Place primary actions in a bottom navigation bar for easy thumb access.</li>
+        <li><strong>Gesture Support:</strong> Incorporate swipe gestures for common actions like going back or refreshing content.</li>
+      </ul>
+      
+      <h2>2. Optimize Performance for Speed</h2>
+      <p>Performance directly impacts UX. Slow load times and laggy interactions can drive users away. In 2025, users expect apps to be fast and responsive, even on low-end devices.</p>
+      <ul>
+        <li><strong>Minimize Load Times:</strong> Optimize images, use lazy loading, and reduce API calls to speed up initial load times.</li>
+        <li><strong>Cache Data:</strong> Implement caching for frequently accessed data to reduce server requests.</li>
+        <li><strong>Background Tasks:</strong> Handle heavy tasks (e.g., syncing data) in the background to avoid UI freezes.</li>
+      </ul>
+      
+      <h2>3. Design for Accessibility</h2>
+      <p>A user-friendly mobile app in 2025 must be accessible to all users, including those with disabilities. Accessibility not only improves UX but also expands your app’s reach.</p>
+      <ul>
+        <li><strong>Screen Reader Support:</strong> Ensure all UI elements are compatible with screen readers like VoiceOver and TalkBack.</li>
+        <li><strong>High Contrast Mode:</strong> Use high-contrast colors for text and buttons to aid visually impaired users.</li>
+        <li><strong>Touch Targets:</strong> Make buttons and interactive elements large enough (at least 48x48 pixels) for easy tapping.</li>
+      </ul>
+      
+      <h2>4. Personalize the User Experience</h2>
+      <p>Personalization is a growing trend in mobile app UX for 2025. By tailoring the experience to individual users, you can increase engagement and retention.</p>
+      <ul>
+        <li><strong>User Preferences:</strong> Allow users to customize their app experience, such as choosing themes or notification settings.</li>
+        <li><strong>Behavioral Recommendations:</strong> Use AI to suggest content or features based on user behavior.</li>
+        <li><strong>Location-Based Features:</strong> Offer location-specific content or services to enhance relevance.</li>
+      </ul>
+      
+      <h2>5. Test and Iterate Continuously</h2>
+      <p>UX optimization is an ongoing process. Regular testing and iteration ensure your app remains user-friendly as trends and user expectations evolve.</p>
+      <ul>
+        <li><strong>User Testing:</strong> Conduct usability testing with real users to identify pain points.</li>
+        <li><strong>Analytics:</strong> Use tools like Firebase Analytics to track user behavior and identify drop-off points.</li>
+        <li><strong>Feedback Loops:</strong> Implement in-app feedback forms to gather user suggestions and complaints.</li>
+      </ul>
+      
+      <h2>Conclusion</h2>
+      <p>Optimizing your mobile app for better UX in 2025 requires a focus on intuitive navigation, performance, accessibility, personalization, and continuous iteration. By implementing these strategies, you can create an app that delights users and keeps them coming back. Need help with your mobile app? <a href="/services/mobile-app-development" class="text-teal-500 hover:underline">Contact Intention Infoservice</a> to build a user-friendly app that stands out!</p>
+    `,
+  },
+  {
+    id: '16',
+    slug: 'digital-marketing-guide-2025',
+    title: 'The Ultimate Guide to Digital Marketing in 2025',
+    excerpt: 'Discover effective digital marketing strategies to boost your brand’s visibility, including SEO, social media, and PPC tips.',
+    featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing+Guide',
+    category: 'Digital Marketing',
+    date: 'May 5, 2025',
+    author: 'Alice Johnson',
+    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
+    content: `
+      <h2>Introduction</h2>
+      <p>Digital marketing is a dynamic field, and 2025 brings new opportunities to connect with audiences in innovative ways. This <strong>ultimate guide to digital marketing in 2025</strong> covers the most effective strategies to boost your brand’s visibility, drive traffic, and increase conversions. From SEO to social media and PPC, we’ve got you covered.</p>
+      
+      <h2>1. Master SEO with Voice Search Optimization</h2>
+      <p>Voice search continues to grow in 2025, with more users relying on assistants like Siri and Alexa. Optimizing for voice search is a must for SEO success.</p>
+      <ul>
+        <li><strong>Conversational Keywords:</strong> Target long-tail, question-based keywords (e.g., "what are the best digital marketing strategies for 2025").</li>
+        <li><strong>Local SEO:</strong> Optimize for "near me" searches by maintaining accurate Google Business Profile listings.</li>
+        <li><strong>Featured Snippets:</strong> Structure content to answer common queries and aim for position zero in search results.</li>
+      </ul>
+      
+      <h2>2. Leverage Social Media with Short-Form Video Content</h2>
+      <p>Social media platforms like TikTok, Instagram Reels, and YouTube Shorts are dominating in 2025. Short-form video content is a powerful way to engage audiences.</p>
+      <ul>
+        <li><strong>Authenticity:</strong> Create authentic, relatable videos that resonate with your audience.</li>
+        <li><strong>Trends:</strong> Stay on top of trending challenges, sounds, and hashtags to increase visibility.</li>
+        <li><strong>Call-to-Actions:</strong> Include clear CTAs in videos to drive traffic to your website or landing pages.</li>
+      </ul>
+      
+      <h2>3. Invest in PPC with AI-Driven Campaigns</h2>
+      <p>Pay-per-click (PPC) advertising remains a key strategy in 2025, with AI-driven campaigns offering better targeting and ROI.</p>
+      <ul>
+        <li><strong>AI Targeting:</strong> Use AI tools to target specific demographics, interests, and behaviors.</li>
+        <li><strong>Dynamic Ads:</strong> Implement dynamic ads that automatically adjust content based on user data.</li>
+        <li><strong>Budget Optimization:</strong> Leverage AI to optimize bids and maximize ad spend efficiency.</li>
+      </ul>
+      
+      <h2>4. Embrace Influencer Marketing 2.0</h2>
+      <p>Influencer marketing is evolving in 2025, with a focus on micro-influencers and long-term partnerships.</p>
+      <ul>
+        <li><strong>Micro-Influencers:</strong> Partner with micro-influencers (10K-50K followers) for higher engagement rates.</li>
+        <li><strong>Authentic Partnerships:</strong> Build long-term relationships with influencers to create trust with their audience.</li>
+        <li><strong>Content Collaboration:</strong> Co-create content with influencers to ensure it aligns with your brand.</li>
+      </ul>
+      
+      <h2>5. Focus on Email Marketing Personalization</h2>
+      <p>Email marketing remains effective in 2025, but personalization is key to standing out in crowded inboxes.</p>
+      <ul>
+        <li><strong>Segmentation:</strong> Segment your email list based on user behavior, preferences, and demographics.</li>
+        <li><strong>Dynamic Content:</strong> Use dynamic content to tailor emails to each recipient (e.g., personalized product recommendations).</li>
+        <li><strong>Automation:</strong> Set up automated email sequences for welcome series, abandoned carts, and re-engagement campaigns.</li>
+      </ul>
+      
+      <h2>Conclusion</h2>
+      <p>Digital marketing in 2025 is all about leveraging technology to create personalized, engaging experiences for your audience. By mastering SEO, social media, PPC, influencer marketing, and email personalization, you can boost your brand’s visibility and drive growth. Ready to take your digital marketing to the next level? <a href="/services/digital-marketing" class="text-teal-500 hover:underline">Contact Intention Infoservice</a> for expert strategies tailored to your business!</p>
     `,
   },
 ];
