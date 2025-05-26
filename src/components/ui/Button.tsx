@@ -1,95 +1,91 @@
 'use client';
-import { ReactNode } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { ReactNode } from 'react';
 
-export interface ButtonProps {
-  children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline' | 'text';
-  size?: 'sm' | 'md' | 'lg';
-  fullWidth?: boolean;
+// Define possible values for size and variant
+type Size = 'sm' | 'md' | 'lg';
+type Variant = 'primary' | 'secondary';
+
+// Define the ButtonProps interface
+interface ButtonProps {
+  size?: Size;
+  variant?: Variant;
+  className?: string;
   icon?: ReactNode;
   iconPosition?: 'left' | 'right';
-  className?: string;
   href?: string;
-  onClick?: () => void;
-  disabled?: boolean;
-  type?: 'button' | 'submit' | 'reset';
+  ariaLabel?: string;
+  children: ReactNode;
+  // Include framer-motion props for both motion.div and motion.button
+  whileHover?: React.ComponentProps<typeof motion.div>['whileHover'] &
+    React.ComponentProps<typeof motion.button>['whileHover'];
+  whileTap?: React.ComponentProps<typeof motion.div>['whileTap'] &
+    React.ComponentProps<typeof motion.button>['whileTap'];
+  animate?: React.ComponentProps<typeof motion.div>['animate'] &
+    React.ComponentProps<typeof motion.button>['animate'];
+  transition?: React.ComponentProps<typeof motion.div>['transition'] &
+    React.ComponentProps<typeof motion.button>['transition'];
+  initial?: React.ComponentProps<typeof motion.div>['initial'] &
+    React.ComponentProps<typeof motion.button>['initial'];
 }
 
 export default function Button({
-  children,
-  variant = 'primary',
   size = 'md',
-  fullWidth = false,
+  variant = 'primary',
+  className = '',
   icon,
   iconPosition = 'left',
-  className = '',
   href,
-  onClick,
-  disabled = false,
-  type = 'button'
+  ariaLabel,
+  children,
+  whileHover,
+  whileTap,
+  animate,
+  transition,
+  initial,
 }: ButtonProps) {
-  // Define base classes
-  const baseClasses = 'inline-flex items-center justify-center font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500';
-  
-  // Size classes
-  const sizeClasses = {
-    sm: 'text-sm px-3 py-1.5 rounded',
-    md: 'text-base px-4 py-2 rounded-md',
-    lg: 'text-lg px-6 py-3 rounded-md'
+  const baseClasses = `inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue`;
+  const sizeClasses: Record<Size, string> = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2 text-base',
+    lg: 'px-6 py-3 text-lg',
   };
-  
-  // Variant classes
-  const variantClasses = {
-    primary: 'bg-primary-600 hover:bg-primary-700 text-white',
-    secondary: 'bg-white hover:bg-gray-100 text-primary-600 border border-primary-600',
-    outline: 'bg-transparent hover:bg-gray-50 text-gray-700 border border-gray-300',
-    text: 'bg-transparent hover:text-primary-700 text-primary-600 hover:underline'
+  const variantClasses: Record<Variant, string> = {
+    primary: 'hover:bg-transparent text-white border-2 border-brand-blue bg-gradient-to-r from-brand-blue hover:to-brand-indigo',
+    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
   };
-  
-  // Width classes
-  const widthClasses = fullWidth ? 'w-full' : '';
-  
-  // Disabled classes
-  const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
-  
-  // Combine all classes
-  const buttonClasses = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${widthClasses} ${disabledClasses} ${className}`;
-  
-  // Icon rendering
-  const renderIcon = () => {
-    if (!icon) return null;
-    return <span className={`${iconPosition === 'left' ? 'mr-2' : 'ml-2'}`}>{icon}</span>;
-  };
-  
-  // Content with icon
+
+  const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
+
   const content = (
     <>
-      {iconPosition === 'left' && renderIcon()}
+      {icon && iconPosition === 'left' && <span className="mr-2">{icon}</span>}
       {children}
-      {iconPosition === 'right' && renderIcon()}
+      {icon && iconPosition === 'right' && <span className="ml-2">{icon}</span>}
     </>
   );
-  
-  // If href is provided, render as Link
+
+  const motionProps = {
+    whileHover,
+    whileTap,
+    animate,
+    transition,
+    initial,
+  };
+
   if (href) {
     return (
-      <Link href={href} className={buttonClasses}>
-        {content}
-      </Link>
+      <motion.div {...motionProps}>
+        <Link href={href} className={classes} aria-label={ariaLabel}>
+          {content}
+        </Link>
+      </motion.div>
     );
   }
-  
-  // Otherwise render as button
+
   return (
-    <motion.button
-      type={type}
-      className={buttonClasses}
-      onClick={onClick}
-      disabled={disabled}
-      whileTap={{ scale: 0.98 }}
-    >
+    <motion.button {...motionProps} className={classes} aria-label={ariaLabel}>
       {content}
     </motion.button>
   );

@@ -4,7 +4,7 @@ import MobileAppHeroSection from '@/components/sections/MobileAppHeroSection';
 import MobileAppWhatWeOfferSection from '@/components/sections/MobileAppWhatWeOfferSection';
 import MobileAppProcessSection from '@/components/sections/MobileAppProcessSection';
 import MobileAppWhyChooseUsSection from '@/components/sections/MobileAppWhyChooseUsSection';
-import MobileAppCTASection from '@/components/sections/MobileAppCTASection';
+import MobileAppCTABannerSection from '@/components/sections/MobileAppCTABannerSection';
 
 export const metadata: Metadata = {
   title: 'Mobile App Development Services - Intention Infoservice',
@@ -53,7 +53,7 @@ export default function MobileAppDevelopment() {
         <MobileAppWhatWeOfferSection />
         <MobileAppProcessSection />
         <MobileAppWhyChooseUsSection />
-        <MobileAppCTASection />
+        <MobileAppCTABannerSection />
       </MainLayout>
     </>
   );
