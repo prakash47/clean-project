@@ -445,30 +445,30 @@ export default function MobileAppHeroSection() {
               Need a secure, AI-powered app for your startup? Our mobile app developers deliver fast, scalable solutions with iOS app development, Android app development, and cross-platform apps that leverage 5G technology in 2025. Boost user engagement by 40%—get started today!
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex gap-4 justify-center md:justify-start"
-            >
-              <Button
-                size="lg"
-                variant="hero"
-                className="text-white font-semibold"
-                icon={<FaArrowRight />}
-                iconPosition="right"
-                href="/contact-us"
-                aria-label="Get your free quote today for mobile app development"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{
-                  scale: 1,
-                  opacity: 1,
-                  transition: { duration: 0.5, ease: "easeOut" },
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Get Your Free Quote Today
-              </Button>
-            </motion.div>
+                      className="flex justify-start mt-12"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                      <Button
+                        size="lg"
+                        variant="primary"
+                        className="text-white font-semibold"
+                        icon={<FaArrowRight />}
+                        iconPosition="right"
+                        href="/contact-us"
+                        ariaLabel="Get your free quote today for mobile app development services"
+                        whileHover={{ scale: 1.05 }}
+                        
+                        animate={{
+                              
+                              scale: [1, 1.05, 1],
+                              transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                            }}
+                      >
+                        Get Your Free Quote Today
+                      </Button>
+                    </motion.div>
           </div>
           <div className="md:w-1/2 flex justify-center relative svg-container">
             <svg

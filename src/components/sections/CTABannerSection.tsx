@@ -122,7 +122,7 @@ export default function CTABannerSection() {
           <Button
             size="lg"
             variant="primary"
-            className="cta-button cta-button-shadow bg-teal-600 text-white hover:bg-teal-500 font-semibold shadow-lg shadow-teal-600/50 hover:shadow-teal-500/50 px-6 whitespace-nowrap"
+            className="cta-button cta-button-shadow  text-white  font-semibold shadow-lg  px-6 whitespace-nowrap"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="/contact-us"

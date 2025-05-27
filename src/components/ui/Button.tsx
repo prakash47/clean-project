@@ -15,6 +15,7 @@ interface ButtonProps {
   icon?: ReactNode;
   iconPosition?: 'left' | 'right';
   href?: string;
+  type?: 'button' | 'submit' | 'reset'; // Ensure type prop is included
   ariaLabel?: string;
   children: ReactNode;
   // Include framer-motion props for both motion.div and motion.button
@@ -37,6 +38,7 @@ export default function Button({
   icon,
   iconPosition = 'left',
   href,
+  type,
   ariaLabel,
   children,
   whileHover,
@@ -45,17 +47,17 @@ export default function Button({
   transition,
   initial,
 }: ButtonProps) {
-  const baseClasses = `inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue`;
+  const baseClasses = `inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-brand-blue`;
   const sizeClasses: Record<Size, string> = {
     sm: 'px-3 py-1.5 text-sm',
     md: 'px-4 py-2 text-base',
     lg: 'px-6 py-3 text-lg',
   };
   const variantClasses: Record<Variant, string> = {
-    primary: 'bg-transparent text-white border-2 border-brand-blue hover:bg-gradient-to-r hover:from-brand-blue hover:to-brand-indigo [background-clip:content-box]',
-    secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+    primary: 'bg-transparent bg-gradient-to-r from-brand-indigo to-brand-blue transition-colors duration-300 text-white border-2 border-brand-blue hover:bg-gradient-to-r hover:from-brand-blue hover:to-brand-indigo hover:shadow-lg',
+    secondary: 'bg-gradient-to-r from-cyan-400 to-brand-blue text-white shadow-md hover:brightness-110 hover:shadow-lg',
     text: 'bg-transparent text-brand-blue hover:text-brand-indigo',
-    hero: 'bg-gradient-to-r from-brand-blue/80 to-cyan-500/80 text-white border-2 border-[rgba(255,255,255,0.2)] backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-gradient-to-r hover:from-brand-blue/80 hover:to-brand-indigo/80',
+    hero: 'bg-gradient-to-r from-brand-blue to-cyan-400 text-white shadow-md hover:brightness-110 hover:shadow-lg',
   };
 
   const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
@@ -87,7 +89,7 @@ export default function Button({
   }
 
   return (
-    <motion.button {...motionProps} className={classes} aria-label={ariaLabel}>
+    <motion.button {...motionProps} type={type} className={classes} aria-label={ariaLabel}>
       {content}
     </motion.button>
   );

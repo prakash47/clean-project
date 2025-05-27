@@ -93,6 +93,7 @@ export default function ContactContent() {
                   size="lg"
                   icon={<FaArrowRight />}
                   iconPosition="right"
+                  className="text-white font-semibold uppercase tracking-wide"
                 >
                   Send Message
                 </Button>
@@ -151,6 +152,7 @@ export default function ContactContent() {
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href="/services"
+                className="text-white font-semibold uppercase tracking-wide"
               >
                 Explore Our Services
               </Button>

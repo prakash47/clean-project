@@ -259,21 +259,30 @@ export default function HeroSection() {
               Transform your online presence with our expert services tailored for success in 2025.
             </motion.p>
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <Button
-                size="lg"
-                variant="primary"
-                className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
-                icon={<FaArrowRight />}
-                iconPosition="right"
-                href="/contact-us"
-              >
-                Get a Free Quote Today
-              </Button>
-            </motion.div>
+                      className="flex justify-start mt-12"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                      <Button
+                        size="lg"
+                        variant="primary"
+                        className="text-white font-semibold"
+                        icon={<FaArrowRight />}
+                        iconPosition="right"
+                        href="/contact-us"
+                        ariaLabel="Get your free quote today for mobile app development services"
+                        whileHover={{ scale: 1.05 }}
+                        
+                        animate={{
+                              
+                              scale: [1, 1.05, 1],
+                              transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                            }}
+                      >
+                        Get Your Free Quote Today
+                      </Button>
+                    </motion.div>
           </div>
           {/* Right: Animated SVG Illustration */}
           <div className="md:w-1/2 flex justify-center">

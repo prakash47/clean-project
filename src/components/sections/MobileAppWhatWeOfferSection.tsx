@@ -377,12 +377,12 @@ export default function MobileAppWhatWeOfferSection() {
             href="/contact-us"
             ariaLabel="Get your free quote today for mobile app development services"
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            
             animate={{
-              scale: [1, 1.05, 1],
-              
-              transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-            }}
+                  
+                  scale: [1, 1.05, 1],
+                  transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                }}
           >
             Get Your Free Quote Today
           </Button>
