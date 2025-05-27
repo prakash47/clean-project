@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 
 // Define possible values for size and variant
 type Size = 'sm' | 'md' | 'lg';
-type Variant = 'primary' | 'secondary';
+type Variant = 'primary' | 'secondary' | 'text' | 'hero';
 
 // Define the ButtonProps interface
 interface ButtonProps {
@@ -52,8 +52,10 @@ export default function Button({
     lg: 'px-6 py-3 text-lg',
   };
   const variantClasses: Record<Variant, string> = {
-    primary: 'hover:bg-transparent text-white border-2 border-brand-blue bg-gradient-to-r from-brand-blue hover:to-brand-indigo',
+    primary: 'bg-transparent text-white border-2 border-brand-blue hover:bg-gradient-to-r hover:from-brand-blue hover:to-brand-indigo [background-clip:content-box]',
     secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300',
+    text: 'bg-transparent text-brand-blue hover:text-brand-indigo',
+    hero: 'bg-gradient-to-r from-brand-blue/80 to-cyan-500/80 text-white border-2 border-[rgba(255,255,255,0.2)] backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)] hover:bg-gradient-to-r hover:from-brand-blue/80 hover:to-brand-indigo/80',
   };
 
   const classes = `${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;

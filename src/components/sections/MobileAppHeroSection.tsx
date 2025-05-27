@@ -452,22 +452,19 @@ export default function MobileAppHeroSection() {
             >
               <Button
                 size="lg"
-                variant="primary"
-                className="bg-gradient-to-r from-brand-blue to-brand-indigo hover:from-brand-indigo hover:to-brand-blue text-white font-semibold shadow-lg hover:shadow-brand-blue/40"
+                variant="hero"
+                className="text-white font-semibold"
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href="/contact-us"
                 aria-label="Get your free quote today for mobile app development"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                initial={{ scale: 0.8, opacity: 0 }}
                 animate={{
-                  boxShadow: [
-                    "0 0 10px rgba(0, 160, 227, 0.5)",
-                    "0 0 20px rgba(0, 160, 227, 0.7)",
-                    "0 0 10px rgba(0, 160, 227, 0.5)",
-                  ],
-                  transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                  scale: 1,
+                  opacity: 1,
+                  transition: { duration: 0.5, ease: "easeOut" },
                 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Get Your Free Quote Today
               </Button>
