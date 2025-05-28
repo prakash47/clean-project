@@ -68,7 +68,7 @@ export default function CustomBusinessSolutionsCTASection() {
             Ready to Transform Your Business with Custom Solutions?
           </motion.h2>
           <motion.p
-            className="text-xl text-teal-500 font-semibold mb-6"
+            className="text-xl text-brand-blue font-semibold mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -77,7 +77,7 @@ export default function CustomBusinessSolutionsCTASection() {
             Let’s build software that drives efficiency and growth.
           </motion.p>
           <motion.p
-            className="text-lg text-gray-400 max-w-3xl mx-auto mb-8"
+            className="text-lg text-gray-300 max-w-3xl mx-auto mb-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -89,7 +89,7 @@ export default function CustomBusinessSolutionsCTASection() {
         <div className="max-w-2xl mx-auto">
           {submitted ? (
             <motion.div
-              className="text-center text-teal-500 text-lg"
+              className="text-center text-brand-blue text-lg"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
@@ -105,16 +105,16 @@ export default function CustomBusinessSolutionsCTASection() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
+                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
                   placeholder=" "
                 />
                 <label
                   htmlFor="name"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
+                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
                 >
                   Name
                 </label>
-                {errors.name && <p className="text-teal-500 text-sm mt-1">{errors.name}</p>}
+                {errors.name && <p className="text-brand-blue text-sm mt-1">{errors.name}</p>}
               </div>
               <div className="relative">
                 <input
@@ -123,16 +123,16 @@ export default function CustomBusinessSolutionsCTASection() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
+                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
                   placeholder=" "
                 />
                 <label
                   htmlFor="email"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
+                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
                 >
                   Email
                 </label>
-                {errors.email && <p className="text-teal-500 text-sm mt-1">{errors.email}</p>}
+                {errors.email && <p className="text-brand-blue text-sm mt-1">{errors.email}</p>}
               </div>
               <div className="relative">
                 <input
@@ -141,12 +141,12 @@ export default function CustomBusinessSolutionsCTASection() {
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
+                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
                   placeholder=" "
                 />
                 <label
                   htmlFor="phone"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
+                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
                 >
                   Phone (Optional)
                 </label>
@@ -158,34 +158,27 @@ export default function CustomBusinessSolutionsCTASection() {
                   value={formData.projectDetails}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
+                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
                   placeholder=" "
                 ></textarea>
                 <label
                   htmlFor="projectDetails"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
+                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
                 >
                   Project Details
                 </label>
-                {errors.projectDetails && <p className="text-teal-500 text-sm mt-1">{errors.projectDetails}</p>}
+                {errors.projectDetails && <p className="text-brand-blue text-sm mt-1">{errors.projectDetails}</p>}
               </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
+              <div>
                 <Button
                   type="submit"
-                  variant="primary"
                   size="lg"
-                  className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
                   icon={<FaArrowRight />}
                   iconPosition="right"
                 >
                   Get a Free Quote Now
                 </Button>
-              </motion.div>
+              </div>
             </form>
           )}
         </div>

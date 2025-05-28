@@ -18,10 +18,10 @@ export default function CTASection({
   buttonLink = "/contact"
 }: CTASectionProps) {
   return (
-    <Section background="primary" paddingY="lg">
+    <Section background="gradient" paddingY="lg">
       <div className="max-w-3xl mx-auto text-center">
         <motion.h2 
-          className="text-3xl md:text-4xl font-bold mb-6"
+          className="text-3xl md:text-4xl font-bold mb-6 text-white"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -31,7 +31,7 @@ export default function CTASection({
         </motion.h2>
         
         <motion.p 
-          className="text-lg opacity-90 mb-8"
+          className="text-lg opacity-90 mb-8 text-gray-300"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -40,14 +40,8 @@ export default function CTASection({
           {description}
         </motion.p>
         
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
+        <div>
           <Button 
-            variant="secondary" 
             size="lg"
             icon={<FaArrowRight />}
             iconPosition="right"
@@ -55,7 +49,7 @@ export default function CTASection({
           >
             {buttonText}
           </Button>
-        </motion.div>
+        </div>
       </div>
     </Section>
   );

@@ -159,22 +159,16 @@ export default function AboutHeroSection() {
             >
               Discover our approach and values for delivering exceptional digital experiences in 2025 and beyond.
             </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
+            <div className="flex gap-4 justify-center md:justify-start">
               <Button
                 size="lg"
-                variant="primary"
-                className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href="/contact-us"
               >
                 Connect with Us Today
               </Button>
-            </motion.div>
+            </div>
           </div>
           {/* Right: Updated Digital Canvas Illustration */}
           <div className="md:w-1/2 flex justify-center">
@@ -187,14 +181,14 @@ export default function AboutHeroSection() {
               aria-label="Illustration of Intention Infoservice's comprehensive digital services"
             >
               {/* Background */}
-              <rect x="0" y="0" width="500" height="400" fill="#1E293B" rx="20" stroke="#14B8A6" strokeWidth="2" />
+              <rect x="0" y="0" width="500" height="400" fill="#1E293B" rx="20" stroke="#00a0e3" strokeWidth="2" />
               {/* Central Digital Canvas */}
               <g transform="translate(50, 50)" className="digital-canvas">
                 {/* Web Design: Laptop */}
                 <g transform="translate(20, 20)">
-                  <rect x="0" y="0" width="120" height="80" rx="5" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
+                  <rect x="0" y="0" width="120" height="80" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
                   <rect x="10" y="10" width="100" height="60" fill="#1E293B" className="laptop-screen" />
-                  <rect x="0" y="80" width="120" height="10" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
+                  <rect x="0" y="80" width="120" height="10" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
                   <text
                     x="60"
                     y="110"
@@ -203,16 +197,16 @@ export default function AboutHeroSection() {
                     fontWeight="bold"
                     textAnchor="middle"
                     className="service-label"
-                    style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                    style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                   >
                     Web Design
                   </text>
                 </g>
                 {/* Mobile App: Mobile Device */}
                 <g transform="translate(160, 50)" className="mobile-device">
-                  <rect x="0" y="0" width="40" height="70" rx="5" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
+                  <rect x="0" y="0" width="40" height="70" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
                   <rect x="5" y="5" width="30" height="60" fill="#1E293B" />
-                  <circle cx="20" cy="55" r="3" fill="#14B8A6" />
+                  <circle cx="20" cy="55" r="3" fill="#00a0e3" />
                   <text
                     x="20"
                     y="95"
@@ -221,16 +215,16 @@ export default function AboutHeroSection() {
                     fontWeight="bold"
                     textAnchor="middle"
                     className="service-label"
-                    style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                    style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                   >
                     Mobile Apps
                   </text>
                 </g>
                 {/* UI/UX Branding: Sketchpad */}
                 <g transform="translate(230, 20)" className="uiux-sketchpad">
-                  <rect x="0" y="0" width="70" height="50" rx="5" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
-                  <path d="M10,40 Q20,20 30,40" fill="none" stroke="#10B981" strokeWidth="2" />
-                  <circle cx="50" cy="30" r="5" fill="#10B981" />
+                  <rect x="0" y="0" width="70" height="50" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                  <path d="M10,40 Q20,20 30,40" fill="none" stroke="#393185" strokeWidth="2" />
+                  <circle cx="50" cy="30" r="5" fill="#393185" />
                   <text
                     x="35"
                     y="75"
@@ -239,17 +233,17 @@ export default function AboutHeroSection() {
                     fontWeight="bold"
                     textAnchor="middle"
                     className="service-label"
-                    style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                    style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                   >
                     UI/UX Branding
                   </text>
                 </g>
                 {/* Digital Marketing: Dashboard */}
                 <g transform="translate(320, 50)" className="marketing-dashboard">
-                  <rect x="0" y="0" width="90" height="60" rx="5" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
-                  <rect x="10" y="10" width="20" height="40" fill="#10B981" />
-                  <rect x="35" y="20" width="20" height="30" fill="#10B981" />
-                  <rect x="60" y="15" width="20" height="35" fill="#10B981" />
+                  <rect x="0" y="0" width="90" height="60" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                  <rect x="10" y="10" width="20" height="40" fill="#393185" />
+                  <rect x="35" y="20" width="20" height="30" fill="#393185" />
+                  <rect x="60" y="15" width="20" height="35" fill="#393185" />
                   <text
                     x="45"
                     y="85"
@@ -258,17 +252,17 @@ export default function AboutHeroSection() {
                     fontWeight="bold"
                     textAnchor="middle"
                     className="service-label"
-                    style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                    style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                   >
                     Digital Marketing
                   </text>
                 </g>
                 {/* Website Maintenance: Toolbox */}
                 <g transform="translate(50, 150)" className="maintenance-toolbox">
-                  <rect x="0" y="0" width="60" height="60" rx="5" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
-                  <rect x="10" y="10" width="40" height="10" fill="#14B8A6" />
-                  <circle cx="30" cy="40" r="8" fill="#10B981" />
-                  <circle cx="40" cy="40" r="8" fill="#10B981" />
+                  <rect x="0" y="0" width="60" height="60" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                  <rect x="10" y="10" width="40" height="10" fill="#00a0e3" />
+                  <circle cx="30" cy="40" r="8" fill="#393185" />
+                  <circle cx="40" cy="40" r="8" fill="#393185" />
                   <text
                     x="30"
                     y="85"
@@ -277,15 +271,15 @@ export default function AboutHeroSection() {
                     fontWeight="bold"
                     textAnchor="middle"
                     className="service-label"
-                    style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                    style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                   >
                     Website Maintenance
                   </text>
                 </g>
                 {/* Custom Business Solutions: Puzzle Pieces */}
                 <g transform="translate(150, 150)" className="business-solution">
-                  <path d="M0,0 H40 V40 H20 Q10,40 10,50 V60 H0 V0 Z" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
-                  <path d="M40,0 H80 V40 H60 Q50,40 50,30 V20 H40 V0 Z" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
+                  <path d="M0,0 H40 V40 H20 Q10,40 10,50 V60 H0 V0 Z" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                  <path d="M40,0 H80 V40 H60 Q50,40 50,30 V20 H40 V0 Z" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
                   <text
                     x="40"
                     y="85"
@@ -294,23 +288,23 @@ export default function AboutHeroSection() {
                     fontWeight="bold"
                     textAnchor="middle"
                     className="service-label"
-                    style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                    style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                   >
                     Custom Solutions
                   </text>
                 </g>
                 {/* Abstract Design Elements (Brush Strokes, Pixels) */}
                 <g transform="translate(50, 50)" className="design-element">
-                  <path d="M0,0 Q20,30 40,0" fill="none" stroke="#14B8A6" strokeWidth="3" opacity="0.7" />
+                  <path d="M0,0 Q20,30 40,0" fill="none" stroke="#00a0e3" strokeWidth="3" opacity="0.7" />
                 </g>
                 <g transform="translate(350, 50)" className="design-element">
-                  <rect x="0" y="0" width="10" height="10" fill="#10B981" />
-                  <rect x="15" y="0" width="10" height="10" fill="#10B981" />
-                  <rect x="0" y="15" width="10" height="10" fill="#10B981" />
+                  <rect x="0" y="0" width="10" height="10" fill="#393185" />
+                  <rect x="15" y="0" width="10" height="10" fill="#393185" />
+                  <rect x="0" y="15" width="10" height="10" fill="#393185" />
                 </g>
                 <g transform="translate(50, 250)" className="design-element">
-                  <circle cx="0" cy="0" r="8" fill="#14B8A6" opacity="0.7" />
-                  <circle cx="20" cy="0" r="5" fill="#14B8A6" opacity="0.7" />
+                  <circle cx="0" cy="0" r="8" fill="#00a0e3" opacity="0.7" />
+                  <circle cx="20" cy="0" r="5" fill="#00a0e3" opacity="0.7" />
                 </g>
               </g>
             </svg>

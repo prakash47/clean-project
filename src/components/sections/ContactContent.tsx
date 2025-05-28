@@ -11,11 +11,11 @@ export default function ContactContent() {
       <Section background="gradient" paddingY="lg" className="relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-24 w-96 h-96 bg-white opacity-10 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 -left-24 w-72 h-72 bg-secondary-300 opacity-10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 -left-24 w-72 h-72 bg-brand-blue opacity-10 rounded-full blur-3xl"></div>
         </div>
         <div className="relative z-10 text-center">
           <motion.h1
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-4xl md:text-5xl font-bold mb-6 text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -23,7 +23,7 @@ export default function ContactContent() {
             Get in Touch
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl opacity-90 mb-8 max-w-3xl mx-auto"
+            className="text-lg md:text-xl opacity-90 mb-8 max-w-3xl mx-auto text-gray-300"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -53,7 +53,7 @@ export default function ContactContent() {
                   type="text"
                   id="name"
                   name="name"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-blue focus:border-brand-blue"
                   required
                 />
               </div>
@@ -65,7 +65,7 @@ export default function ContactContent() {
                   type="email"
                   id="email"
                   name="email"
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-blue focus:border-brand-blue"
                   required
                 />
               </div>
@@ -77,27 +77,21 @@ export default function ContactContent() {
                   id="message"
                   name="message"
                   rows={5}
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-brand-blue focus:border-brand-blue"
                   required
                 ></textarea>
               </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-              >
+              <div>
                 <Button
                   type="submit"
-                  variant="primary"
                   size="lg"
                   icon={<FaArrowRight />}
                   iconPosition="right"
-                  className="text-white font-semibold uppercase tracking-wide"
+                  className="uppercase tracking-wide"
                 >
                   Send Message
                 </Button>
-              </motion.div>
+              </div>
             </form>
           </div>
           <div className="lg:w-1/2">
@@ -112,7 +106,7 @@ export default function ContactContent() {
             </motion.h2>
             <div className="space-y-6 text-lg text-gray-600">
               <div className="flex items-start">
-                <FaEnvelope className="text-primary-500 mt-1 mr-3" />
+                <FaEnvelope className="text-brand-blue mt-1 mr-3" />
                 <div>
                   <h3 className="font-bold">Email</h3>
                   <p>
@@ -123,7 +117,7 @@ export default function ContactContent() {
                 </div>
               </div>
               <div className="flex items-start">
-                <FaPhone className="text-primary-500 mt-1 mr-3" />
+                <FaPhone className="text-brand-blue mt-1 mr-3" />
                 <div>
                   <h3 className="font-bold">Phone</h3>
                   <p>
@@ -132,31 +126,24 @@ export default function ContactContent() {
                 </div>
               </div>
               <div className="flex items-start">
-                <FaMapMarkerAlt className="text-primary-500 mt-1 mr-3" />
+                <FaMapMarkerAlt className="text-brand-blue mt-1 mr-3" />
                 <div>
                   <h3 className="font-bold">Address</h3>
                   <p>123 Digital Avenue, Tech City, TC 12345</p>
                 </div>
               </div>
             </div>
-            <motion.div
-              className="mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className="mt-8">
               <Button
-                variant="secondary"
                 size="lg"
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href="/services"
-                className="text-white font-semibold uppercase tracking-wide"
+                className="uppercase tracking-wide"
               >
                 Explore Our Services
               </Button>
-            </motion.div>
+            </div>
           </div>
         </div>
       </Section>

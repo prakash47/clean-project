@@ -75,7 +75,7 @@ export default function Header() {
             <div key={link.name} className="relative group">
               {link.hasSubmenu ? (
                 <div
-                  className="text-white font-medium hover:text-teal-500 transition-all cursor-pointer py-2"
+                  className="text-white font-medium hover:text-brand-blue transition-all cursor-pointer py-2"
                   onMouseEnter={() => setIsServicesOpen(true)}
                   onMouseLeave={() => setIsServicesOpen(false)}
                 >

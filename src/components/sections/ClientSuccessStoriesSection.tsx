@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
+import { gsap } from 'gsap';
 
 export default function ClientSuccessStoriesSection() {
   const successStories = [
@@ -11,8 +12,8 @@ export default function ClientSuccessStoriesSection() {
       link: '/case-studies/ecommerce-retail',
       icon: (
         <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing E-Commerce Success Story">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <path d="M20,40 Q30,45 40,40" fill="none" stroke="#14B8A6" strokeWidth="2" />
+          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
+          <path d="M20,40 Q30,45 40,40" fill="none" stroke="#00a0e3" strokeWidth="2" />
           <rect x="15" y="15" width="15" height="20" fill="#0F172A" rx="3" />
         </svg>
       ),
@@ -23,9 +24,9 @@ export default function ClientSuccessStoriesSection() {
       link: '/case-studies/business-tech',
       icon: (
         <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing Business Website Success Story">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
+          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
           <rect x="15" y="15" width="30" height="20" fill="#0F172A" rx="3" />
-          <circle cx="30" cy="45" r="5" fill="#14B8A6" />
+          <circle cx="30" cy="45" r="5" fill="#00a0e3" />
         </svg>
       ),
     },
@@ -35,8 +36,8 @@ export default function ClientSuccessStoriesSection() {
       link: '/case-studies/web-app-healthcare',
       icon: (
         <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing Web App Success Story">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <path d="M25,25 L35,35 M25,35 L35,25" stroke="#14B8A6" strokeWidth="2" />
+          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
+          <path d="M25,25 L35,35 M25,35 L35,25" stroke="#00a0e3" strokeWidth="2" />
         </svg>
       ),
     },
@@ -111,7 +112,7 @@ export default function ClientSuccessStoriesSection() {
             Client Success Stories
           </motion.h2>
           <motion.p
-            className="text-xl text-teal-500 font-semibold mb-6"
+            className="text-xl text-brand-blue font-semibold mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -152,7 +153,7 @@ export default function ClientSuccessStoriesSection() {
                   <p id={`story-description-${index}`} className="text-lg text-gray-400 mb-4">{story.description}</p>
                   <a
                     href={story.link}
-                    className="text-teal-500 hover:text-teal-400 font-semibold flex items-center gap-2"
+                    className="text-brand-blue hover:text-brand-indigo font-semibold flex items-center gap-2"
                   >
                     Learn More <FaArrowRight />
                   </a>
@@ -164,8 +165,6 @@ export default function ClientSuccessStoriesSection() {
         <div className="flex justify-center mt-12">
           <Button
             size="lg"
-            variant="primary"
-            className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="/case-studies"

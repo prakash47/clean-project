@@ -30,40 +30,40 @@ export default function ServicesSection() {
 
   const services = [
     {
-      icon: <FaCode className="text-4xl text-teal-500" />,
+      icon: <FaCode className="text-4xl text-brand-blue" />,
       title: 'Web Design & Development Services',
       description: 'Custom Web Design & Development Services - Build stunning, responsive websites optimized for performance, SEO, and user experience to grow your online presence.',
-      href: 'http://localhost:3000/services/web-design-development',
+      href: '/services/web-design-development',
     },
     {
-      icon: <FaMobileAlt className="text-4xl text-teal-500" />,
+      icon: <FaMobileAlt className="text-4xl text-brand-blue" />,
       title: 'Mobile App Development Services',
       description: 'Top Mobile App Development Solutions - Create intuitive iOS and Android apps with seamless user experiences to engage your audience on the go.',
-      href: 'http://localhost:3000/services/mobile-app-development',
+      href: '/services/mobile-app-development',
     },
     {
-      icon: <FaTools className="text-4xl text-teal-500" />,
+      icon: <FaTools className="text-4xl text-brand-blue" />,
       title: 'Website Maintenance Services',
       description: 'Reliable Website Maintenance Services - Ensure your site stays secure, updated, and running smoothly with our expert maintenance solutions.',
-      href: 'http://localhost:3000/services/website-maintenance',
+      href: '/services/website-maintenance',
     },
     {
-      icon: <FaPaintBrush className="text-4xl text-teal-500" />,
+      icon: <FaPaintBrush className="text-4xl text-brand-blue" />,
       title: 'UI/UX Design & Branding',
       description: 'Professional UI/UX Design & Branding - Elevate your brand with memorable designs and user-focused interfaces that captivate and convert.',
-      href: 'http://localhost:3000/services/ui-ux-design-branding',
+      href: '/services/ui-ux-design-branding',
     },
     {
-      icon: <FaBullhorn className="text-4xl text-teal-500" />,
+      icon: <FaBullhorn className="text-4xl text-brand-blue" />,
       title: 'Digital Marketing Services',
       description: 'Effective Digital Marketing Solutions for Businesses - Boost engagement and growth with strategic campaigns, SEO, and social media marketing.',
-      href: 'http://localhost:3000/services/digital-marketing',
+      href: '/services/digital-marketing',
     },
     {
-      icon: <FaNetworkWired className="text-4xl text-teal-500" />,
+      icon: <FaNetworkWired className="text-4xl text-brand-blue" />,
       title: 'Custom Business Solutions',
       description: 'Tailored Custom Business Solutions - Optimize your operations with bespoke software designed to meet your unique business needs.',
-      href: 'http://localhost:3000/services/custom-business-solutions',
+      href: '/services/custom-business-solutions',
     },
   ];
 
@@ -85,7 +85,7 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <motion.div
               key={index}
-              className="service-card bg-dark-900 p-6 rounded-lg shadow-lg hover:shadow-teal-500/40 transition-shadow duration-300 flex flex-col items-center"
+              className="service-card bg-dark-900 p-6 rounded-lg shadow-lg hover:shadow-brand-blue/40 transition-shadow duration-300 flex flex-col items-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
@@ -95,8 +95,6 @@ export default function ServicesSection() {
               <p className="text-gray-400 text-center mb-4">{service.description}</p>
               <Button
                 size="sm"
-                variant="primary"
-                className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href={service.href}

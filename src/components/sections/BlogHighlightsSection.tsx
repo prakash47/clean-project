@@ -103,7 +103,7 @@ export default function BlogHighlightsSection() {
           {blogPosts.map((post, index) => (
             <motion.div
               key={index}
-              className="blog-card bg-dark-900 p-6 rounded-lg shadow-lg hover:shadow-teal-500/40 transition-shadow duration-300 flex flex-col items-center"
+              className="blog-card bg-dark-900 p-6 rounded-lg shadow-lg hover:shadow-brand-blue/40 transition-shadow duration-300 flex flex-col items-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
@@ -122,8 +122,6 @@ export default function BlogHighlightsSection() {
               <p className="text-gray-400 text-center mb-4">{post.excerpt}</p>
               <Button
                 size="sm"
-                variant="primary"
-                className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href={post.href}
@@ -136,8 +134,6 @@ export default function BlogHighlightsSection() {
         <div className="flex justify-center mt-8">
           <Button
             size="lg"
-            variant="secondary"
-            className="bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white font-semibold shadow-lg hover:shadow-teal-500/50 transition-all duration-300 border border-teal-500/50 rounded-lg px-6 py-3"
             href="/blog"
           >
             View All Articles

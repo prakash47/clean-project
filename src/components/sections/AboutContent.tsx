@@ -9,22 +9,22 @@ import { FaUsers, FaLightbulb, FaHandshake, FaRocket, FaArrowRight } from 'react
 
 const values = [
   {
-    icon: <FaUsers className="text-primary-500" size={24} />,
+    icon: <FaUsers className="text-brand-blue" size={24} />,
     title: 'Client-First Approach',
     description: 'We prioritize our clients\' needs and goals, working collaboratively to deliver solutions that exceed expectations.'
   },
   {
-    icon: <FaLightbulb className="text-primary-500" size={24} />,
+    icon: <FaLightbulb className="text-brand-blue" size={24} />,
     title: 'Innovation',
     description: 'We embrace new technologies and creative thinking to develop cutting-edge solutions for our clients.'
   },
   {
-    icon: <FaHandshake className="text-primary-500" size={24} />,
+    icon: <FaHandshake className="text-brand-blue" size={24} />,
     title: 'Integrity',
     description: 'We operate with honesty, transparency, and ethical practices in all our business relationships.'
   },
   {
-    icon: <FaRocket className="text-primary-500" size={24} />,
+    icon: <FaRocket className="text-brand-blue" size={24} />,
     title: 'Excellence',
     description: 'We strive for excellence in every project, delivering high-quality work that drives results.'
   }
@@ -98,7 +98,7 @@ export default function AboutContent() {
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="flex-1 text-center lg:text-left">
             <motion.h1 
-              className="text-4xl md:text-5xl font-bold mb-6"
+              className="text-4xl md:text-5xl font-bold mb-6 text-white"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -107,7 +107,7 @@ export default function AboutContent() {
             </motion.h1>
             
             <motion.p 
-              className="text-xl opacity-90 mb-8"
+              className="text-xl opacity-90 mb-8 text-gray-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -123,7 +123,7 @@ export default function AboutContent() {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-primary-600 rounded-lg opacity-20 blur-lg transform translate-x-4 translate-y-4"></div>
+              <div className="absolute inset-0 bg-brand-blue rounded-lg opacity-20 blur-lg transform translate-x-4 translate-y-4"></div>
               <div className="relative bg-white p-2 rounded-lg shadow-xl">
                 <div className="aspect-[4/3] bg-gray-100 rounded overflow-hidden">
                   {/* Replace with actual image when available */}
@@ -181,7 +181,7 @@ export default function AboutContent() {
             >
               <Card variant="elevated" padding="lg" className="h-full">
                 <div className="flex flex-col h-full">
-                  <div className="mb-4 p-3 bg-primary-50 rounded-full w-fit">
+                  <div className="mb-4 p-3 bg-brand-blue/10 rounded-full w-fit">
                     {value.icon}
                   </div>
                   <h3 className="text-xl font-bold mb-2">{value.title}</h3>
@@ -223,7 +223,7 @@ export default function AboutContent() {
                   </div>
                   <div className="md:w-2/3">
                     <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                    <p className="text-primary-600 font-medium mb-3">{member.position}</p>
+                    <p className="text-brand-blue font-medium mb-3">{member.position}</p>
                     <p className="text-gray-600">{member.bio}</p>
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export default function AboutContent() {
         
         <div className="relative max-w-4xl mx-auto">
           {/* Timeline line */}
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-primary-200 transform md:translate-x-0 translate-x-4"></div>
+          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-brand-blue/20 transform md:translate-x-0 translate-x-4"></div>
           
           <div className="space-y-12">
             {milestones.map((milestone, index) => (
@@ -256,11 +256,11 @@ export default function AboutContent() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className={`relative flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} items-center md:items-start gap-8`}
               >
-                <div className="absolute left-4 md:left-1/2 top-0 w-4 h-4 bg-primary-600 rounded-full transform md:translate-x-[-8px] translate-x-[-8px]"></div>
+                <div className="absolute left-4 md:left-1/2 top-0 w-4 h-4 bg-brand-blue rounded-full transform md:translate-x-[-8px] translate-x-[-8px]"></div>
                 
                 <div className={`md:w-1/2 ${index % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'} pl-12 md:pl-0`}>
                   <div className="bg-white p-6 rounded-lg shadow-md">
-                    <div className="text-2xl font-bold text-primary-600 mb-2">{milestone.year}</div>
+                    <div className="text-2xl font-bold text-brand-blue mb-2">{milestone.year}</div>
                     <h3 className="text-xl font-bold mb-2">{milestone.title}</h3>
                     <p className="text-gray-600">{milestone.description}</p>
                   </div>
@@ -274,14 +274,13 @@ export default function AboutContent() {
       </Section>
       
       {/* CTA Section */}
-      <Section background="primary" paddingY="lg">
+      <Section background="gradient" paddingY="lg">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Work With Us?</h2>
-          <p className="text-lg opacity-90 mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Ready to Work With Us?</h2>
+          <p className="text-lg opacity-90 mb-8 text-gray-300">
             Contact us today to discuss how we can help your business thrive in the digital world.
           </p>
           <Button 
-            variant="secondary" 
             size="lg"
             icon={<FaArrowRight />}
             iconPosition="right"
