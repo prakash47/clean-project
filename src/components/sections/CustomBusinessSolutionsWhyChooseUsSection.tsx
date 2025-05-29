@@ -11,76 +11,71 @@ export default function CustomBusinessSolutionsWhyChooseUsSection() {
     if (typeof window === 'undefined') return;
 
     // Ensure elements exist before applying animations
-    const spheres = gsap.utils.toArray('.feature-sphere') as HTMLElement[];
-    const connections = gsap.utils.toArray('.connection-line') as HTMLElement[];
-    const particles = gsap.utils.toArray('.background-particle') as HTMLElement[];
+    const cards = gsap.utils.toArray('.card') as HTMLElement[];
+    const lightFlares = gsap.utils.toArray('.light-flare') as HTMLElement[];
     const ctaButton = document.querySelector('.cta-button');
 
-    if (spheres.length > 0) {
-      spheres.forEach((sphere, index) => {
+    if (cards.length > 0) {
+      cards.forEach((card, index) => {
+        // Initial animation for cards
         gsap.fromTo(
-          sphere,
-          { opacity: 0, scale: 0, rotationX: 0, rotationY: 0 },
-          { opacity: 1, scale: 1, rotationX: 360, rotationY: 360, duration: 1, delay: 1 + index * 0.3, ease: 'power2.out' }
+          card,
+          { opacity: 0, y: 50 },
+          { opacity: 1, y: 0, duration: 0.8, delay: 1 + index * 0.2, ease: 'power2.out' }
         );
-        sphere.addEventListener('mouseenter', () => {
-          gsap.to(sphere, {
-            rotationX: 0,
-            rotationY: 0,
-            scale: 1.2,
-            filter: 'drop-shadow(0 0 15px rgba(0, 160, 227, 0.5))',
-            duration: 0.5,
-          });
-          gsap.to(sphere.querySelector('.description'), {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-          });
+
+        // Parallax effect on scroll
+        gsap.to(card, {
+          y: () => index % 2 === 0 ? -20 : 20,
+          scrollTrigger: {
+            trigger: card,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
         });
-        sphere.addEventListener('mouseleave', () => {
-          gsap.to(sphere, {
-            rotationX: 360,
-            rotationY: 360,
-            scale: 1,
-            filter: 'none',
-            duration: 0.5,
-            repeat: -1,
+
+        // 3D Tilt effect on hover
+        card.addEventListener('mousemove', (e: MouseEvent) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const tiltX = (centerY - y) / 30;
+          const tiltY = (x - centerX) / 30;
+
+          gsap.to(card, {
+            rotationX: tiltX,
+            rotationY: tiltY,
+            scale: 1.05,
+            duration: 0.3,
             ease: 'power2.out',
           });
-          gsap.to(sphere.querySelector('.description'), {
-            opacity: 0,
-            y: 20,
-            duration: 0.5,
-          });
         });
-        sphere.addEventListener('click', () => {
-          gsap.to(sphere, {
-            filter: 'drop-shadow(0 0 20px rgba(0, 160, 227, 0.7))',
-            scale: 1.3,
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, {
+            rotationX: 0,
+            rotationY: 0,
+            scale: 1,
             duration: 0.5,
-            overwrite: 'auto',
+            ease: 'power2.out',
           });
         });
       });
     }
-    if (connections.length > 0) {
-      connections.forEach((line, index) => {
+
+    if (lightFlares.length > 0) {
+      lightFlares.forEach((flare, index) => {
         gsap.fromTo(
-          line,
-          { strokeDasharray: 100, strokeDashoffset: 100 },
-          { strokeDashoffset: 0, duration: 1, delay: 1.5 + index * 0.2, ease: 'power2.out' }
+          flare,
+          { x: -500 },
+          { x: 1500, duration: 5 + index * 0.5, repeat: -1, ease: 'linear', delay: index * 0.3 }
         );
       });
     }
-    if (particles.length > 0) {
-      particles.forEach((particle, index) => {
-        gsap.fromTo(
-          particle,
-          { opacity: 0.3, x: 0, y: 0 },
-          { opacity: 0, x: gsap.utils.random(-30, 30), y: gsap.utils.random(-30, 30), duration: 3, repeat: -1, delay: index * 0.5, ease: 'power2.out' }
-        );
-      });
-    }
+
     if (ctaButton) {
       gsap.fromTo(
         ctaButton,
@@ -96,6 +91,14 @@ export default function CustomBusinessSolutionsWhyChooseUsSection() {
         delay: 3,
       });
     }
+
+    return () => {
+      // Cleanup event listeners
+      cards.forEach((card) => {
+        card.removeEventListener('mousemove', () => {});
+        card.removeEventListener('mouseleave', () => {});
+      });
+    };
   }, []);
 
   const reasons = [
@@ -118,6 +121,18 @@ export default function CustomBusinessSolutionsWhyChooseUsSection() {
     {
       title: 'End-to-End Development and Support',
       description: 'From ideation to deployment, our end-to-end development and support services ensure your project succeeds, with ongoing maintenance and performance optimization.',
+    },
+    {
+      title: 'Cloud & DevOps Expertise',
+      description: 'Our cloud & DevOps expertise ensures scalable solutions with AWS, Azure, and CI/CD pipelines, improving deployment speed by 40%.',
+    },
+    {
+      title: 'Branding & Creative Excellence',
+      description: 'We deliver branding & creative excellence, crafting cohesive brand identities and engaging motion graphics to elevate your market presence.',
+    },
+    {
+      title: 'Agile Project Management',
+      description: 'Our agile project management approach ensures flexibility, transparency, and rapid delivery, aligning projects with your business goals.',
     },
   ];
 
@@ -153,9 +168,16 @@ export default function CustomBusinessSolutionsWhyChooseUsSection() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      {/* Subtle Background Gradient with Parallax Effect */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.1)_0%,_rgba(0,0,0,0)_70%)] opacity-30 pointer-events-none" style={{ transform: 'translateZ(-10px)' }} />
-      <div className="w-full px-[10%] relative z-10">
+      {/* Background with Animated Light Flares */}
+      <div className="absolute inset-0 pointer-events-none">
+        <svg width="100%" height="100%">
+          <line x1="-500" y1="20%" x2="1500" y2="20%" stroke="#00a0e3" strokeWidth="2" opacity="0.2" className="light-flare" />
+          <line x1="-500" y1="40%" x2="1500" y2="40%" stroke="#393185" strokeWidth="2" opacity="0.2" className="light-flare" />
+          <line x1="-500" y1="60%" x2="1500" y2="60%" stroke="#00a0e3" strokeWidth="2" opacity="0.2" className="light-flare" />
+          <line x1="-500" y1="80%" x2="1500" y2="80%" stroke="#393185" strokeWidth="2" opacity="0.2" className="light-flare" />
+        </svg>
+      </div>
+      <div className="relative z-10 max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <motion.h2
             className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
@@ -185,69 +207,26 @@ export default function CustomBusinessSolutionsWhyChooseUsSection() {
             As a leading custom software development company, we specialize in delivering enterprise software solutions that drive digital transformation, enhance user experiences, and boost business growth. Partner with us for innovative UI/UX design, comprehensive digital marketing, and industry-specific solutions tailored to your needs.
           </motion.p>
         </div>
-        {/* Floating Feature Spheres Layout */}
-        <div className="relative flex justify-center items-center h-[600px]">
-          {/* Background Particles */}
-          <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%">
-            <circle cx="10%" cy="20%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-            <circle cx="90%" cy="30%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-            <circle cx="20%" cy="80%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-            <circle cx="80%" cy="85%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-          </svg>
-          {/* Spheres and Connections */}
-          <svg width="800" height="600" viewBox="0 0 800 600" className="absolute">
-            {/* Connecting Lines */}
-            {reasons.map((_, index) => {
-              const angle = (index * 72 - 90) * (Math.PI / 180); // 72 degrees apart for 5 spheres
-              const radius = 200;
-              const x = 400 + radius * Math.cos(angle);
-              const y = 300 + radius * Math.sin(angle);
-              return (
-                <path
-                  key={index}
-                  d={`M400,300 Q${400 + (radius / 2) * Math.cos(angle + Math.PI / 4)},${300 + (radius / 2) * Math.sin(angle + Math.PI / 4)} ${x},${y}`}
-                  fill="none"
-                  stroke="#00a0e3"
-                  strokeWidth="2"
-                  opacity="0.7"
-                  className="connection-line"
-                />
-              );
-            })}
-          </svg>
-          {reasons.map((reason, index) => {
-            const angle = (index * 72 - 90) * (Math.PI / 180); // 72 degrees apart for 5 spheres
-            const radius = 200;
-            const x = 400 + radius * Math.cos(angle);
-            const y = 300 + radius * Math.sin(angle);
-            return (
-              <motion.div
-                key={index}
-                className="feature-sphere absolute flex flex-col items-center text-center"
-                style={{ transform: `translate(${x - 80}px, ${y - 80}px)` }}
-                role="button"
-                tabIndex={0}
-                aria-label={`Learn more about ${reason.title}`}
-                onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.click()}
-              >
-                <svg width="160" height="160" viewBox="0 0 160 160">
-                  <defs>
-                    <radialGradient id={`sphereGradient-${index}`} cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" style={{ stopColor: '#00a0e3', stopOpacity: 1 }} />
-                      <stop offset="100%" style={{ stopColor: '#393185', stopOpacity: 1 }} />
-                    </radialGradient>
-                  </defs>
-                  <circle cx="80" cy="80" r="80" fill={`url(#sphereGradient-${index})`} />
-                  <circle cx="80" cy="80" r="60" fill="#393185" />
-                  <circle cx="80" cy="80" r="40" fill="#00a0e3" />
-                </svg>
-                <div className="mt-4 w-48">
-                  <h3 className="text-lg font-semibold text-white">{reason.title}</h3>
-                  <p className="description text-sm text-gray-400 opacity-0 translate-y-5">{reason.description}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+        {/* Interactive Glass Card Grid with 3D Tilt and Parallax Effects */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {reasons.map((reason, index) => (
+            <motion.div
+              key={index}
+              className="card backdrop-blur-sm bg-white/10 bg-gradient-to-br from-dark-900 to-dark-800 rounded-lg shadow-lg border border-[rgba(0,160,227,0.3)] hover:border-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] focus:ring-2 focus:ring-brand-blue transition-all duration-300 perspective-1000"
+              role="button"
+              tabIndex={0}
+              aria-label={`Learn more about ${reason.title}`}
+              style={{
+                minHeight: '300px', // Use min-height to accommodate content
+                width: '100%',
+              }}
+            >
+              <div className="relative z-10 p-6 flex flex-col justify-center items-center min-h-80 text-center space-y-2">
+                <h3 className="text-lg font-semibold text-white drop-shadow-sm">{reason.title}</h3>
+                <p className="text-sm text-gray-300 drop-shadow-sm">{reason.description}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
         <motion.div
           className="flex justify-center mt-12"
@@ -260,8 +239,8 @@ export default function CustomBusinessSolutionsWhyChooseUsSection() {
             size="lg"
             icon={<FaArrowRight />}
             iconPosition="right"
-            href="/contact"
-            className="cta-button"
+            href="/contact-us" // Updated href to /contact-us
+            className="cta-button btn btn-primary hover:bg-brand-blue transition-all duration-300"
             ariaLabel="Partner with us today for custom business solutions"
           >
             Partner with Us Today

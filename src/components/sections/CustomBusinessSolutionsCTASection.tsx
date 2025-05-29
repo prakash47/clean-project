@@ -1,187 +1,142 @@
 'use client';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
+import { gsap } from 'gsap';
 
 export default function CustomBusinessSolutionsCTASection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    projectDetails: '',
-  });
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    projectDetails: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
+  useEffect(() => {
+    // Ensure GSAP animations are only applied on the client side
+    if (typeof window === 'undefined') return;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: '' }));
-  };
+    // Ensure elements exist before applying animations
+    const particles = gsap.utils.toArray('.particle') as HTMLElement[];
+    const lightFlares = gsap.utils.toArray('.light-flare') as HTMLElement[];
+    const ctaButton = document.querySelector('.cta-button');
 
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = { name: '', email: '', projectDetails: '' };
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-      valid = false;
+    // Animate particles
+    if (particles.length > 0) {
+      particles.forEach((particle, index) => {
+        gsap.fromTo(
+          particle,
+          { x: -50, opacity: 0 },
+          {
+            x: window.innerWidth + 50,
+            opacity: () => Math.random() * 0.5 + 0.2,
+            duration: 5 + index * 0.5,
+            repeat: -1,
+            ease: 'linear',
+            delay: index * 0.3,
+          }
+        );
+      });
     }
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Valid email is required';
-      valid = false;
-    }
-    if (!formData.projectDetails.trim()) {
-      newErrors.projectDetails = 'Project details are required';
-      valid = false;
-    }
-    setErrors(newErrors);
-    return valid;
-  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', projectDetails: '' });
-      setTimeout(() => setSubmitted(false), 3000);
-      console.log('Form submitted:', formData);
+    // Animate light flares
+    if (lightFlares.length > 0) {
+      lightFlares.forEach((flare, index) => {
+        gsap.fromTo(
+          flare,
+          { x: -500 },
+          { x: 1500, duration: 5 + index * 0.5, repeat: -1, ease: 'linear', delay: index * 0.3 }
+        );
+      });
     }
+
+    // Animate CTA button
+    if (ctaButton) {
+      gsap.fromTo(
+        ctaButton,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, delay: 2.5, ease: 'power2.out' }
+      );
+      gsap.to(ctaButton, {
+        scale: 1.05,
+        duration: 1,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: 3,
+      });
+    }
+  }, []);
+
+  // Structured data for the CTA section
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'CallToAction',
+    name: 'Contact Us for Custom Software Solutions',
+    description: 'Partner with us to drive digital transformation, enhance user experiences, and boost business growth with tailored enterprise software solutions.',
+    url: 'https://intentioninfoservice.com/contact-us',
   };
 
   return (
-    <section className="bg-gradient-to-b from-dark-950 to-dark-800 py-16 md:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.05)_0%,_rgba(255,255,255,0)_70%)] opacity-30 pointer-events-none" />
-      <div className="w-full px-[10%] relative z-10">
-        <div className="text-center mb-12">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+    <section className="relative bg-gradient-to-r from-brand-indigo to-brand-blue py-16 md:py-24 overflow-hidden">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      {/* Background with Animated Light Flares */}
+      <div className="absolute inset-0 pointer-events-none">
+        <svg width="100%" height="100%">
+          <line x1="-500" y1="20%" x2="1500" y2="20%" stroke="#00a0e3" strokeWidth="2" opacity="0.2" className="light-flare" />
+          <line x1="-500" y1="40%" x2="1500" y2="40%" stroke="#393185" strokeWidth="2" opacity="0.2" className="light-flare" />
+          <line x1="-500" y1="60%" x2="1500" y2="60%" stroke="#00a0e3" strokeWidth="2" opacity="0.2" className="light-flare" />
+          <line x1="-500" y1="80%" x2="1500" y2="80%" stroke="#393185" strokeWidth="2" opacity="0.2" className="light-flare" />
+        </svg>
+      </div>
+      {/* Animated Particles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(10)].map((_, index) => (
+          <div
+            key={index}
+            className="particle absolute w-2 h-2 bg-white rounded-full"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              opacity: 0,
+            }}
+          />
+        ))}
+      </div>
+      <div className="relative z-10 max-w-5xl mx-auto text-center">
+        <motion.h2
+          className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          Ready to Transform Your Business with Custom Software Solutions?
+        </motion.h2>
+        <motion.p
+          className="text-base text-gray-300 max-w-3xl mx-auto mb-8"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          Partner with us to drive digital transformation, enhance user experiences, and boost business growth with tailored enterprise software solutions.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <Button
+            size="lg"
+            icon={<FaArrowRight />}
+            iconPosition="right"
+            href="/contact-us"
+            className="cta-button btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
+            ariaLabel="Let’s get started with custom business solutions"
           >
-            Ready to Transform Your Business with Custom Solutions?
-          </motion.h2>
-          <motion.p
-            className="text-xl text-brand-blue font-semibold mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Let’s build software that drives efficiency and growth.
-          </motion.p>
-          <motion.p
-            className="text-lg text-gray-300 max-w-3xl mx-auto mb-8"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            Contact us today for a free quote and discover how our custom business solutions can help you overcome challenges and achieve your goals. From AI-powered tools to secure cloud platforms, we’re here to help.
-          </motion.p>
-        </div>
-        <div className="max-w-2xl mx-auto">
-          {submitted ? (
-            <motion.div
-              className="text-center text-brand-blue text-lg"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              Thank you! We’ll get back to you soon.
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="relative">
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                />
-                <label
-                  htmlFor="name"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
-                >
-                  Name
-                </label>
-                {errors.name && <p className="text-brand-blue text-sm mt-1">{errors.name}</p>}
-              </div>
-              <div className="relative">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
-                >
-                  Email
-                </label>
-                {errors.email && <p className="text-brand-blue text-sm mt-1">{errors.email}</p>}
-              </div>
-              <div className="relative">
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                />
-                <label
-                  htmlFor="phone"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
-                >
-                  Phone (Optional)
-                </label>
-              </div>
-              <div className="relative">
-                <textarea
-                  id="projectDetails"
-                  name="projectDetails"
-                  value={formData.projectDetails}
-                  onChange={handleChange}
-                  rows={5}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                ></textarea>
-                <label
-                  htmlFor="projectDetails"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-brand-blue"
-                >
-                  Project Details
-                </label>
-                {errors.projectDetails && <p className="text-brand-blue text-sm mt-1">{errors.projectDetails}</p>}
-              </div>
-              <div>
-                <Button
-                  type="submit"
-                  size="lg"
-                  icon={<FaArrowRight />}
-                  iconPosition="right"
-                >
-                  Get a Free Quote Now
-                </Button>
-              </div>
-            </form>
-          )}
-        </div>
+            Let’s Get Started
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
