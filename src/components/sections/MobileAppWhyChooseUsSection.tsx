@@ -235,22 +235,20 @@ export default function MobileAppWhyChooseUsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.6 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          animate={{
+            scale: [1, 1.05, 1],
+            transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+          }}
         >
           <Button
             size="lg"
-            variant="primary"
-            className="text-white font-semibold"
+            className="btn btn-primary text-white font-semibold"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="/contact-us"
             ariaLabel="Contact us to start your mobile app development project"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            animate={{
-              scale: [1, 1.05, 1],
-              
-              transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-            }}
           >
             Contact Us to Start Your Project
           </Button>

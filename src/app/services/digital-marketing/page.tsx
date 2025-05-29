@@ -4,6 +4,7 @@ import DigitalMarketingHeroSection from '@/components/sections/DigitalMarketingH
 import DigitalMarketingWhatWeOfferSection from '@/components/sections/DigitalMarketingWhatWeOfferSection';
 import DigitalMarketingProcessSection from '@/components/sections/DigitalMarketingProcessSection';
 import DigitalMarketingWhyChooseUsSection from '@/components/sections/DigitalMarketingWhyChooseUsSection';
+import DigitalMarketingFAQSection from '@/components/sections/DigitalMarketingFAQSection';
 import DigitalMarketingCTASection from '@/components/sections/DigitalMarketingCTASection';
 
 export const metadata: Metadata = {
@@ -53,6 +54,8 @@ export default function DigitalMarketing() {
         <DigitalMarketingWhatWeOfferSection />
         <DigitalMarketingProcessSection />
         <DigitalMarketingWhyChooseUsSection />
+        {/* <DigitalMarketingStatsSection/> */}
+        <DigitalMarketingFAQSection />
         <DigitalMarketingCTASection />
       </MainLayout>
     </>

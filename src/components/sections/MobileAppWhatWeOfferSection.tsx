@@ -365,24 +365,25 @@ export default function MobileAppWhatWeOfferSection() {
         <motion.div
           className="flex justify-center mt-12"
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: [1, 1.05, 1], // Merged the scale animation into the single animate prop
+          }}
+          transition={{
+            duration: 0.8,
+            delay: 0.6,
+            scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }, // Specified transition for scale animation
+          }}
+          whileHover={{ scale: 1.05 }}
         >
           <Button
             size="lg"
-            variant="primary"
-            className="text-white font-semibold"
+            className="btn btn-primary text-white font-semibold"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="/contact-us"
             ariaLabel="Get your free quote today for mobile app development services"
-            whileHover={{ scale: 1.05 }}
-            
-            animate={{
-                  
-                  scale: [1, 1.05, 1],
-                  transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-                }}
           >
             Get Your Free Quote Today
           </Button>

@@ -1,147 +1,145 @@
 'use client';
 import { motion } from 'framer-motion';
+import { FaSearch, FaBullhorn, FaChartLine, FaPen, FaChartBar, FaUsers, FaChartPie } from 'react-icons/fa';
 
 export default function DigitalMarketingProcessSection() {
   const steps = [
     {
       title: 'Discovery & Strategy',
-      description: 'We analyze your business goals, audience, and competitors to create a tailored digital marketing strategy.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <circle cx="20" cy="20" r="15" fill="#14B8A6" />
-          <path d="M15,25 L25,15 M15,15 L25,25" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      description: 'We analyze your business goals, audience, and competitors to craft a tailored digital marketing process for 2025 success.',
+      icon: <FaSearch className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Campaign Setup',
-      description: 'We set up campaigns across SEO, PPC, social media, and other channels, ensuring alignment with your goals.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#14B8A6" />
-          <path d="M10,20 L15,15 L20,20 L25,15 L30,20" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      description: 'Set up SEO strategies, PPC campaigns, social media campaigns, and more, aligning with your online growth objectives.',
+      icon: <FaChartLine className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Content Creation',
-      description: 'We produce high-quality content, from blog posts to videos, to engage your audience and build your brand.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#14B8A6" />
-          <path d="M10,30 L15,25 L20,30 L25,25 L30,30" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      description: 'Produce high-quality content creation, including blog posts, videos, and social media content, to engage your audience.',
+      icon: <FaPen className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
+    },
+    {
+      title: 'Affiliate & Influencer Outreach',
+      description: 'Leverage affiliate marketing and influencer campaigns to expand your brand reach and drive traffic.',
+      icon: <FaUsers className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Execution & Optimization',
-      description: 'We execute campaigns, monitor performance, and optimize in real-time to maximize results.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <circle cx="20" cy="20" r="15" fill="#14B8A6" />
-          <path d="M20,10 L20,20 L30,20" stroke="#0F172A" strokeWidth="2" />
-          <path d="M20,10 A10,10 0 0,1 30,20" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      description: 'Execute campaigns with real-time optimization using data-driven insights to maximize conversions.',
+      icon: <FaChartBar className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Reporting & Insights',
-      description: 'We provide detailed reports and insights to track progress, measure ROI, and refine strategies.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#14B8A6" />
-          <path d="M10,30 L15,25 L20,30 L25,25 L30,30" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      description: 'Deliver detailed analytics and reporting to track progress, measure ROI, and refine strategies for 2025.',
+      icon: <FaChartPie className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
   ];
 
+  // Structured data for the section
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    "serviceType": "Digital Marketing",
+    "provider": {
+      "@type": "Organization",
+      "name": "Intention Infoservice",
+      "url": "https://intentioninfoservice.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "123 Digital Avenue",
+        "addressLocality": "Tech City",
+        "postalCode": "TC 12345"
+      }
+    },
+    "description": "Our 2025 digital marketing process combines SEO strategies, PPC campaigns, content creation, affiliate marketing, influencer campaigns, and data-driven insights to drive online growth, engagement, and conversions.",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Digital Marketing Process",
+      "itemListElement": steps.map((step, index) => ({
+        "@type": "Service",
+        "position": index + 1,
+        "name": step.title,
+        "description": step.description,
+      })),
+    },
+  };
+
   return (
-    <section className="bg-dark-900 py-16 md:py-24 relative overflow-hidden">
+    <section className="relative bg-dark-900 py-16 md:py-24 overflow-hidden">
       <div className="w-full px-[10%] relative z-10">
-        {/* Schema Markup for Service */}
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "Service",
-              "serviceType": "Digital Marketing",
-              "provider": {
-                "@type": "Organization",
-                "name": "Intention Infoservice",
-                "url": "https://intentioninfoservice.com",
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "123 Digital Avenue",
-                  "addressLocality": "Tech City",
-                  "postalCode": "TC 12345"
-                }
-              },
-              "description": "Intention Infoservice offers comprehensive digital marketing services, including SEO, PPC, social media marketing, content marketing, email marketing, and more to drive traffic and conversions."
-            }
-          `}
-        </script>
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <div className="text-center mb-12">
           <motion.h2
-            className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight"
+            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            Our Digital Marketing Process
+            Our 2025 Digital Marketing Process
           </motion.h2>
           <motion.p
-            className="text-xl text-teal-500 font-semibold mb-6"
+            className="text-lg text-brand-blue font-semibold mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            A strategic approach to drive traffic, engagement, and conversions.
+            A Strategic Approach to Drive Traffic, Engagement, and Conversions
           </motion.p>
           <motion.p
-            className="text-lg text-gray-400 max-w-3xl mx-auto"
+            className="text-base text-gray-400 max-w-3xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Our digital marketing process ensures every campaign is a success. We combine strategy, creativity, and data-driven insights to deliver results that drive traffic, engagement, and revenue.
+            Our digital marketing process ensures campaign success in 2025 by combining SEO strategies, content creation, data-driven insights, and more to deliver results that drive online growth and conversions.
           </motion.p>
         </div>
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Left: Process Steps */}
-          <div className="md:w-1/2">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.title}
-                className="flex items-start gap-4 mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-              >
-                <div className="w-10 h-10 flex items-center justify-center">{step.icon}</div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{`${index + 1}. ${step.title}`}</h3>
-                  <p className="text-base text-gray-400">{step.description}</p>
+        {/* Vertical Process Flow with Animated Cards */}
+        <div className="relative flex flex-col items-center">
+          {/* Connecting Dashed Line */}
+          <svg className="absolute left-8 top-0 h-full w-16" aria-hidden="true">
+            <line
+              x1="40"
+              y1="0"
+              x2="40"
+              y2="100%"
+              stroke="#00a0e3"
+              strokeWidth="2"
+              strokeDasharray="8,8"
+            />
+          </svg>
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              className="relative backdrop-blur-sm bg-white/10 rounded-lg p-6 border border-[rgba(0,160,227,0.3)] hover:border-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300 flex items-start w-full max-w-3xl mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === 'Enter' && console.log(`Selected ${step.title}`)}
+            >
+              <div className="absolute left-0 transform -translate-x-1/2 bg-dark-900 rounded-full w-16 h-16 flex items-center justify-center border border-brand-blue">
+                <span className="text-xl font-semibold text-white">{index + 1}</span>
+              </div>
+              <div className="flex items-center space-x-4 ml-12">
+                <div className="w-12 h-12 flex items-center justify-center">{step.icon}</div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
+                  <p className="text-base text-gray-300">{step.description}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-          {/* Right: SVG Timeline */}
-          <div className="md:w-1/2 flex justify-center">
-            <svg width="300" height="400" viewBox="0 0 300 400" className="w-full max-w-[300px]">
-              <line x1="150" y1="20" x2="150" y2="380" stroke="#14B8A6" strokeWidth="2" strokeDasharray="5,5" />
-              {steps.map((_, index) => (
-                <g key={index} transform={`translate(150, ${50 + index * 70})`}>
-                  <circle cx="0" cy="0" r="10" fill="#14B8A6" />
-                  <text x="20" y="5" fill="#fff" fontSize="12">{index + 1}</text>
-                </g>
-              ))}
-            </svg>
-          </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

@@ -105,8 +105,7 @@ export default function ServicesContent() {
                   <h3 className="text-xl font-bold mb-2">{service.title}</h3>
                   <p className="text-gray-600 mb-6 flex-grow">{service.description}</p>
                   <Button
-                    variant="text"
-                    className="mt-auto self-start"
+                    className="btn btn-text mt-auto self-start"
                     icon={<span className="ml-1">→</span>}
                     iconPosition="right"
                     href={service.link}
@@ -119,7 +118,7 @@ export default function ServicesContent() {
           ))}
         </Grid>
         <div className="text-center mt-12">
-          <Button size="lg" variant="primary">Get a Quote</Button>
+          <Button size="lg" className="btn btn-primary">Get a Quote</Button>
         </div>
       </Section>
       <Section background="primary" paddingY="lg">
@@ -149,8 +148,8 @@ export default function ServicesContent() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <Button
-              variant="secondary"
               size="lg"
+            className="btn btn-secondary"
               icon={<FaArrowRight />}
               iconPosition="right"
               href="/contact"

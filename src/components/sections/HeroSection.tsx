@@ -259,30 +259,31 @@ export default function HeroSection() {
               Transform your online presence with our expert services tailored for success in 2025.
             </motion.p>
             <motion.div
-                      className="flex justify-start mt-12"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.6 }}
-                    >
-                      <Button
-                        size="lg"
-                        variant="primary"
-                        className="text-white font-semibold"
-                        icon={<FaArrowRight />}
-                        iconPosition="right"
-                        href="/contact-us"
-                        ariaLabel="Get your free quote today for mobile app development services"
-                        whileHover={{ scale: 1.05 }}
-                        
-                        animate={{
-                              
-                              scale: [1, 1.05, 1],
-                              transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-                            }}
-                      >
-                        Get Your Free Quote Today
-                      </Button>
-                    </motion.div>
+              className="flex justify-start mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: [1, 1.05, 1], // Pulsing scale effect
+              }}
+              transition={{
+                opacity: { duration: 0.8, delay: 0.6 },
+                y: { duration: 0.8, delay: 0.6 },
+                scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+              }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <Button
+                size="lg"
+                className="btn btn-primary text-white font-semibold"
+                icon={<FaArrowRight />}
+                iconPosition="right"
+                href="/contact-us"
+                ariaLabel="Get your free quote today for mobile app development services"
+              >
+                Get Your Free Quote Today
+              </Button>
+            </motion.div>
           </div>
           {/* Right: Animated SVG Illustration */}
           <div className="md:w-1/2 flex justify-center">
@@ -302,7 +303,7 @@ export default function HeroSection() {
                 height="300"
                 rx="20"
                 fill="#1E293B"
-                stroke="#14B8A6"
+                stroke="#00a0e3"
                 strokeWidth="2"
                 className="dashboard-screen"
                 role="presentation"
@@ -315,7 +316,7 @@ export default function HeroSection() {
                   y="0"
                   width="170"
                   height="30"
-                  fill="#14B8A6"
+                  fill="#00a0e3"
                   className="webpage-header"
                   role="presentation"
                 />
@@ -325,7 +326,7 @@ export default function HeroSection() {
                   width="170"
                   height="180"
                   fill="#0F172A"
-                  stroke="#14B8A6"
+                  stroke="#00a0e3"
                   strokeWidth="1"
                   className="webpage-content"
                   role="presentation"
@@ -365,7 +366,7 @@ export default function HeroSection() {
                   height="230"
                   rx="15"
                   fill="#0F172A"
-                  stroke="#14B8A6"
+                  stroke="#00a0e3"
                   strokeWidth="1"
                   className="app-interface"
                   role="presentation"
@@ -385,7 +386,7 @@ export default function HeroSection() {
                   width="60"
                   height="30"
                   rx="5"
-                  fill="#14B8A6"
+                  fill="#00a0e3"
                   className="app-button"
                   role="presentation"
                 />
@@ -395,7 +396,7 @@ export default function HeroSection() {
                   width="60"
                   height="30"
                   rx="5"
-                  fill="#14B8A6"
+                  fill="#00a0e3"
                   className="app-button"
                   role="presentation"
                 />
@@ -403,7 +404,7 @@ export default function HeroSection() {
                   cx="300"
                   cy="190"
                   r="10"
-                  fill="#00CED1"
+                  fill="#393185"
                   className="app-button"
                   role="presentation"
                 />
@@ -422,14 +423,14 @@ export default function HeroSection() {
                   height="40"
                   rx="5"
                   fill="#0F172A"
-                  stroke="#14B8A6"
+                  stroke="#00a0e3"
                   strokeWidth="1"
                   role="presentation"
                 />
                 <text
                   x="10"
                   y="25"
-                  fill="#14B8A6"
+                  fill="#00a0e3"
                   fontSize="12"
                   fontFamily="monospace"
                   role="presentation"
@@ -451,7 +452,7 @@ export default function HeroSection() {
                   height="230"
                   rx="10"
                   fill="#0F172A"
-                  stroke="#14B8A6"
+                  stroke="#00a0e3"
                   strokeWidth="1"
                   role="presentation"
                 />
@@ -467,7 +468,7 @@ export default function HeroSection() {
                     y="0"
                     width="50"
                     height="50"
-                    fill="#14B8A6"
+                    fill="#00a0e3"
                     transform="rotate(45)"
                     role="presentation"
                   />
@@ -483,7 +484,7 @@ export default function HeroSection() {
                   <text
                     x="15"
                     y="30"
-                    fill="#14B8A6"
+                    fill="#00a0e3"
                     fontSize="10"
                     fontFamily="monospace"
                     role="presentation"
@@ -495,14 +496,14 @@ export default function HeroSection() {
                 <polyline
                   points="10,150 30,130 50,150 70,110 90,130"
                   fill="none"
-                  stroke="#10B981"
+                  stroke="#393185"
                   strokeWidth="2"
                   strokeDasharray="100"
                   className="graph-line"
                   role="presentation"
                 />
-                <circle cx="70" cy="110" r="5" fill="#10B981" className="graph-dot" role="presentation" />
-                <circle cx="90" cy="130" r="5" fill="#10B981" className="graph-dot" role="presentation" />
+                <circle cx="70" cy="110" r="5" fill="#393185" className="graph-dot" role="presentation" />
+                <circle cx="90" cy="130" r="5" fill="#393185" className="graph-dot" role="presentation" />
                 {/* UI/UX Design Icon */}
                 <g
                   transform="translate(10, 10)"
@@ -513,11 +514,11 @@ export default function HeroSection() {
                   <path
                     d="M10,30 Q20,10 30,30 T50,30"
                     fill="none"
-                    stroke="#14B8A6"
+                    stroke="#00a0e3"
                     strokeWidth="2"
                     role="presentation"
                   />
-                  <circle cx="40" cy="30" r="5" fill="#14B8A6" role="presentation" />
+                  <circle cx="40" cy="30" r="5" fill="#00a0e3" role="presentation" />
                 </g>
               </g>
               {/* Connection Lines and Nodes */}
@@ -526,49 +527,49 @@ export default function HeroSection() {
                 y1="80"
                 x2="50"
                 y2="50"
-                stroke="#14B8A6"
+                stroke="#00a0e3"
                 strokeWidth="1"
                 strokeDasharray="100"
                 className="connection-line"
                 role="presentation"
               />
-              <circle cx="50" cy="50" r="5" fill="#14B8A6" className="connection-node" role="presentation" />
+              <circle cx="50" cy="50" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
               <line
                 x1="420"
                 y1="80"
                 x2="450"
                 y2="50"
-                stroke="#14B8A6"
+                stroke="#00a0e3"
                 strokeWidth="1"
                 strokeDasharray="100"
                 className="connection-line"
                 role="presentation"
               />
-              <circle cx="450" cy="50" r="5" fill="#14B8A6" className="connection-node" role="presentation" />
+              <circle cx="450" cy="50" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
               <line
                 x1="80"
                 y1="320"
                 x2="50"
                 y2="350"
-                stroke="#14B8A6"
+                stroke="#00a0e3"
                 strokeWidth="1"
                 strokeDasharray="100"
                 className="connection-line"
                 role="presentation"
               />
-              <circle cx="50" cy="350" r="5" fill="#14B8A6" className="connection-node" role="presentation" />
+              <circle cx="50" cy="350" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
               <line
                 x1="420"
                 y1="320"
                 x2="450"
                 y2="350"
-                stroke="#14B8A6"
+                stroke="#00a0e3"
                 strokeWidth="1"
                 strokeDasharray="100"
                 className="connection-line"
                 role="presentation"
               />
-              <circle cx="450" cy="350" r="5" fill="#14B8A6" className="connection-node" role="presentation" />
+              <circle cx="450" cy="350" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
               {/* Supporting Icons (Other Services) */}
               <g
                 transform="translate(50, 50)"
@@ -576,7 +577,7 @@ export default function HeroSection() {
                 role="group"
                 aria-label="Supporting icon 1"
               >
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#14B8A6" role="presentation" />
+                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#00a0e3" role="presentation" />
               </g>
               <g
                 transform="translate(450, 50)"
@@ -584,7 +585,7 @@ export default function HeroSection() {
                 role="group"
                 aria-label="Supporting icon 2"
               >
-                <circle cx="5" cy="5" r="5" fill="#14B8A6" role="presentation" />
+                <circle cx="5" cy="5" r="5" fill="#00a0e3" role="presentation" />
               </g>
               <g
                 transform="translate(50, 350)"
@@ -592,7 +593,7 @@ export default function HeroSection() {
                 role="group"
                 aria-label="Supporting icon 3"
               >
-                <rect x="0" y="0" width="10" height="10" fill="#14B8A6" role="presentation" />
+                <rect x="0" y="0" width="10" height="10" fill="#00a0e3" role="presentation" />
               </g>
               <g
                 transform="translate(450, 350)"
@@ -600,7 +601,7 @@ export default function HeroSection() {
                 role="group"
                 aria-label="Supporting icon 4"
               >
-                <path d="M0,5 L5,0 L10,5 L5,10 Z" fill="#14B8A6" role="presentation" />
+                <path d="M0,5 L5,0 L10,5 L5,10 Z" fill="#00a0e3" role="presentation" />
               </g>
             </svg>
           </div>

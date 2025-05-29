@@ -23,7 +23,7 @@ export default function MobileAppProcessSection() {
     if (timelinePath) {
       gsap.fromTo(
         timelinePath,
-        { strokeDashoffset: 750 }, // Adjusted for larger path length
+        { strokeDashoffset: 750 },
         {
           strokeDashoffset: 0,
           duration: 2,
@@ -451,7 +451,7 @@ export default function MobileAppProcessSection() {
                   <g key={index}>
                     {/* Marker */}
                     <g transform={`translate(${x}, ${y})`} className="timeline-marker">
-                      <circle cx="0" cy="0" r="12" fill="url(#timelineGradient)" /> {/* Increased marker size */}
+                      <circle cx="0" cy="0" r="12" fill="url(#timelineGradient)" />
                       <text x="0" y="4" fill="#fff" fontSize="12" textAnchor="middle">{index + 1}</text>
                     </g>
                     {/* Label (No Background, Added Stroke for Readability) */}
@@ -459,7 +459,7 @@ export default function MobileAppProcessSection() {
                       x={labelX}
                       y={y}
                       fill="#fff"
-                      fontSize="14" // Increased font size for better visibility
+                      fontSize="14"
                       textAnchor={textAnchor}
                       className="timeline-label"
                       style={{ stroke: 'rgba(255, 255, 255, 0.2)', strokeWidth: '0.5px' }}
@@ -478,22 +478,20 @@ export default function MobileAppProcessSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.6 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          animate={{
+            scale: [1, 1.05, 1],
+            transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+          }}
         >
           <Button
             size="lg"
-            variant="primary"
-            className="text-white font-semibold"
+            className="btn btn-primary text-white font-semibold"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="/contact-us"
             ariaLabel="Start your mobile app development journey today"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            animate={{
-              scale: [1, 1.05, 1],
-              
-              transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-            }}
           >
             Start Your App Journey Today
           </Button>

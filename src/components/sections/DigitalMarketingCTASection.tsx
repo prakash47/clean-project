@@ -1,193 +1,170 @@
 'use client';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
+import { useRef } from 'react';
+
+// Note: Flowbite CSS and JS are included via CDN in the project setup
+// <link href="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.css" rel="stylesheet" />
+// <script src="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.js"></script>
 
 export default function DigitalMarketingCTASection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    projectDetails: '',
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
   });
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    projectDetails: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: '' }));
-  };
+  // Animate the background gradient shift based on scroll position with reduced opacity
+  const gradientOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.6, 0.3]);
 
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = { name: '', email: '', projectDetails: '' };
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-      valid = false;
-    }
-    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Valid email is required';
-      valid = false;
-    }
-    if (!formData.projectDetails.trim()) {
-      newErrors.projectDetails = 'Project details are required';
-      valid = false;
-    }
-    setErrors(newErrors);
-    return valid;
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) {
-      setSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', projectDetails: '' });
-      setTimeout(() => setSubmitted(false), 3000);
-      console.log('Form submitted:', formData);
-    }
+  // Structured data for the section (CallToAction schema)
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    "name": "Contact Intention Infoservice for Digital Marketing",
+    "description": "Contact us today for a free digital marketing consultation 2025 and get a free quote to drive traffic, engagement, and conversions with the best digital marketing agency 2025.",
+    "url": "https://intentioninfoservice.com/contact-us",
   };
 
   return (
-    <section className="bg-gradient-to-b from-dark-950 to-dark-800 py-16 md:py-24 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.05)_0%,_rgba(255,255,255,0)_70%)] opacity-30 pointer-events-none" />
-      <div className="w-full px-[10%] relative z-10">
-        <div className="text-center mb-12">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            Ready to Supercharge Your Online Growth?
-          </motion.h2>
-          <motion.p
-            className="text-xl text-teal-500 font-semibold mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Let’s craft a digital marketing strategy that drives results.
-          </motion.p>
-          <motion.p
-            className="text-lg text-gray-400 max-w-3xl mx-auto mb-8"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            Contact us today for a free quote and discover how our digital marketing services can boost your business. From SEO to social media, we’re here to help you succeed.
-          </motion.p>
-        </div>
-        <div className="max-w-2xl mx-auto">
-          {submitted ? (
-            <motion.div
-              className="text-center text-teal-500 text-lg"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
+    <section className="relative bg-dark-900 py-8 md:py-12 overflow-hidden">
+      {/* Animated Gradient Background with Darker Colors */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={{ opacity: gradientOpacity }}
+      >
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-[rgba(0,160,227,0.3)] to-[rgba(57,49,133,0.3)]"
+        />
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            background: 'linear-gradient(45deg, rgba(0, 160, 227, 0.2), rgba(57, 49, 133, 0.2))',
+            animation: 'gradientShift 30s linear infinite',
+          }}
+        />
+        <style>
+          {`
+            @keyframes gradientShift {
+              0% {
+                background-position: 0% 0%;
+              }
+              100% {
+                background-position: 200% 200%;
+              }
+            }
+          `}
+        </style>
+      </motion.div>
+      <div className="w-full px-2 sm:px-[10%] relative z-10">
+        {/* Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        {/* Orbiting Particles Around the CTA Button */}
+        <div className="relative flex justify-center items-center min-h-[300px]" ref={ref}>
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={index}
+              className="absolute w-3 h-3 bg-brand-blue rounded-full"
+              style={{
+                animation: `orbit-${index} ${5 + index * 0.5}s linear infinite`,
+                transformOrigin: 'center center',
+              }}
             >
-              Thank you! We’ll get back to you soon.
-            </motion.div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="relative">
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                />
-                <label
-                  htmlFor="name"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
-                >
-                  Name
-                </label>
-                {errors.name && <p className="text-teal-500 text-sm mt-1">{errors.name}</p>}
-              </div>
-              <div className="relative">
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                />
-                <label
-                  htmlFor="email"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
-                >
-                  Email
-                </label>
-                {errors.email && <p className="text-teal-500 text-sm mt-1">{errors.email}</p>}
-              </div>
-              <div className="relative">
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                />
-                <label
-                  htmlFor="phone"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
-                >
-                  Phone (Optional)
-                </label>
-              </div>
-              <div className="relative">
-                <textarea
-                  id="projectDetails"
-                  name="projectDetails"
-                  value={formData.projectDetails}
-                  onChange={handleChange}
-                  rows={5}
-                  className="w-full bg-dark-950 border border-gray-600 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 text-white placeholder-gray-500 py-3 px-4 rounded-md focus:outline-none peer"
-                  placeholder=" "
-                ></textarea>
-                <label
-                  htmlFor="projectDetails"
-                  className="absolute left-4 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:top-[-1.5rem] peer-focus:text-sm peer-focus:text-teal-500"
-                >
-                  Project Details
-                </label>
-                {errors.projectDetails && <p className="text-teal-500 text-sm mt-1">{errors.projectDetails}</p>}
-              </div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
+              <style>
+                {`
+                  @keyframes orbit-${index} {
+                    0% {
+                      transform: rotate(${index * 60}deg) translateX(150px) rotate(-${index * 60}deg);
+                      opacity: 0.5;
+                    }
+                    50% {
+                      opacity: 1;
+                    }
+                    100% {
+                      transform: rotate(${index * 60 + 360}deg) translateX(150px) rotate(-${index * 60 + 360}deg);
+                      opacity: 0.5;
+                    }
+                  }
+                `}
+              </style>
+            </div>
+          ))}
+          <div className="relative z-10 text-center">
+            <motion.h2
+              className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              Ready to Transform Your Online Presence in 2025?
+            </motion.h2>
+            <motion.p
+              className="text-lg text-brand-blue font-semibold mb-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              Let’s Build Your Digital Success Story Together
+            </motion.p>
+            <motion.p
+              className="text-base text-gray-300 max-w-3xl mx-auto mb-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              Contact us today for a free digital marketing consultation 2025 and start driving traffic, engagement, and conversions with Intention Infoservice.
+            </motion.p>
+            {/* Cosmic Portal CTA Button */}
+            <motion.div
+              className="relative inline-block"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <div
+                className="absolute inset-0 rounded-full bg-gradient-radial from-brand-blue/50 to-transparent animate-pulse"
+                style={{
+                  animation: 'pulse 2s ease-in-out infinite',
+                }}
+              />
+              <Button
+                size="lg"
+                className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_30px_rgba(0,160,227,0.7)] transition-all duration-300 relative z-10"
+                icon={<FaArrowRight />}
+                iconPosition="right"
+                href="/contact-us"
+                ariaLabel="Get a free digital marketing quote and consultation for 2025"
               >
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
-                  icon={<FaArrowRight />}
-                  iconPosition="right"
-                >
-                  Get a Free Quote Now
-                </Button>
-              </motion.div>
-            </form>
-          )}
+                Get a Free Quote Now
+              </Button>
+              <style>
+                {`
+                  @keyframes pulse {
+                    0% {
+                      transform: scale(1);
+                      opacity: 0.5;
+                    }
+                    50% {
+                      transform: scale(1.2);
+                      opacity: 0.8;
+                    }
+                    100% {
+                      transform: scale(1);
+                      opacity: 0.5;
+                    }
+                  }
+                `}
+              </style>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

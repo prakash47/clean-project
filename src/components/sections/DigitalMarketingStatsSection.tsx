@@ -1,15 +1,16 @@
 'use client';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { FaArrowRight, FaChartLine, FaUsers, FaLaptopCode, FaGlobe, FaShieldAlt, FaRocket, FaHashtag, FaCamera, FaLink, FaVideo } from 'react-icons/fa';
-import { useRef, useState, useEffect } from 'react';
+import { FaArrowRight, FaChartLine, FaUsers, FaSmile, FaRocket, FaGlobe, FaShieldAlt, FaHashtag, FaCamera, FaLink, FaVideo } from 'react-icons/fa';
+import { useRef } from 'react';
 
 // Note: Flowbite CSS and JS are included via CDN in the project setup
 // <link href="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.css" rel="stylesheet" />
 // <script src="https://cdn.jsdelivr.net/npm/flowbite@latest/dist/flowbite.min.js"></script>
 
-export default function DigitalMarketingWhyChooseUsSection() {
+export default function DigitalMarketingStatsSection() {
   const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -18,90 +19,69 @@ export default function DigitalMarketingWhyChooseUsSection() {
   // Animate the background glow effect based on scroll position
   const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.3, 0]);
 
-  // State to store particle positions and opacities (generated on client side)
-  const [particles, setParticles] = useState(
-    Array.from({ length: 10 }, () => ({
-      top: '0%',
-      left: '0%',
-      opacity: 0,
-    }))
-  );
-
-  // Generate random positions and opacities on the client side
-  useEffect(() => {
-    setParticles(
-      Array.from({ length: 10 }, () => ({
-        top: `${Math.random() * 100}%`,
-        left: `${Math.random() * 100}%`,
-        opacity: Math.random() * 0.5 + 0.2,
-      }))
-    );
-  }, []);
-
-  const reasons = [
+  const stats = [
     {
-      title: 'Proven Results',
-      description: 'Our digital marketing campaigns have driven measurable success for clients across industries in 2025.',
-      icon: <FaChartLine className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
+      value: 500,
+      suffix: '+',
+      label: 'Successful Campaigns',
+      icon: <FaChartLine className="w-8 h-8 text-brand-blue" aria-hidden="true" />,
     },
     {
-      title: 'Custom Strategies',
-      description: 'We craft tailored digital marketing strategies to meet your unique business goals and drive online growth.',
-      icon: <FaUsers className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
+      value: 10,
+      suffix: '+',
+      label: 'Years of Experience',
+      icon: <FaRocket className="w-8 h-8 text-brand-blue" aria-hidden="true" />,
     },
     {
-      title: 'Expert Team',
-      description: 'Our team of digital marketing specialists brings SEO expertise and years of experience to every project.',
-      icon: <FaLaptopCode className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
+      value: 95,
+      suffix: '%',
+      label: 'Client Satisfaction',
+      icon: <FaSmile className="w-8 h-8 text-brand-blue" aria-hidden="true" />,
     },
     {
-      title: 'Global Reach',
-      description: 'Expand your brand with affiliate marketing, influencer campaigns, and global strategies for 2025 success.',
-      icon: <FaGlobe className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
+      value: 300,
+      suffix: '%',
+      label: 'Average Client Growth',
+      icon: <FaUsers className="w-8 h-8 text-brand-blue" aria-hidden="true" />,
     },
     {
-      title: 'Trusted Security',
-      description: 'Protect your brand with online reputation management and secure digital marketing practices.',
-      icon: <FaShieldAlt className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
+      value: 1000,
+      suffix: '+',
+      label: 'Global Reach (Countries)',
+      icon: <FaGlobe className="w-8 h-8 text-brand-blue" aria-hidden="true" />,
     },
     {
-      title: 'Innovative Approach',
-      description: 'We use cutting-edge tools and data-driven insights to deliver innovative solutions that maximize ROI.',
-      icon: <FaRocket className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
+      value: 200,
+      suffix: '+',
+      label: 'Trusted Partners',
+      icon: <FaShieldAlt className="w-8 h-8 text-brand-blue" aria-hidden="true" />,
     },
   ];
 
   // Structured data for the section
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'Service',
-    "serviceType": "Digital Marketing",
-    "provider": {
-      "@type": "Organization",
-      "name": "Intention Infoservice",
-      "url": "https://intentioninfoservice.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "123 Digital Avenue",
-        "addressLocality": "Tech City",
-        "postalCode": "TC 12345"
-      }
+    '@type': 'Organization',
+    "name": "Intention Infoservice",
+    "url": "https://intentioninfoservice.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Digital Avenue",
+      "addressLocality": "Tech City",
+      "postalCode": "TC 12345"
     },
-    "description": "Choose us as your trusted digital marketing partner in 2025 for proven results, custom strategies, SEO expertise, global reach, trusted security, and an innovative approach to drive online growth and conversions.",
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Why Choose Us",
-      "itemListElement": reasons.map((reason, index) => ({
-        "@type": "Service",
-        "position": index + 1,
-        "name": reason.title,
-        "description": reason.description,
-      })),
-    },
+    "description": "Trusted digital marketing partner in 2025 with over 500 successful campaigns, 10+ years of experience, 95% client satisfaction, 300% average client growth, and a global reach across 1000+ countries.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "200",
+      "bestRating": "5",
+      "worstRating": "1"
+    }
   };
 
   return (
-    <section className="relative bg-dark-900 py-8 md:py-12 overflow-hidden">
+    <section className="relative bg-dark-900 py-16 md:py-24 overflow-hidden">
       <div className="w-full px-2 sm:px-[10%] relative z-10">
         {/* Structured Data */}
         <script
@@ -115,13 +95,13 @@ export default function DigitalMarketingWhyChooseUsSection() {
         />
         {/* Animated Particles */}
         <div className="absolute inset-0 pointer-events-none z-0">
-          {particles.map((particle, index) => (
+          {[...Array(10)].map((_, index) => (
             <div
               key={index}
               className="particle absolute w-2 h-2 bg-white rounded-full"
               style={{
-                top: particle.top,
-                left: particle.left,
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
                 opacity: 0,
                 animation: `float-${index} ${5 + index * 0.5}s linear infinite`,
               }}
@@ -134,10 +114,10 @@ export default function DigitalMarketingWhyChooseUsSection() {
                       opacity: 0;
                     }
                     50% {
-                      opacity: ${particle.opacity};
+                      opacity: ${Math.random() * 0.5 + 0.2};
                     }
                     100% {
-                      transform: translateX(1500px);
+                      transform: translateX(${window.innerWidth + 50}px);
                       opacity: 0;
                     }
                   }
@@ -158,27 +138,27 @@ export default function DigitalMarketingWhyChooseUsSection() {
               @keyframes float-icon-1 {
                 0% { transform: translateX(-50px); opacity: 0; }
                 50% { opacity: 0.5; }
-                100% { transform: translateX(1500px); opacity: 0; }
+                100% { transform: translateX(${window.innerWidth + 50}px); opacity: 0; }
               }
               @keyframes float-icon-2 {
                 0% { transform: translateX(-50px); opacity: 0; }
                 50% { opacity: 0.4; }
-                100% { transform: translateX(1500px); opacity: 0; }
+                100% { transform: translateX(${window.innerWidth + 50}px); opacity: 0; }
               }
               @keyframes float-icon-3 {
                 0% { transform: translateX(-50px); opacity: 0; }
                 50% { opacity: 0.5; }
-                100% { transform: translateX(1500px); opacity: 0; }
+                100% { transform: translateX(${window.innerWidth + 50}px); opacity: 0; }
               }
               @keyframes float-icon-4 {
                 0% { transform: translateX(-50px); opacity: 0; }
                 50% { opacity: 0.3; }
-                100% { transform: translateX(1500px); opacity: 0; }
+                100% { transform: translateX(${window.innerWidth + 50}px); opacity: 0; }
               }
               @keyframes float-icon-5 {
                 0% { transform: translateX(-50px); opacity: 0; }
                 50% { opacity: 0.4; }
-                100% { transform: translateX(1500px); opacity: 0; }
+                100% { transform: translateX(${window.innerWidth + 50}px); opacity: 0; }
               }
             `}
           </style>
@@ -212,7 +192,7 @@ export default function DigitalMarketingWhyChooseUsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              Why We’re Your Trusted Digital Marketing Partner in 2025
+              Proven Digital Marketing Success in 2025
             </motion.h2>
             <motion.p
               className="text-lg text-brand-blue font-semibold mb-6"
@@ -221,43 +201,94 @@ export default function DigitalMarketingWhyChooseUsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Proven Expertise to Elevate Your Brand with SEO Excellence
+              Data-Driven Results That Speak for Themselves
             </motion.p>
             <motion.p
-              className="text-base text-gray-300 max-w-3xl mx-auto"
+              className="text-base text-gray-400 max-w-3xl mx-auto"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              With years of experience and a client-first approach, we deliver measurable results through tailored digital marketing strategies that drive online growth and conversions.
+              As a trusted digital marketing partner, our 2025 success stats highlight our expertise in driving growth, engagement, and conversions for clients worldwide.
             </motion.p>
           </div>
-          {/* Circular Grid with Larger Circular Elements in a 3x2 Arrangement */}
+          {/* Neon Stat Cards with Holographic Effects and Animated Progress Rings */}
           <div className="relative flex justify-center items-center" ref={ref}>
             {/* Background Glow Effect */}
             <motion.div
               className="absolute w-[900px] h-[900px] rounded-full bg-gradient-radial from-brand-blue/30 to-transparent z-0"
               style={{ opacity: glowOpacity }}
             />
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 w-full sm:max-w-5xl mx-auto relative z-10 flex justify-center">
-              {reasons.map((reason, index) => (
-                <motion.div
-                  key={index}
-                  className="relative backdrop-blur-sm bg-white/10 bg-gradient-to-b from-white/20 to-transparent rounded-full p-8 border border-[rgba(0,160,227,0.3)] shadow-inner hover:border-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.7)] hover:scale-105 transition-all duration-300 flex flex-col items-center justify-center w-72 h-72 text-center mx-auto"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.2 }}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && console.log(`Selected ${reason.title}`)}
-                >
-                  <div className="w-12 h-12 flex items-center justify-center mb-3">{reason.icon}</div>
-                  <h3 className="text-xl font-semibold text-white mb-2">{reason.title}</h3>
-                  <p className="text-base text-gray-300">{reason.description}</p>
-                </motion.div>
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl mx-auto relative z-10 flex justify-center">
+              {stats.map((stat, index) => {
+                const isOdd = index % 2 === 0;
+                const progress = isInView ? stat.value / 1000 : 0; // Normalize value for progress ring (max 1000)
+                const circumference = 2 * Math.PI * 60; // Circumference of the progress ring (radius 60px)
+
+                return (
+                  <motion.div
+                    key={index}
+                    className="relative backdrop-blur-sm bg-dark-800 rounded-lg p-6 border border-[rgba(0,160,227,0.3)] hover:border-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.7)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center w-full max-w-sm mx-auto"
+                    style={{
+                      transform: `translateY(${isOdd ? '-20px' : '20px'})`,
+                      background: 'linear-gradient(45deg, rgba(0, 160, 227, 0.1), rgba(57, 49, 133, 0.1))',
+                      animation: 'holographic 3s linear infinite',
+                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.2 }}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && console.log(`Selected ${stat.label}`)}
+                  >
+                    <style>
+                      {`
+                        @keyframes holographic {
+                          0% { background: linear-gradient(45deg, rgba(0, 160, 227, 0.1), rgba(57, 49, 133, 0.1)); }
+                          50% { background: linear-gradient(45deg, rgba(57, 49, 133, 0.1), rgba(0, 160, 227, 0.1)); }
+                          100% { background: linear-gradient(45deg, rgba(0, 160, 227, 0.1), rgba(57, 49, 133, 0.1)); }
+                        }
+                      `}
+                    </style>
+                    <div className="relative w-32 h-32 mb-4">
+                      <svg className="w-full h-full" viewBox="0 0 140 140">
+                        <circle
+                          cx="70"
+                          cy="70"
+                          r="60"
+                          stroke="#393185"
+                          strokeWidth="10"
+                          fill="none"
+                          opacity="0.2"
+                        />
+                        <motion.circle
+                          cx="70"
+                          cy="70"
+                          r="60"
+                          stroke="#00a0e3"
+                          strokeWidth="10"
+                          fill="none"
+                          strokeDasharray={circumference}
+                          strokeDashoffset={isInView ? circumference - (progress * circumference) : circumference}
+                          strokeLinecap="round"
+                          transform="rotate(-90 70 70)"
+                          transition={{ duration: 2, ease: "easeOut" }}
+                          aria-hidden="true"
+                        />
+                        <g transform="translate(55, 55)">
+                          {stat.icon}
+                        </g>
+                      </svg>
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-2">
+                      {isInView ? stat.value : 0}{stat.suffix}
+                    </h3>
+                    <p className="text-base text-gray-300">{stat.label}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
           {/* CTA Button (Styled with Flowbite Button) */}
@@ -274,9 +305,9 @@ export default function DigitalMarketingWhyChooseUsSection() {
               icon={<FaArrowRight />}
               iconPosition="right"
               href="/contact-us"
-              ariaLabel="Contact us to partner with us today for digital marketing success in 2025"
+              ariaLabel="Contact us to see our impact and achieve digital marketing success in 2025"
             >
-              Partner with Us Today
+              See Our Impact
             </Button>
           </motion.div>
         </div>

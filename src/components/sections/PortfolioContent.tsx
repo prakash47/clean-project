@@ -92,8 +92,7 @@ export default function PortfolioContent() {
                   <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                   <p className="text-gray-600 mb-6 flex-grow">{project.description}</p>
                   <Button
-                    variant="text"
-                    className="mt-auto self-start"
+                    className="btn btn-text mt-auto self-start"
                     icon={<FaArrowRight />}
                     iconPosition="right"
                     href={project.link}
@@ -133,8 +132,8 @@ export default function PortfolioContent() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <Button
-              variant="secondary"
               size="lg"
+              className="btn btn-secondary"
               icon={<FaArrowRight />}
               iconPosition="right"
               href="/contact"

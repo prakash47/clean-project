@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { FaArrowRight, FaSearch, FaBullhorn, FaChartLine } from 'react-icons/fa'; // Added imports for FaSearch, FaBullhorn, FaChartLine
+import { FaArrowRight, FaSearch, FaBullhorn, FaChartLine, FaPen, FaChartBar, FaEnvelope, FaShoppingCart, FaDollarSign, FaHashtag, FaCamera, FaGlobe, FaLink, FaVideo } from 'react-icons/fa';
 import { gsap } from 'gsap';
 
 export default function DigitalMarketingHeroSection() {
@@ -11,23 +11,26 @@ export default function DigitalMarketingHeroSection() {
     if (typeof window === 'undefined') return;
 
     // Ensure elements exist before applying animations
-    const globe = document.querySelector('.globe');
-    const orbits = gsap.utils.toArray('.orbit') as HTMLElement[];
+    const funnel = document.querySelector('.funnel');
+    const layers = gsap.utils.toArray('.funnel-layer') as HTMLElement[];
+    const conversions = gsap.utils.toArray('.conversion-icon') as HTMLElement[];
+    const growthGraphs = gsap.utils.toArray('.growth-graph') as HTMLElement[];
     const particles = gsap.utils.toArray('.particle') as HTMLElement[];
+    const floatingIcons = gsap.utils.toArray('.floating-icon') as HTMLElement[];
     const lightFlares = gsap.utils.toArray('.light-flare') as HTMLElement[];
 
-    // Animate the globe
-    if (globe) {
+    // Animate the funnel
+    if (funnel) {
       gsap.fromTo(
-        globe,
+        funnel,
         { opacity: 0, scale: 0.8 },
         { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
       );
       // Parallax effect on scroll
-      gsap.to(globe, {
+      gsap.to(funnel, {
         y: -50,
         scrollTrigger: {
-          trigger: globe,
+          trigger: funnel,
           start: 'top bottom',
           end: 'bottom top',
           scrub: true,
@@ -35,16 +38,56 @@ export default function DigitalMarketingHeroSection() {
       });
     }
 
-    // Animate orbiting icons
-    if (orbits.length > 0) {
-      orbits.forEach((orbit, index) => {
-        gsap.to(orbit, {
-          rotation: 360,
-          transformOrigin: 'center center',
-          duration: 5 + index * 2,
-          repeat: -1,
-          ease: 'linear',
-        });
+    // Animate funnel layers (light up sequentially)
+    if (layers.length > 0) {
+      layers.forEach((layer, index) => {
+        gsap.fromTo(
+          layer,
+          { opacity: 0.3, fill: '#1E293B' },
+          {
+            opacity: 1,
+            fill: '#14B8A6',
+            duration: 0.5,
+            delay: index * 0.3,
+            ease: 'power2.out',
+          }
+        );
+      });
+    }
+
+    // Animate conversion icons (move outward)
+    if (conversions.length > 0) {
+      conversions.forEach((icon, index) => {
+        gsap.fromTo(
+          icon,
+          { opacity: 0, x: 0, y: 0 },
+          {
+            opacity: 1,
+            x: index % 2 === 0 ? -50 : 50,
+            y: 20,
+            duration: 1,
+            repeat: -1,
+            ease: 'power2.out',
+            delay: index * 0.3,
+          }
+        );
+      });
+    }
+
+    // Animate growth graphs
+    if (growthGraphs.length > 0) {
+      growthGraphs.forEach((graph, index) => {
+        gsap.fromTo(
+          graph,
+          { strokeDasharray: 50, strokeDashoffset: 50 },
+          {
+            strokeDashoffset: 0,
+            duration: 1,
+            repeat: -1,
+            ease: 'power2.out',
+            delay: index * 0.3,
+          }
+        );
       });
     }
 
@@ -61,6 +104,24 @@ export default function DigitalMarketingHeroSection() {
             repeat: -1,
             ease: 'linear',
             delay: index * 0.3,
+          }
+        );
+      });
+    }
+
+    // Animate floating digital marketing icons
+    if (floatingIcons.length > 0) {
+      floatingIcons.forEach((icon, index) => {
+        gsap.fromTo(
+          icon,
+          { x: -50, opacity: 0 },
+          {
+            x: window.innerWidth + 50,
+            opacity: () => Math.random() * 0.5 + 0.3,
+            duration: 4 + index * 0.4,
+            repeat: -1,
+            ease: 'linear',
+            delay: index * 0.2,
           }
         );
       });
@@ -94,7 +155,7 @@ export default function DigitalMarketingHeroSection() {
         "postalCode": "TC 12345"
       }
     },
-    "description": "Proven digital marketing solutions for 2025 to boost your online presence, drive traffic, and increase conversions with tailored strategies.",
+    "description": "Elevate your brand with our comprehensive digital marketing solutions, including SEO services, PPC advertising, and social media marketing, designed to maximize traffic, engagement, and conversions in 2025’s competitive landscape.",
     "url": "https://intentioninfoservice.com/services/digital-marketing",
   };
 
@@ -124,6 +185,14 @@ export default function DigitalMarketingHeroSection() {
           />
         ))}
       </div>
+      {/* Floating Digital Marketing Icons */}
+      <div className="absolute inset-0 pointer-events-none">
+        <FaHashtag className="floating-icon absolute w-6 h-6 text-brand-blue" style={{ top: '10%', left: '5%', opacity: 0 }} />
+        <FaCamera className="floating-icon absolute w-5 h-5 text-brand-blue" style={{ top: '20%', left: '15%', opacity: 0 }} />
+        <FaGlobe className="floating-icon absolute w-7 h-7 text-brand-blue" style={{ top: '30%', left: '85%', opacity: 0 }} />
+        <FaLink className="floating-icon absolute w-6 h-6 text-brand-blue" style={{ top: '70%', left: '10%', opacity: 0 }} />
+        <FaVideo className="floating-icon absolute w-5 h-5 text-brand-blue" style={{ top: '80%', left: '90%', opacity: 0 }} />
+      </div>
       {/* Animated Light Flares */}
       <div className="absolute inset-0 pointer-events-none">
         <svg width="100%" height="100%">
@@ -135,7 +204,7 @@ export default function DigitalMarketingHeroSection() {
       </div>
       <div className="w-full px-[10%] relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Left: Headline, Tagline, and CTA */}
+          {/* Left: Headline, Tagline, Description, and CTA */}
           <div className="md:w-1/2 text-center md:text-left">
             <motion.h1
               className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight"
@@ -149,12 +218,20 @@ export default function DigitalMarketingHeroSection() {
               Proven Digital Marketing Solutions for 2025
             </motion.h1>
             <motion.p
-              className="text-lg text-gray-300 mb-8"
+              className="text-lg text-brand-blue font-semibold mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Boost Your Online Presence with Tailored Strategies.
+              Drive Online Growth with Expert Strategies in 2025
+            </motion.p>
+            <motion.p
+              className="text-base text-gray-400 mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              Elevate your brand with our comprehensive digital marketing solutions, including SEO services, PPC advertising, and social media marketing, designed to maximize traffic, engagement, and conversions in 2025’s competitive landscape.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -167,51 +244,73 @@ export default function DigitalMarketingHeroSection() {
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href="/contact-us"
-                ariaLabel="Get started with digital marketing solutions"
+                ariaLabel="Supercharge your growth now with digital marketing solutions"
               >
-                Get Started
+                Supercharge Your Growth Now
               </Button>
             </motion.div>
           </div>
-          {/* Right: Enhanced SVG Illustration (Rotating Globe with Orbiting Icons) */}
+          {/* Right: Digital Marketing Success Funnel Illustration with Adjusted Alignment */}
           <div className="md:w-1/2 flex justify-center">
-            <svg width="500" height="400" viewBox="0 0 500 400" className="w-full max-w-[500px] globe" aria-hidden="true">
-              {/* Globe Background */}
-              <circle cx="250" cy="200" r="150" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
-              {/* Globe Grid Lines */}
-              <g transform="translate(250, 200)">
-                {[...Array(6)].map((_, i) => (
-                  <circle key={i} cx="0" cy="0" r={20 * (i + 1)} fill="none" stroke="#00a0e3" strokeWidth="1" opacity="0.3" />
-                ))}
-                {[...Array(6)].map((_, i) => (
-                  <path
-                    key={i + 6}
-                    d={`M0,${-150 + i * 50} A150,150 0 0,1 0,${150 - i * 50}`}
-                    fill="none"
-                    stroke="#00a0e3"
-                    strokeWidth="1"
-                    opacity="0.3"
-                  />
-                ))}
+            <svg width="500" height="470" viewBox="0 0 500 470" className="w-full max-w-[500px] funnel" aria-hidden="true">
+              {/* Background Glow */}
+              <defs>
+                <radialGradient id="funnelGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" style={{ stopColor: '#00a0e3', stopOpacity: 0.2 }} />
+                  <stop offset="100%" style={{ stopColor: '#393185', stopOpacity: 0 }} />
+                </radialGradient>
+              </defs>
+              <circle cx="250" cy="235" r="250" fill="url(#funnelGlow)" />
+              {/* Funnel Layers */}
+              {/* SEO */}
+              <g className="funnel-layer">
+                <path d="M100 50 H400 L390 120 H110 Z" fill="#1E293B" stroke="#00a0e3" strokeWidth="1" />
+                <FaSearch className="w-8 h-8 text-white" x="234" y="60" />
+                <text x="250" y="105" fill="#fff" fontSize="14" textAnchor="middle">SEO</text>
               </g>
-              {/* Orbiting Icons */}
-              <g className="orbit" transform="translate(250, 200)">
-                <path d="M0,-120 A120,120 0 0,1 0,120 A120,120 0 0,1 0,-120" fill="none" stroke="#00a0e3" strokeWidth="1" opacity="0.5" />
-                <circle cx="0" cy="-120" r="15" fill="#14B8A6">
-                  <FaSearch className="w-6 h-6 text-dark-950" x="-10" y="-10" />
-                </circle>
+              {/* Social Media */}
+              <g className="funnel-layer">
+                <path d="M110 120 H390 L380 190 H120 Z" fill="#1E293B" stroke="#00a0e3" strokeWidth="1" />
+                <FaBullhorn className="w-8 h-8 text-white" x="234" y="130" />
+                <text x="250" y="175" fill="#fff" fontSize="14" textAnchor="middle">Social Media</text>
               </g>
-              <g className="orbit" transform="translate(250, 200)">
-                <path d="M0,-160 A160,160 0 0,1 0,160 A160,160 0 0,1 0,-160" fill="none" stroke="#00a0e3" strokeWidth="1" opacity="0.5" />
-                <circle cx="0" cy="-160" r="15" fill="#14B8A6">
-                  <FaBullhorn className="w-6 h-6 text-dark-950" x="-10" y="-10" />
-                </circle>
+              {/* PPC */}
+              <g className="funnel-layer">
+                <path d="M120 190 H380 L370 260 H130 Z" fill="#1E293B" stroke="#00a0e3" strokeWidth="1" />
+                <FaChartLine className="w-8 h-8 text-white" x="234" y="200" />
+                <text x="250" y="245" fill="#fff" fontSize="14" textAnchor="middle">PPC</text>
               </g>
-              <g className="orbit" transform="translate(250, 200)">
-                <path d="M0,-200 A200,200 0 0,1 0,200 A200,200 0 0,1 0,-200" fill="none" stroke="#00a0e3" strokeWidth="1" opacity="0.5" />
-                <circle cx="0" cy="-200" r="15" fill="#14B8A6">
-                  <FaChartLine className="w-6 h-6 text-dark-950" x="-10" y="-10" />
-                </circle>
+              {/* Content Creation */}
+              <g className="funnel-layer">
+                <path d="M130 260 H370 L360 330 H140 Z" fill="#1E293B" stroke="#00a0e3" strokeWidth="1" />
+                <FaPen className="w-8 h-8 text-white" x="234" y="270" />
+                <text x="250" y="315" fill="#fff" fontSize="14" textAnchor="middle">Content</text>
+              </g>
+              {/* Analytics */}
+              <g className="funnel-layer">
+                <path d="M140 330 H360 L350 400 H150 Z" fill="#1E293B" stroke="#00a0e3" strokeWidth="1" />
+                <FaChartBar className="w-8 h-8 text-white" x="234" y="340" />
+                <text x="250" y="385" fill="#fff" fontSize="14" textAnchor="middle">Analytics</text>
+              </g>
+              {/* Email Marketing */}
+              <g className="funnel-layer">
+                <path d="M150 400 H350 L340 470 H160 Z" fill="#1E293B" stroke="#00a0e3" strokeWidth="1" />
+                <FaEnvelope className="w-8 h-8 text-white" x="234" y="410" />
+                <text x="250" y="455" fill="#fff" fontSize="14" textAnchor="middle">Email</text>
+              </g>
+              {/* Conversion Icons */}
+              <g className="conversion-icon" transform="translate(230, 470)">
+                <FaShoppingCart className="w-6 h-6 text-brand-blue" />
+              </g>
+              <g className="conversion-icon" transform="translate(270, 470)">
+                <FaDollarSign className="w-6 h-6 text-brand-blue" />
+              </g>
+              {/* Growth Graphs */}
+              <g className="growth-graph" transform="translate(100, 470)">
+                <polyline points="0,50 20,30 40,40 60,20 80,30" fill="none" stroke="#00a0e3" strokeWidth="2" strokeDasharray="50" />
+              </g>
+              <g className="growth-graph" transform="translate(400, 470)">
+                <polyline points="0,50 20,40 40,30 60,35 80,20" fill="none" stroke="#00a0e3" strokeWidth="2" strokeDasharray="50" />
               </g>
             </svg>
           </div>
