@@ -154,7 +154,7 @@ export default function DigitalMarketingHeroSection() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Boost Your Online Presence with Tailored Strategies
+              Boost Your Online Presence with Tailored Strategies.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
