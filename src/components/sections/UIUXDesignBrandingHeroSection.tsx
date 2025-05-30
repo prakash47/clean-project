@@ -11,99 +11,183 @@ export default function UIUXDesignBrandingHeroSection() {
     if (typeof window === 'undefined') return;
 
     // Ensure elements exist before applying animations
-    const canvas = document.querySelector('.canvas');
-    const colorPalette = document.querySelector('.color-palette');
-    const typography = document.querySelector('.typography');
-    const wireframe = document.querySelector('.wireframe');
+    const deviceMockup = document.querySelector('.device-mockup');
+    const pcScreen = document.querySelector('.pc-screen');
+    const screenElements = document.querySelectorAll('.screen-element');
+    const pcScreenElements = document.querySelectorAll('.pc-screen-element');
     const brandIdentity = document.querySelector('.brand-identity');
-    const connectionLineElements = document.querySelectorAll('.connection-line');
-    const connectionNodeElements = document.querySelectorAll('.connection-node');
-    const supportIconElements = document.querySelectorAll('.support-icon');
+    const colorSwatches = document.querySelectorAll('.color-swatch');
+    const typographyLetters = document.querySelectorAll('.typography-letter');
+    const wireframeLines = document.querySelectorAll('.wireframe-line');
+    const userResearch = document.querySelector('.user-research');
+    const userIcon = document.querySelector('.user-icon');
+    const magnifier = document.querySelector('.magnifier');
+    const uiuxIcons = document.querySelectorAll('.uiux-icon');
+    const backgroundElements = document.querySelectorAll('.background-element');
 
-    if (canvas) {
+    if (deviceMockup) {
       gsap.fromTo(
-        canvas,
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 1, ease: 'power2.out' }
+        deviceMockup,
+        { opacity: 0, scale: 0.95, rotateX: 30 },
+        { opacity: 1, scale: 1, rotateX: 0, duration: 1.2, ease: 'elastic.out(1, 0.5)' }
       );
     }
-    if (colorPalette) {
+    if (pcScreen) {
       gsap.fromTo(
-        colorPalette,
-        { opacity: 0, x: -50 },
-        { opacity: 1, x: 0, duration: 0.5, delay: 1, ease: 'power2.out' }
+        pcScreen,
+        { opacity: 0, scale: 0.95, rotateX: 30 },
+        { opacity: 1, scale: 1, rotateX: 0, duration: 1.2, delay: 0.2, ease: 'elastic.out(1, 0.5)' }
       );
     }
-    if (typography) {
+    if (screenElements.length > 0) {
       gsap.fromTo(
-        typography,
-        { opacity: 0, y: -50 },
-        { opacity: 1, y: 0, duration: 0.5, delay: 1.5, ease: 'power2.out' }
+        screenElements,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 0.5, stagger: 0.1, ease: 'power3.out' }
       );
     }
-    if (wireframe) {
+    if (pcScreenElements.length > 0) {
       gsap.fromTo(
-        wireframe,
-        { opacity: 0, scale: 0.5 },
-        { opacity: 1, scale: 1, duration: 0.5, delay: 2, ease: 'power2.out' }
+        pcScreenElements,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 0.7, stagger: 0.1, ease: 'power3.out' }
       );
     }
     if (brandIdentity) {
       gsap.fromTo(
         brandIdentity,
         { opacity: 0, scale: 0 },
-        { opacity: 1, scale: 1, duration: 0.5, delay: 2.5, ease: 'power2.out' }
+        { opacity: 1, scale: 1, duration: 0.6, delay: 0.9, ease: 'power3.out' }
       );
-      gsap.to(brandIdentity, {
+    }
+    if (colorSwatches.length > 0) {
+      gsap.fromTo(
+        colorSwatches,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.4, delay: 1.1, stagger: 0.1, ease: 'power3.out' }
+      );
+    }
+    if (typographyLetters.length > 0) {
+      gsap.fromTo(
+        typographyLetters,
+        { opacity: 0, scale: 0.5 },
+        { opacity: 1, scale: 1, duration: 0.4, delay: 1.3, stagger: 0.1, ease: 'power3.out' }
+      );
+    }
+    if (wireframeLines.length > 0) {
+      wireframeLines.forEach((line) => {
+        gsap.fromTo(
+          line,
+          { strokeDasharray: 100, strokeDashoffset: 100 },
+          { strokeDashoffset: 0, duration: 1, delay: 1.5, ease: 'power3.out', stagger: 0.1 }
+        );
+      });
+    }
+    if (userResearch) {
+      gsap.fromTo(
+        userResearch,
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.6, delay: 1.7, ease: 'power3.out' }
+      );
+    }
+    if (userIcon) {
+      gsap.fromTo(
+        userIcon,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 1.9, ease: 'power3.out' }
+      );
+      gsap.to(userIcon, {
         scale: 1.1,
-        duration: 1,
+        duration: 1.5,
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut',
-        delay: 3,
+        delay: 2.2,
       });
     }
-    if (connectionLineElements.length > 0) {
-      connectionLineElements.forEach((element) => {
-        gsap.fromTo(
-          element,
-          { strokeDasharray: 100, strokeDashoffset: 100 },
-          { strokeDashoffset: 0, duration: 1, delay: 3, ease: 'power2.out', stagger: 0.2 }
-        );
+    if (magnifier) {
+      gsap.fromTo(
+        magnifier,
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.6, delay: 2.1, ease: 'power3.out' }
+      );
+      gsap.to(magnifier, {
+        rotate: 15,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: 2.4,
       });
     }
-    if (connectionNodeElements.length > 0) {
-      connectionNodeElements.forEach((element) => {
-        gsap.fromTo(
-          element,
-          { opacity: 0, scale: 0 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 3.2, ease: 'power2.out', stagger: 0.1 }
-        );
+    if (uiuxIcons.length > 0) {
+      gsap.fromTo(
+        uiuxIcons,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.6, delay: 2.3, stagger: 0.1, ease: 'power3.out' }
+      );
+      gsap.to(uiuxIcons, {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        stagger: 0.1,
+        delay: 2.6,
       });
     }
-    if (supportIconElements.length > 0) {
-      supportIconElements.forEach((element) => {
-        gsap.fromTo(
-          element,
-          { opacity: 0, scale: 0 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 3.4, ease: 'power2.out', stagger: 0.1 }
-        );
-        gsap.to(element, {
-          rotation: 360,
-          duration: 5,
-          repeat: -1,
-          ease: 'linear',
-          stagger: 0.2,
-        });
+    if (backgroundElements.length > 0) {
+      gsap.fromTo(
+        backgroundElements,
+        { opacity: 0, scale: 0 },
+        { opacity: 0.3, scale: 1, duration: 1, delay: 2.5, stagger: 0.2, ease: 'power3.out' }
+      );
+      gsap.to(backgroundElements, {
+        y: -20,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        stagger: 0.2,
+        delay: 2.8,
       });
     }
   }, []);
 
   return (
-    <section className="relative bg-dark-950 pt-8 md:py-24 overflow-hidden">
+    <section className="relative bg-gradient-to-r from-dark-950 to-dark-800 pt-8 md:py-20 overflow-hidden">
+      {/* Structured Data for the Hero Section */}
+      <script type="application/ld+json">
+        {`
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "serviceType": "UI/UX Design and Branding Services",
+            "provider": {
+              "@type": "Organization",
+              "name": "Intention Infoservice",
+              "url": "https://intentioninfoservice.com",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "123 Digital Avenue",
+                "addressLocality": "Tech City",
+                "postalCode": "TC 12345"
+              }
+            },
+            "description": "Elevate your brand with Intention Infoservice's expert UI/UX design and branding services in 2025. We create user-centered designs and cohesive brand identities that engage and convert.",
+            "offers": {
+              "@type": "Offer",
+              "url": "https://intentioninfoservice.com/contact",
+              "description": "Get a free quote for UI/UX design and branding services to transform your digital presence."
+            },
+            "keywords": "UI/UX design services, branding services 2025, user-centered design, brand identity development"
+          }
+        `}
+      </script>
+
       {/* Inline Critical CSS for LCP Element */}
       <style jsx>{`
-        h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
+        h1.text-4xl.sm\\:text-5xl.lg\\:text-6xl.font-bold.text-white.mb-4.tracking-tight {
           font-size: 2.25rem;
           line-height: 2.5rem;
           font-weight: 700;
@@ -112,30 +196,28 @@ export default function UIUXDesignBrandingHeroSection() {
           letter-spacing: -0.025em;
         }
         @media (min-width: 640px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
+          h1.text-4xl.sm\\:text-5xl.lg\\:text-6xl.font-bold.text-white.mb-4.tracking-tight {
             font-size: 3rem;
             line-height: 1;
           }
         }
         @media (min-width: 1024px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
+          h1.text-4xl.sm\\:text-5xl.lg\\:text-6xl.font-bold.text-white.mb-4.tracking-tight {
             font-size: 4.5rem;
             line-height: 1;
           }
         }
       `}</style>
 
-      {/* Subtle Grain Texture */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
-        style={{ backgroundImage: "url('/textures/grain.webp')" }}
-      />
+      {/* Subtle Background Overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.05)_0%,_rgba(255,255,255,0)_70%)] opacity-30 pointer-events-none" />
+
       <div className="w-full px-[10%] relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           {/* Left: Headline, Tagline, Body, and CTA */}
-          <div className="md:w-1/2 text-center md:text-left">
+          <div className="lg:w-1/2 text-center lg:text-left">
             <motion.h1
-              className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-4 tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight"
               style={{
                 textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -2px -2px 4px rgba(255, 255, 255, 0.1)',
               }}
@@ -143,96 +225,166 @@ export default function UIUXDesignBrandingHeroSection() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
-              Transform Your Brand with Stunning UI/UX Design & Branding
+              Elevate Your Brand with Expert UI/UX Design & Branding Services
             </motion.h1>
             <motion.p
-              className="text-2xl md:text-3xl font-semibold text-teal-500 mb-4"
+              className="text-lg md:text-xl font-semibold text-[#00a0e3] mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Create Memorable Digital Experiences That Engage and Convert in 2025
+              Craft Memorable Digital Experiences That Engage and Convert in 2025
             </motion.p>
             <motion.p
-              className="text-lg text-gray-400 mb-8"
+              className="text-md md:text-lg text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              Elevate your brand with our expert UI/UX design and branding services. We craft user-centered designs and cohesive brand identities that leave a lasting impression. Ready to make your brand unforgettable?
+              Transform your digital presence with our user-centered UI/UX design and branding services. We create intuitive designs and cohesive brand identities that drive engagement, boost conversions, and leave a lasting impression.
             </motion.p>
             <motion.div
+              className="flex justify-center lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               <Button
                 size="lg"
-                variant="primary"
-                className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
+                className="btn btn-primary !bg-gradient-to-r !from-[#00a0e3] !to-[#393185] !hover:from-[#006d9e] !hover:to-[#2a2465] text-white font-semibold shadow-lg hover:shadow-[#00a0e3]/40 transition-all duration-300"
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href="/contact"
+                ariaLabel="Get your free quote today for UI/UX design and branding services"
               >
                 Get Your Free Quote Today
               </Button>
             </motion.div>
           </div>
-          {/* Right: Animated SVG (Digital Canvas with Design Elements) */}
-          <div className="md:w-1/2 flex justify-center">
-            <svg width="500" height="400" viewBox="0 0 500 400" className="w-full max-w-[500px]">
-              {/* Canvas Background */}
-              <rect x="50" y="50" width="400" height="300" rx="20" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" className="canvas" />
-              {/* Design Elements */}
-              <g transform="translate(80, 80)">
+          {/* Right: Custom SVG Illustration Representing UI/UX Design and Branding Services */}
+          <div className="lg:w-1/2 flex justify-center">
+            <svg
+              width="500"
+              height="400"
+              viewBox="0 0 500 400"
+              className="w-full max-w-[500px]"
+              role="img"
+              aria-label="Illustration of UI/UX design and branding services including mobile and PC device mockups, brand identity elements, wireframe, user research, UI/UX icons, and a glowing background"
+            >
+              {/* Background with Floating, Flowing, Glowing Effects */}
+              <g className="background">
+                <defs>
+                  <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: '#00a0e3', stopOpacity: 0.3 }} />
+                    <stop offset="100%" style={{ stopColor: '#393185', stopOpacity: 0.3 }} />
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="15" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
+                <circle cx="450" cy="50" r="15" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
+                <circle cx="50" cy="350" r="15" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
+                <circle cx="450" cy="350" r="15" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
+                <rect x="40" y="80" width="40" height="20" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                <rect x="420" y="80" width="40" height="20" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                <path d="M40,110 Q250,130 460,110" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                <rect x="40" y="280" width="40" height="20" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                <rect x="420" y="280" width="40" height="20" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                <path d="M40,310 Q250,330 460,310" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+              </g>
+              {/* Device Mockup (Mobile - UI/UX Design) - Isometric View */}
+              <g className="device-mockup" transform="translate(50, 50) rotate(-15) skewX(20)">
+                <rect x="0" y="0" width="180" height="300" rx="15" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                <rect x="10" y="10" width="160" height="280" fill="#1E293B" />
+                {/* Screen Elements */}
+                <g className="screen-element" transform="translate(20, 20)">
+                  <rect x="0" y="0" width="140" height="40" rx="5" fill="#00a0e3" />
+                  <rect x="0" y="50" width="140" height="30" rx="5" fill="#393185" />
+                  <rect x="0" y="90" width="140" height="30" rx="5" fill="#393185" />
+                  <rect x="0" y="130" width="60" height="80" rx="5" fill="#00a0e3" />
+                  <rect x="70" y="130" width="60" height="80" rx="5" fill="#393185" />
+                  <circle cx="150" cy="260" r="12" fill="#00a0e3" />
+                </g>
+              </g>
+              {/* PC Screen (Web UI/UX Design) - Isometric View */}
+              <g className="pc-screen" transform="translate(250, 50) rotate(15) skewX(-20)">
+                <rect x="0" y="0" width="200" height="150" rx="10" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                <rect x="10" y="10" width="180" height="130" fill="#1E293B" />
+                <rect x="0" y="150" width="200" height="10" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                <rect x="80" y="160" width="40" height="20" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
+                {/* Screen Elements (Dashboard) */}
+                <g className="pc-screen-element" transform="translate(20, 20)">
+                  <rect x="0" y="0" width="160" height="30" rx="5" fill="#00a0e3" />
+                  <rect x="0" y="40" width="40" height="70" rx="5" fill="#393185" />
+                  <rect x="50" y="40" width="110" height="30" rx="5" fill="#00a0e3" />
+                  <rect x="50" y="80" width="50" height="20" rx="5" fill="#393185" />
+                  <rect x="110" y="80" width="50" height="20" rx="5" fill="#393185" />
+                </g>
+              </g>
+              {/* Brand Identity Development */}
+              <g className="brand-identity" transform="translate(300, 220)">
+                {/* Logo */}
+                <g transform="translate(30, 0)">
+                  <circle cx="20" cy="20" r="20" fill="#00a0e3" />
+                  <text x="10" y="25" fill="#0F172A" fontSize="12" fontFamily="monospace">Logo</text>
+                </g>
                 {/* Color Palette */}
-                <g className="color-palette" transform="translate(0, 0)">
-                  <rect x="0" y="0" width="100" height="30" rx="5" fill="#FF6B6B" />
-                  <rect x="0" y="35" width="100" height="30" rx="5" fill="#4ECDC4" />
-                  <rect x="0" y="70" width="100" height="30" rx="5" fill="#45B7D1" />
+                <g transform="translate(0, 60)">
+                  <rect x="0" y="0" width="60" height="15" rx="5" fill="#FF6B6B" className="color-swatch" />
+                  <rect x="0" y="20" width="60" height="15" rx="5" fill="#4ECDC4" className="color-swatch" />
+                  <rect x="0" y="40" width="60" height="15" rx="5" fill="#45B7D1" className="color-swatch" />
                 </g>
                 {/* Typography */}
-                <g className="typography" transform="translate(120, 0)">
-                  <text x="0" y="20" fill="#14B8A6" fontSize="20" fontFamily="monospace">Aa</text>
-                  <text x="0" y="40" fill="#14B8A6" fontSize="16" fontFamily="monospace">Bb</text>
-                  <text x="0" y="60" fill="#14B8A6" fontSize="12" fontFamily="monospace">Cc</text>
+                <g transform="translate(80, 60)">
+                  <text x="0" y="20" fill="#00a0e3" fontSize="16" fontFamily="monospace" className="typography-letter">Aa</text>
+                  <text x="0" y="40" fill="#00a0e3" fontSize="12" fontFamily="monospace" className="typography-letter">Bb</text>
                 </g>
-                {/* Wireframe */}
-                <g className="wireframe" transform="translate(200, 0)">
-                  <rect x="0" y="0" width="120" height="20" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                  <rect x="0" y="30" width="120" height="70" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                  <rect x="5" y="35" width="110" height="20" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                  <rect x="5" y="60" width="50" height="35" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
-                  <rect x="60" y="60" width="55" height="35" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" />
+              </g>
+              {/* Wireframe (Prototyping & Wireframing) */}
+              <g className="wireframe" transform="translate(50, 280)">
+                <rect x="0" y="0" width="120" height="20" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
+                <rect x="0" y="30" width="120" height="60" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
+                <rect x="5" y="35" width="110" height="20" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
+                <rect x="5" y="60" width="50" height="25" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
+                <rect x="60" y="60" width="50" height="25" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
+              </g>
+              {/* User Research & Testing */}
+              <g className="user-research" transform="translate(300, 280)">
+                {/* User Icon */}
+                <g className="user-icon" transform="translate(0, 0)">
+                  <circle cx="15" cy="15" r="10" fill="none" stroke="#393185" strokeWidth="2" />
+                  <path d="M15,25 Q20,30 25,25" fill="none" stroke="#393185" strokeWidth="2" />
                 </g>
-                {/* Brand Identity (Final Result) */}
-                <g className="brand-identity" transform="translate(340, 50)">
-                  <circle cx="0" cy="0" r="20" fill="#14B8A6" />
-                  <text x="-10" y="5" fill="#0F172A" fontSize="12" fontFamily="monospace">Logo</text>
+                {/* Magnifying Glass */}
+                <g className="magnifier" transform="translate(40, 0)">
+                  <circle cx="15" cy="15" r="10" fill="none" stroke="#393185" strokeWidth="2" />
+                  <line x1="22" y1="22" x2="30" y2="30" stroke="#393185" strokeWidth="2" />
+                </g>
+              </g>
+              {/* UI/UX Element Icons */}
+              <g transform="translate(200, 180)">
+                {/* Cursor Icon (User Interaction) */}
+                <g className="uiux-icon" transform="translate(0, 0)">
+                  <path d="M0,0 L10,10 L5,10 L5,20 L0,15 Z" fill="#00a0e3" />
+                </g>
+                {/* Grid Icon (Layout Design) */}
+                <g className="uiux-icon" transform="translate(40, 0)">
+                  <rect x="0" y="0" width="20" height="20" fill="none" stroke="#393185" strokeWidth="1" strokeDasharray="3,3" />
+                  <line x1="0" y1="10" x2="20" y2="10" stroke="#393185" strokeWidth="1" strokeDasharray="3,3" />
+                  <line x1="10" y1="0" x2="10" y2="20" stroke="#393185" strokeWidth="1" strokeDasharray="3,3" />
+                </g>
+                {/* User Flow Arrow (Navigation Flow) */}
+                <g className="uiux-icon" transform="translate(80, 0)">
+                  <path d="M0,10 L15,10 M10,5 L15,10 L10,15" fill="none" stroke="#00a0e3" strokeWidth="2" />
                 </g>
               </g>
               {/* Connection Lines and Nodes */}
-              <line x1="80" y1="80" x2="50" y2="50" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="50" cy="50" r="5" fill="#14B8A6" className="connection-node" />
-              <line x1="420" y1="80" x2="450" y2="50" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="450" cy="50" r="5" fill="#14B8A6" className="connection-node" />
-              <line x1="80" y1="320" x2="50" y2="350" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="50" cy="350" r="5" fill="#14B8A6" className="connection-node" />
-              <line x1="420" y1="320" x2="450" y2="350" stroke="#14B8A6" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="450" cy="350" r="5" fill="#14B8A6" className="connection-node" />
-              {/* Supporting Icons */}
-              <g transform="translate(50, 50)" className="support-icon">
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#14B8A6" />
-              </g>
-              <g transform="translate(450, 50)" className="support-icon">
-                <circle cx="5" cy="5" r="5" fill="#14B8A6" />
-              </g>
-              <g transform="translate(50, 350)" className="support-icon">
-                <rect x="0" y="0" width="10" height="10" fill="#14B8A6" />
-              </g>
-              <g transform="translate(450, 350)" className="support-icon">
-                <path d="M0,5 L5,0 L10,5 L5,10 Z" fill="#14B8A6" />
-              </g>
+              <line x1="180" y1="120" x2="230" y2="80" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
+              <circle cx="230" cy="80" r="5" fill="#00a0e3" className="connection-node" />
+              <line x1="180" y1="120" x2="230" y2="160" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
+              <circle cx="230" cy="160" r="5" fill="#00a0e3" className="connection-node" />
+              <line x1="300" y1="280" x2="250" y2="240" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
+              <circle cx="250" cy="240" r="5" fill="#00a0e3" className="connection-node" />
+              <line x1="300" y1="280" x2="250" y2="320" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
+              <circle cx="250" cy="320" r="5" fill="#00a0e3" className="connection-node" />
             </svg>
           </div>
         </div>
