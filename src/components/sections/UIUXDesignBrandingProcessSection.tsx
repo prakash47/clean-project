@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import { FaArrowRight } from 'react-icons/fa';
 import { gsap } from 'gsap';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function UIUXDesignBrandingProcessSection() {
   const steps = [
@@ -97,26 +97,6 @@ export default function UIUXDesignBrandingProcessSection() {
     },
   ];
 
-  const leftColumnRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    const updateSvgHeight = () => {
-      if (leftColumnRef.current && svgRef.current) {
-        const leftColumnHeight = leftColumnRef.current.getBoundingClientRect().height;
-        svgRef.current.setAttribute('height', `${leftColumnHeight}`);
-        svgRef.current.setAttribute('viewBox', `0 0 400 ${leftColumnHeight}`);
-      }
-    };
-
-    // Initial update
-    updateSvgHeight();
-
-    // Update on window resize
-    window.addEventListener('resize', updateSvgHeight);
-    return () => window.removeEventListener('resize', updateSvgHeight);
-  }, []);
-
   useEffect(() => {
     // Ensure GSAP animations are only applied on the client side
     if (typeof window === 'undefined') return;
@@ -126,95 +106,92 @@ export default function UIUXDesignBrandingProcessSection() {
     const timelineNodes = document.querySelectorAll('.timeline-node');
     const backgroundElements = document.querySelectorAll('.background-element');
 
-    if (leftColumnRef.current && svgRef.current) {
-      const leftColumnHeight = leftColumnRef.current.getBoundingClientRect().height;
+    if (timelinePath) {
+      const svgHeight = window.innerWidth < 1024 ? 970 : 1450; // Adjust height based on screen size
+      gsap.fromTo(
+        timelinePath,
+        { strokeDasharray: svgHeight, strokeDashoffset: svgHeight },
+        { strokeDashoffset: 0, duration: 2, ease: 'power3.out' }
+      );
+    }
 
-      if (timelinePath) {
-        gsap.fromTo(
-          timelinePath,
-          { strokeDasharray: leftColumnHeight, strokeDashoffset: leftColumnHeight },
-          { strokeDashoffset: 0, duration: 2, ease: 'power3.out' }
-        );
-      }
+    if (timelineNodes.length > 0) {
+      gsap.fromTo(
+        timelineNodes,
+        { opacity: 0, scale: 0 },
+        { opacity: 1, scale: 1, duration: 0.5, stagger: 0.2, ease: 'power3.out', delay: 0.5 }
+      );
+      gsap.to(timelineNodes, {
+        scale: 1.05,
+        duration: 1.5,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        stagger: 0.2,
+        delay: 1,
+      });
 
-      if (timelineNodes.length > 0) {
-        gsap.fromTo(
-          timelineNodes,
-          { opacity: 0, scale: 0 },
-          { opacity: 1, scale: 1, duration: 0.5, stagger: 0.2, ease: 'power3.out', delay: 0.5 }
-        );
-        gsap.to(timelineNodes, {
-          scale: 1.05,
-          duration: 1.5,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          stagger: 0.2,
-          delay: 1,
-        });
-
-        // Hover animations for timeline nodes
-        timelineNodes.forEach((node) => {
-          const svgIcon = node.querySelector('.step-icon-svg') as SVGElement;
-          node.addEventListener('mouseenter', () => {
-            gsap.killTweensOf([node, svgIcon]);
-            gsap.to(node, {
-              scale: 1.2,
-              duration: 0.3,
-              ease: 'power2.out',
-              overwrite: 'auto',
-            });
-            gsap.to(svgIcon, {
-              filter: 'url(#glow)',
-              duration: 0.3,
-              ease: 'power2.out',
-              overwrite: 'auto',
-              onComplete: () => {
-                gsap.to(svgIcon, {
-                  filter: 'url(#glow-pulse)',
-                  duration: 1,
-                  repeat: -1,
-                  yoyo: true,
-                  ease: 'sine.inOut',
-                  overwrite: 'auto',
-                });
-              },
-            });
+      // Hover animations for timeline nodes
+      timelineNodes.forEach((node) => {
+        const svgIcon = node.querySelector('.step-icon-svg') as SVGElement;
+        node.addEventListener('mouseenter', () => {
+          gsap.killTweensOf([node, svgIcon]);
+          gsap.to(node, {
+            scale: 1.2,
+            duration: 0.3,
+            ease: 'power2.out',
+            overwrite: 'auto',
           });
-          node.addEventListener('mouseleave', () => {
-            gsap.killTweensOf([node, svgIcon]);
-            gsap.to(node, {
-              scale: 1.05,
-              duration: 0.3,
-              ease: 'power2.out',
-              overwrite: 'auto',
-            });
-            gsap.to(svgIcon, {
-              filter: 'none',
-              duration: 0.3,
-              ease: 'power2.out',
-              overwrite: 'auto',
-            });
+          gsap.to(svgIcon, {
+            filter: 'url(#glow)',
+            duration: 0.3,
+            ease: 'power2.out',
+            overwrite: 'auto',
+            onComplete: () => {
+              gsap.to(svgIcon, {
+                filter: 'url(#glow-pulse)',
+                duration: 1,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                overwrite: 'auto',
+              });
+            },
           });
         });
-      }
-
-      if (backgroundElements.length > 0) {
-        gsap.fromTo(
-          backgroundElements,
-          { opacity: 0, scale: 0 },
-          { opacity: 0.3, scale: 1, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 0.5 }
-        );
-        gsap.to(backgroundElements, {
-          y: -20,
-          duration: 3,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          stagger: 0.2,
-          delay: 0.8,
+        node.addEventListener('mouseleave', () => {
+          gsap.killTweensOf([node, svgIcon]);
+          gsap.to(node, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          });
+          gsap.to(svgIcon, {
+            filter: 'none',
+            duration: 0.3,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          });
         });
-      }
+      });
+    }
+
+    if (backgroundElements.length > 0) {
+      gsap.fromTo(
+        backgroundElements,
+        { opacity: 0, scale: 0 },
+        { opacity: 0.3, scale: 1, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 0.5 }
+      );
+      gsap.to(backgroundElements, {
+        y: -20,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        stagger: 0.2,
+        delay: 0.8,
+      });
     }
 
     // Hover animations for step cards
@@ -309,8 +286,31 @@ export default function UIUXDesignBrandingProcessSection() {
     });
   }, []);
 
+  // State to determine if the device is mobile for height adjustments
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if the window width is less than 1024px (Tailwind's lg breakpoint)
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    // Set initial value
+    handleResize();
+
+    // Add resize event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const padding = isMobile ? 23 : 95; // 23px on mobile, 95px on desktop
+  const stepHeight = isMobile ? 132 : 180; // 132px on mobile, 180px on desktop
+  const totalHeight = padding + (steps.length - 1) * stepHeight + padding; // 970px on mobile, 1450px on desktop
+
   return (
-    <section className="bg-dark-900 py-16 md:py-24 relative overflow-hidden">
+    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
       {/* Structured Data for the Section */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -382,9 +382,9 @@ export default function UIUXDesignBrandingProcessSection() {
             Our user-centered design workflow ensures every UI/UX design and branding project is a success. We combine creativity, user insights, and strategic thinking to create experiences that captivate and convert.
           </motion.p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
           {/* Left: Process Steps */}
-          <div className="space-y-6" ref={leftColumnRef}>
+          <div className="space-y-6">
             {steps.map((step, index) => (
               <motion.div
                 key={step.title}
@@ -416,87 +416,87 @@ export default function UIUXDesignBrandingProcessSection() {
                 </div>
               </motion.div>
             ))}
-            <motion.div
-              className="text-center mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <Button
-                size="lg"
-                className="btn btn-primary !bg-gradient-to-r !from-[#00a0e3] !to-[#393185] !hover:from-[#006d9e] !hover:to-[#2a2465] text-white font-semibold shadow-lg hover:shadow-[#00a0e3]/40 transition-all duration-300"
-                icon={<FaArrowRight />}
-                iconPosition="right"
-                href="/contact"
-                ariaLabel="Start your UI/UX design and branding project today"
-              >
-                Start Your Project Today
-              </Button>
-            </motion.div>
           </div>
-          {/* Right: Enhanced SVG Timeline */}
-          <div className="flex justify-center">
-            <svg
-              width="400"
-              height="800"
-              viewBox="0 0 400 800"
-              className="w-full max-w-[400px]"
-              role="img"
-              aria-label="Timeline of UI/UX design and branding process steps with icons representing each step"
-              ref={svgRef}
-            >
-              {/* Background Elements */}
-              <g className="background">
-                {(() => {
-                  const leftColumnHeight = leftColumnRef.current?.getBoundingClientRect().height || 800;
-                  const padding = 50;
-                  return (
-                    <>
-                      <circle cx="50" cy={padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                      <circle cx="350" cy={padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                      <circle cx="50" cy={leftColumnHeight - padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                      <circle cx="350" cy={leftColumnHeight - padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                      <rect x="40" y={padding + 50} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                      <rect x="310" y={padding + 50} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                      <path d="M40,${padding + 85} Q200,${padding + 115} 360,${padding + 85}" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                      <rect x="40" y={leftColumnHeight - padding - 75} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                      <rect x="310" y={leftColumnHeight - padding - 75} width="50" height="25" rx="5" fill="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                      <path d="M40,${leftColumnHeight - padding - 40} Q200,${leftColumnHeight - padding - 10} 360,${leftColumnHeight - padding - 40}" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                    </>
-                  );
-                })()}
-              </g>
-              {/* Curved Timeline Path (Dynamic Height) */}
-              {(() => {
-                const leftColumnHeight = leftColumnRef.current?.getBoundingClientRect().height || 800;
-                const padding = 50;
-                const contentHeight = leftColumnHeight - 2 * padding;
-                const stepHeight = contentHeight / (steps.length - 1);
-                const points = steps.map((_, index) => {
-                  const y = padding + index * stepHeight;
-                  const xOffset = index % 2 === 0 ? 150 : 250;
-                  return index === 0 ? `M200,${y}` : ` Q${xOffset},${y - stepHeight / 2} 200,${y}`;
-                }).join('');
-                return <path d={points} fill="none" stroke="url(#timelineGradient)" strokeWidth="4" className="timeline-path" />;
-              })()}
-              {/* Timeline Nodes with Icons (Dynamic Positions) */}
-              {steps.map((step, index) => {
-                const leftColumnHeight = leftColumnRef.current?.getBoundingClientRect().height || 800;
-                const padding = 50;
-                const contentHeight = leftColumnHeight - 2 * padding;
-                const stepHeight = contentHeight / (steps.length - 1);
-                const yPosition = padding + index * stepHeight;
-                return (
-                  <g key={index} className="timeline-node" transform={`translate(200, ${yPosition})`}>
-                    <circle cx="0" cy="0" r="25" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
-                    <g transform="translate(-12, -12)">{step.icon}</g>
+          {/* Right: Enhanced SVG Timeline - Hidden on small screens (<md) */}
+          <div className="flex justify-center hidden md:block">
+            {(() => {
+              return (
+                <svg
+                  width="600"
+                  height={totalHeight}
+                  viewBox={`0 0 600 ${totalHeight}`}
+                  className="w-full max-w-[600px]"
+                  role="img"
+                  aria-label="Timeline of UI/UX design and branding process steps with icons representing each step"
+                >
+                  {/* Background Elements */}
+                  <g className="background">
+                    <circle cx="50" cy={padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
+                    <circle cx="550" cy={padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
+                    <circle cx="50" cy={totalHeight - padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
+                    <circle cx="550" cy={totalHeight - padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
+                    <rect x="40" y={padding + 50} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                    <rect x="510" y={padding + 50} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                    <path d={`M40,${padding + 85} Q300,${padding + 115} 560,${padding + 85}`} fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                    <rect x="40" y={totalHeight - padding - 75} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                    <rect x="510" y={totalHeight - padding - 75} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
+                    <path d={`M40,${totalHeight - padding - 40} Q300,${totalHeight - padding - 10} 560,${totalHeight - padding - 40}`} fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
                   </g>
-                );
-              })}
-            </svg>
+                  {/* Curved Timeline Path */}
+                  {(() => {
+                    const points = steps.map((_, index) => {
+                      const y = padding + index * stepHeight;
+                      const xOffset = index % 2 === 0 ? 250 : 350;
+                      return index === 0 ? `M300,${y}` : ` Q${xOffset},${y - stepHeight / 2} 300,${y}`;
+                    }).join('');
+                    return <path d={points} fill="none" stroke="url(#timelineGradient)" strokeWidth="4" className="timeline-path" />;
+                  })()}
+                  {/* Timeline Nodes with Icons and Step Numbers */}
+                  {steps.map((step, index) => {
+                    const yPosition = padding + index * stepHeight;
+                    return (
+                      <g key={index} className="timeline-node" transform={`translate(300, ${yPosition})`}>
+                        <circle cx="0" cy="0" r="40" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
+                        {/* Center the larger icon within the circle */}
+                        <g transform="translate(-18, -15)">{step.icon}</g>
+                        {/* Add step number below the larger icon */}
+                        <text
+                          x="0"
+                          y="30"
+                          fill="#ffffff"
+                          fontSize="24"
+                          fontFamily="Arial, sans-serif"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                        >
+                          {index + 1}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              );
+            })()}
           </div>
         </div>
+        <motion.div
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <Button
+            size="lg"
+            className="btn btn-primary !bg-gradient-to-r !from-[#00a0e3] !to-[#393185] !hover:from-[#006d9e] !hover:to-[#2a2465] text-white font-semibold shadow-lg hover:shadow-[#00a0e3]/40 transition-all duration-300"
+            icon={<FaArrowRight />}
+            iconPosition="right"
+            href="../contact-us"
+            ariaLabel="Start your UI/UX design and branding project today"
+          >
+            Start Your Project Today
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

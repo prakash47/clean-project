@@ -4,6 +4,7 @@ import UIUXDesignBrandingHeroSection from '@/components/sections/UIUXDesignBrand
 import UIUXDesignBrandingWhatWeOfferSection from '@/components/sections/UIUXDesignBrandingWhatWeOfferSection';
 import UIUXDesignBrandingProcessSection from '@/components/sections/UIUXDesignBrandingProcessSection';
 import UIUXDesignBrandingWhyChooseUsSection from '@/components/sections/UIUXDesignBrandingWhyChooseUsSection';
+import UIUXDesignBrandingFAQSection from '@/components/sections/UIUXDesignBrandingFAQSection';
 import UIUXDesignBrandingCTASection from '@/components/sections/UIUXDesignBrandingCTASection';
 
 export const metadata: Metadata = {
@@ -53,6 +54,7 @@ export default function UIUXDesignBranding() {
         <UIUXDesignBrandingWhatWeOfferSection />
         <UIUXDesignBrandingProcessSection />
         <UIUXDesignBrandingWhyChooseUsSection />
+        <UIUXDesignBrandingFAQSection />
         <UIUXDesignBrandingCTASection />
       </MainLayout>
     </>

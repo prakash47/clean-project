@@ -2,6 +2,8 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
+import Button from '@/components/ui/Button';
+import { FaArrowRight } from 'react-icons/fa';
 
 export default function UIUXDesignBrandingWhatWeOfferSection() {
   useEffect(() => {
@@ -215,7 +217,7 @@ export default function UIUXDesignBrandingWhatWeOfferSection() {
   ];
 
   return (
-    <section className="bg-dark-900 py-16 md:py-24 relative overflow-hidden">
+    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
       {/* Structured Data for the Section */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -285,7 +287,7 @@ export default function UIUXDesignBrandingWhatWeOfferSection() {
             Our UI/UX design and branding services combine creativity, strategy, and user insights to deliver experiences that captivate and convert. Explore our offerings to see how we can elevate your digital presence in 2025.
           </motion.p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
@@ -324,6 +326,25 @@ export default function UIUXDesignBrandingWhatWeOfferSection() {
             </motion.div>
           ))}
         </div>
+        {/* CTA Button */}
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <Button
+            size="lg"
+            className="btn btn-primary !bg-gradient-to-r !from-[#00a0e3] !to-[#393185] !hover:from-[#006d9e] !hover:to-[#2a2465] text-white font-semibold shadow-lg hover:shadow-[#00a0e3]/40 transition-all duration-300 transform hover:scale-105"
+            icon={<FaArrowRight />}
+            iconPosition="right"
+            href="../contact-us"
+            ariaLabel="Explore our UI/UX design and branding services"
+          >
+            Explore Our Services
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

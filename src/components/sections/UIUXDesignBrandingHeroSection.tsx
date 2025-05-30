@@ -155,7 +155,7 @@ export default function UIUXDesignBrandingHeroSection() {
   }, []);
 
   return (
-    <section className="relative bg-gradient-to-r from-dark-950 to-dark-800 pt-8 md:py-20 overflow-hidden">
+    <section className="relative bg-gradient-to-r from-dark-950 to-dark-800 py-12 md:py-20 overflow-hidden">
       {/* Structured Data for the Hero Section */}
       <script type="application/ld+json">
         {`
@@ -177,7 +177,7 @@ export default function UIUXDesignBrandingHeroSection() {
             "description": "Elevate your brand with Intention Infoservice's expert UI/UX design and branding services in 2025. We create user-centered designs and cohesive brand identities that engage and convert.",
             "offers": {
               "@type": "Offer",
-              "url": "https://intentioninfoservice.com/contact",
+              "url": "https://intentioninfoservice.com/contact-us",
               "description": "Get a free quote for UI/UX design and branding services to transform your digital presence."
             },
             "keywords": "UI/UX design services, branding services 2025, user-centered design, brand identity development"
@@ -254,7 +254,7 @@ export default function UIUXDesignBrandingHeroSection() {
                 className="btn btn-primary !bg-gradient-to-r !from-[#00a0e3] !to-[#393185] !hover:from-[#006d9e] !hover:to-[#2a2465] text-white font-semibold shadow-lg hover:shadow-[#00a0e3]/40 transition-all duration-300"
                 icon={<FaArrowRight />}
                 iconPosition="right"
-                href="/contact"
+                href="../contact-us"
                 ariaLabel="Get your free quote today for UI/UX design and branding services"
               >
                 Get Your Free Quote Today
