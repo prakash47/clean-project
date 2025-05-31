@@ -244,22 +244,22 @@ export default function UIUXDesignBrandingHeroSection() {
               Transform your digital presence with our user-centered UI/UX design and branding services. We create intuitive designs and cohesive brand identities that drive engagement, boost conversions, and leave a lasting impression.
             </motion.p>
             <motion.div
-              className="flex justify-center lg:justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <Button
-                size="lg"
-                className="btn btn-primary !bg-gradient-to-r !from-[#00a0e3] !to-[#393185] !hover:from-[#006d9e] !hover:to-[#2a2465] text-white font-semibold shadow-lg hover:shadow-[#00a0e3]/40 transition-all duration-300"
-                icon={<FaArrowRight />}
-                iconPosition="right"
-                href="../contact-us"
-                ariaLabel="Get your free quote today for UI/UX design and branding services"
-              >
-                Get Your Free Quote Today
-              </Button>
-            </motion.div>
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: 0.6 }}
+                        >
+                          <Button
+                            size="lg"
+                            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
+                            icon={<FaArrowRight />}
+                            iconPosition="right"
+                            href="/contact-us"
+                            ariaLabel="Get your free quote today for UI/UX design and branding services"
+                          >
+                            Get Your Free Quote Today
+                          </Button>
+                        </motion.div>
+            
           </div>
           {/* Right: Custom SVG Illustration Representing UI/UX Design and Branding Services */}
           <div className="lg:w-1/2 flex justify-center">

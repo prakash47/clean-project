@@ -1,167 +1,92 @@
 'use client';
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { gsap } from 'gsap';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaLaptopCode, FaMobileAlt, FaSearch, FaUsers, FaChartLine, FaTools } from 'react-icons/fa';
+import { useRef, useState, useEffect } from 'react';
 
 export default function WhyChooseUsSection() {
-  const [hoveredStates, setHoveredStates] = useState<boolean[]>(new Array(6).fill(false));
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const glowOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.3, 0]);
+
+  const [particles, setParticles] = useState(
+    Array.from({ length: 10 }, () => ({
+      top: '0%',
+      left: '0%',
+      opacity: 0,
+    }))
+  );
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 10 }, () => ({
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        opacity: Math.random() * 0.5 + 0.2,
+      }))
+    );
+  }, []);
 
   const reasons = [
     {
       title: 'Expert Team & Innovation',
       description: 'Our skilled team leverages cutting-edge technology to deliver innovative web solutions.',
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing Expert Team and Innovation">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <path d="M20,30 Q30,20 40,30 M20,30 Q30,40 40,30" fill="none" stroke="#14B8A6" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaLaptopCode className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Mobile-First Design',
       description: 'We prioritize mobile-first design to ensure seamless experiences across all devices.',
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing Mobile-First Design">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <rect x="20" y="15" width="20" height="30" rx="3" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaMobileAlt className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'SEO & Performance-Driven',
       description: 'Our SEO expertise and performance optimization boost your site’s visibility and speed.',
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing SEO and Performance-Driven">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <circle cx="30" cy="30" r="10" fill="#0F172A" />
-          <path d="M32,32 L40,40" stroke="#14B8A6" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaSearch className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Custom & Scalable Solutions',
       description: 'We build tailored websites that scale with your business, from startups to enterprises.',
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing Custom and Scalable Solutions">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <rect x="15" y="15" width="30" height="30" fill="none" stroke="#14B8A6" strokeWidth="2" />
-          <path d="M25,25 L35,35 M25,35 L35,25" stroke="#14B8A6" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaUsers className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Proven Results & ROI',
       description: 'Our results-driven approach delivers measurable ROI and long-term success.',
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing Proven Results and ROI">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <path d="M20,40 L25,35 L30,40 L35,35 L40,40" fill="none" stroke="#14B8A6" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaChartLine className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
     {
       title: 'Dedicated Support & Maintenance',
       description: 'We provide ongoing support to keep your website secure, updated, and ranking high.',
-      icon: (
-        <svg width="60" height="60" viewBox="0 0 60 60" role="img" aria-label="Icon representing Dedicated Support and Maintenance">
-          <circle cx="30" cy="30" r="25" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
-          <path d="M30,15 L40,25 L30,35 L20,25 Z" fill="#0F172A" stroke="#14B8A6" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaTools className="w-10 h-10 text-brand-blue" aria-hidden="true" />,
     },
   ];
 
-  const handleMouseEnter = (index: number) => {
-    const card = document.querySelectorAll('.reason-card')[index];
-    const icon = document.querySelectorAll('.reason-icon')[index];
-
-    // Kill any existing animations to prevent overlap
-    gsap.killTweensOf(card);
-    gsap.killTweensOf(icon);
-
-    // Card animation
-    gsap.to(card, {
-      y: -10,
-      backgroundColor: '#1A2526',
-      shadow: 'xl',
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-
-    // Icon animation
-    gsap.to(icon, {
-      scale: 1.2,
-      boxShadow: '0 0 15px rgba(20, 184, 166, 0.7)',
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-
-    // Update hovered state
-    setHoveredStates((prev) => {
-      const newStates = [...prev];
-      newStates[index] = true;
-      return newStates;
-    });
-  };
-
-  const handleMouseLeave = (index: number) => {
-    const card = document.querySelectorAll('.reason-card')[index];
-    const icon = document.querySelectorAll('.reason-icon')[index];
-
-    // Kill any existing animations to prevent overlap
-    gsap.killTweensOf(card);
-    gsap.killTweensOf(icon);
-
-    // Reverse card animation
-    gsap.to(card, {
-      y: 0,
-      backgroundColor: '#0F172A',
-      shadow: 'lg',
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-
-    // Reverse icon animation
-    gsap.to(icon, {
-      scale: 1,
-      boxShadow: 'none',
-      duration: 0.3,
-      ease: 'power2.out',
-    });
-
-    // Update hovered state
-    setHoveredStates((prev) => {
-      const newStates = [...prev];
-      newStates[index] = false;
-      return newStates;
-    });
-  };
-
-  const handleFocus = (index: number) => {
-    handleMouseEnter(index);
-  };
-
-  const handleBlur = (index: number) => {
-    handleMouseLeave(index);
-  };
-
-  // Structured data for the benefits
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: 'Web Design and Development',
+    serviceType: 'Web Design and Development',
     provider: {
       '@type': 'Organization',
       name: 'Intention Infoservice',
       url: 'https://intentioninfoservice.com',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Naigaon East, Juchandra',
+        addressLocality: 'Naigaon',
+        addressRegion: 'Maharashtra',
+        postalCode: '401208',
+        addressCountry: 'IN',
+      },
     },
+    description: 'Choose Intention Infoservice for web design and development in 2025 for expert innovation, mobile-first design, SEO excellence, custom solutions, proven ROI, and dedicated support.',
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Reasons to Choose Us',
+      name: 'Why Choose Us',
       itemListElement: reasons.map((reason, index) => ({
-        '@type': 'Offer',
+        '@type': 'Service',
         position: index + 1,
         name: reason.title,
         description: reason.description,
@@ -170,84 +95,155 @@ export default function WhyChooseUsSection() {
   };
 
   return (
-    <section id="why-choose-us" className="bg-gradient-to-b from-dark-900 to-dark-950 py-16 md:py-24 relative overflow-hidden">
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      {/* Subtle Grain Texture with Animation */}
-      <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
-        style={{ backgroundImage: "url('/textures/grain.webp')" }}
-      />
-      <div className="w-full px-[10%] relative z-10">
-        <div className="text-center mb-12">
-          <motion.h2
-            className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            Why Choose Intention Infoservice for Web Design & Development?
-          </motion.h2>
-          <motion.p
-            className="text-xl text-teal-500 font-semibold mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Your Trusted Partner for Digital Success in 2025
-          </motion.p>
-          <motion.p
-            className="text-lg text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            Discover why businesses trust us to deliver innovative, high-performing websites that drive measurable results.
-          </motion.p>
+    <section id="why-choose-us" className="relative bg-dark-950 py-8 md:py-12 overflow-hidden">
+      <div className="w-full px-2 sm:px-[10%] relative z-10">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        <div className="absolute inset-0 pointer-events-none z-0">
+          {particles.map((particle, index) => (
+            <div
+              key={index}
+              className="particle absolute w-2 h-2 bg-white rounded-full"
+              style={{
+                top: particle.top,
+                left: particle.left,
+                opacity: 0,
+                animation: `float-${index} ${5 + index * 0.5}s linear infinite`,
+              }}
+            >
+              <style>
+                {`
+                  @keyframes float-${index} {
+                    0% {
+                      transform: translateX(-50px);
+                      opacity: 0;
+                    }
+                    50% {
+                      opacity: ${particle.opacity};
+                    }
+                    100% {
+                      transform: translateX(1500px);
+                      opacity: 0;
+                    }
+                  }
+                `}
+              </style>
+            </div>
+          ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-          {reasons.map((reason, index) => (
-            <motion.div
-              key={reason.title}
-              className="reason-card bg-dark-950 rounded-lg p-6 shadow-lg transition-all duration-300"
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <FaLaptopCode className="floating-icon absolute w-6 h-6 text-brand-blue" style={{ top: '10%', left: '5%', opacity: 0, animation: 'float-icon-1 4s linear infinite' }} />
+          <FaMobileAlt className="floating-icon absolute w-5 h-5 text-brand-blue" style={{ top: '20%', left: '15%', opacity: 0, animation: 'float-icon-2 4.4s linear infinite' }} />
+          <FaSearch className="floating-icon absolute w-7 h-7 text-brand-blue" style={{ top: '30%', left: '85%', opacity: 0, animation: 'float-icon-3 4.8s linear infinite' }} />
+          <FaUsers className="floating-icon absolute w-6 h-6 text-brand-blue" style={{ top: '70%', left: '10%', opacity: 0, animation: 'float-icon-4 5.2s linear infinite' }} />
+          <FaChartLine className="floating-icon absolute w-5 h-5 text-brand-blue" style={{ top: '80%', left: '90%', opacity: 0, animation: 'float-icon-5 5.6s linear infinite' }} />
+          <style>
+            {`
+              @keyframes float-icon-1 {
+                0% { transform: translateX(-50px); opacity: 0; }
+                50% { opacity: 0.5; }
+                100% { transform: translateX(1500px); opacity: 0; }
+              }
+              @keyframes float-icon-2 {
+                0% { transform: translateX(-50px); opacity: 0; }
+                50% { opacity: 0.4; }
+                100% { transform: translateX(1500px); opacity: 0; }
+              }
+              @keyframes float-icon-3 {
+                0% { transform: translateX(-50px); opacity: 0; }
+                50% { opacity: 0.5; }
+                100% { transform: translateX(1500px); opacity: 0; }
+              }
+              @keyframes float-icon-4 {
+                0% { transform: translateX(-50px); opacity: 0; }
+                50% { opacity: 0.3; }
+                100% { transform: translateX(1500px); opacity: 0; }
+              }
+              @keyframes float-icon-5 {
+                0% { transform: translateX(-50px); opacity: 0; }
+                50% { opacity: 0.4; }
+                100% { transform: translateX(1500px); opacity: 0; }
+              }
+            `}
+          </style>
+        </div>
+        <div className="w-full px-2 sm:px-[10%] relative z-10">
+          <div className="text-center mb-12">
+            <motion.h2
+              className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={() => handleMouseLeave(index)}
-              onFocus={() => handleFocus(index)}
-              onBlur={() => handleBlur(index)}
-              tabIndex={0}
-              aria-describedby={`reason-description-${index}`}
+              transition={{ duration: 0.8 }}
             >
-              <div className="flex items-start gap-4">
-                <div className="reason-icon w-14 h-14 flex items-center justify-center">{reason.icon}</div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white mb-2">{reason.title}</h3>
-                  <p id={`reason-description-${index}`} className="text-lg text-gray-400">{reason.description}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="flex justify-center mt-12">
-          <Button
-            size="lg"
-            variant="primary"
-            className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold shadow-lg hover:shadow-teal-500/40"
-            icon={<FaArrowRight />}
-            iconPosition="right"
-            href="/contact-us"
+              Why Choose Intention Infoservice for Web Design & Development?
+            </motion.h2>
+            <motion.p
+              className="text-lg text-brand-blue font-semibold mb-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              Your Trusted Partner for Digital Success in 2025
+            </motion.p>
+            <motion.p
+              className="text-base text-gray-300 max-w-3xl mx-auto"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+            >
+              Discover why businesses trust us to deliver innovative, high-performing websites that drive measurable results.
+            </motion.p>
+          </div>
+          <div className="relative flex justify-center items-center" ref={ref}>
+            <motion.div
+              className="absolute w-[900px] h-[900px] rounded-full bg-gradient-radial from-brand-blue/30 to-transparent z-0"
+              style={{ opacity: glowOpacity }}
+            />
+            <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-8 w-full sm:max-w-5xl mx-auto">
+              {reasons.map((reason, index) => (
+                <motion.div
+                  key={index}
+                  className={`relative backdrop-blur-sm bg-white/10 rounded-lg p-8 border border-[rgba(0,160,227,0.3)] shadow-inner hover:border-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.7)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center w-full max-w-md mx-auto ${
+                    index % 2 === 0 ? 'sm:ml-0 sm:mr-auto rotate-2 md:-translate-y-12' : 'sm:ml-auto sm:mr-0 -rotate-2'
+                  }`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.2 }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && console.log(`Selected ${reason.title}`)}
+                >
+                  <div className="w-12 h-12 flex items-center justify-center mb-3">{reason.icon}</div>
+                  <h3 className="text-xl font-semibold text-white mb-2">{reason.title}</h3>
+                  <p className="text-base text-gray-300">{reason.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+          <motion.div
+            className="flex justify-center mt-12 z-20 relative"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.8 }}
           >
-            Ready to Start Your Project? Contact Us
-          </Button>
+            <Button
+              size="lg"
+              className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
+              icon={<FaArrowRight />}
+              iconPosition="right"
+              href="/contact-us"
+              ariaLabel="Ready to start your web design and development project? Contact us"
+            >
+              Ready to Start Your Project? Contact Us
+            </Button>
+          </motion.div>
         </div>
       </div>
     </section>

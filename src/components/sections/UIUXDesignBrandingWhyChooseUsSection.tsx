@@ -270,7 +270,7 @@ export default function UIUXDesignBrandingWhyChooseUsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <motion.h2
-            className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight"
+            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -383,23 +383,24 @@ export default function UIUXDesignBrandingWhyChooseUsSection() {
           </div>
         </div>
         <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          <Button
-            size="lg"
-            className="btn btn-primary !bg-gradient-to-r !from-[#00a0e3] !to-[#393185] !hover:from-[#006d9e] !hover:to-[#2a2465] text-white font-semibold shadow-lg hover:shadow-[#00a0e3]/40 transition-all duration-300"
-            icon={<FaArrowRight />}
-            iconPosition="right"
-            href="../contact-us"
-            ariaLabel="Discover why Intention Infoservice is the best choice for your design needs"
-          >
-            Discover the Difference
-          </Button>
-        </motion.div>
+                    className="flex justify-center mt-12 z-20 relative"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                  >
+                    <Button
+                      size="lg"
+                      className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
+                      icon={<FaArrowRight />}
+                      iconPosition="right"
+                      href="/contact-us"
+                      ariaLabel="Discover why Intention Infoservice is the best choice for your design needs"
+                    >
+                      Discover the Difference
+                    </Button>
+                  </motion.div>
+        
       </div>
     </section>
   );

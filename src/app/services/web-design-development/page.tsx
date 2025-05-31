@@ -4,9 +4,8 @@ import WebDesignHeroSection from '@/components/sections/WebDesignHeroSection';
 import WhatWeOfferSection from '@/components/sections/WhatWeOfferSection';
 import OurProcessSection from '@/components/sections/OurProcessSection';
 import WhyChooseUsSection from '@/components/sections/WhyChooseUsSection';
-// import ClientSuccessStoriesSection from '@/components/sections/ClientSuccessStoriesSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import TechnologiesWeUseSection from '@/components/sections/TechnologiesWeUseSection';
+// import TestimonialsSection from '@/components/sections/TestimonialsSection';
+import WebDesignFAQSection from '@/components/sections/WebDesignFAQSection';
 import WebDesignCTASection from '@/components/sections/WebDesignCTASection';
 
 export const metadata: Metadata = {
@@ -56,10 +55,8 @@ export default function WebDesignDevelopment() {
         <WhatWeOfferSection />
         <OurProcessSection />
         <WhyChooseUsSection />
-        {/* <ClientSuccessStoriesSection /> */}
         {/* <TestimonialsSection /> */}
-        {/* <TechnologiesWeUseSection /> */}
-        {/* <PortfolioSection /> Commented out as per request */}
+        <WebDesignFAQSection />
         <WebDesignCTASection />
       </MainLayout>
     </>
