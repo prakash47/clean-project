@@ -9,7 +9,7 @@ export default function Header() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'About Us', href: '/about-us' }, // Updated from /about to /about-us
+    { name: 'About Us', href: '/about-us' },
     { name: 'Our Services', href: '/services', hasSubmenu: true },
     { name: 'Blog', href: '/blog' },
     { name: 'Careers', href: '/careers' },
@@ -86,7 +86,7 @@ export default function Header() {
                         <Link
                           key={subLink.name}
                           href={subLink.href}
-                          className="block px-4 py-2 text-white hover:text-teal-500 transition-all"
+                          className="block px-4 py-2 text-white hover:text-brand-blue transition-all"
                         >
                           {subLink.name}
                         </Link>
@@ -104,7 +104,7 @@ export default function Header() {
               ) : (
                 <Link
                   href={link.href}
-                  className="text-white font-medium hover:text-teal-500 transition-all py-2"
+                  className="text-white font-medium hover:text-brand-blue transition-all py-2"
                 >
                   {link.name}
                 </Link>
@@ -133,7 +133,7 @@ export default function Header() {
                         <Link
                           key={subLink.name}
                           href={subLink.href}
-                          className="text-gray-400 hover:text-teal-500 transition-all"
+                          className="text-gray-400 hover:text-brand-blue transition-all"
                           onClick={() => setIsOpen(false)}
                         >
                           {subLink.name}
@@ -152,7 +152,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.href}
-                    className="text-white font-medium hover:text-teal-500 transition-all"
+                    className="text-white font-medium hover:text-brand-blue transition-all"
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}

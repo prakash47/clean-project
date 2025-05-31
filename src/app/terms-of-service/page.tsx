@@ -121,8 +121,8 @@ export default function TermsOfService() {
               </p>
               <p className="mt-2">
                 Email: <a href="mailto:contact@intentioninfoservice.com" className="text-primary-500 hover:underline">contact@intentioninfoservice.com</a><br />
-                Phone: <a href="tel:+916386530639" className="text-primary-500 hover:underline">+91 6386 530639</a><br />
-                Address: Office # 4 Mittal Shopping Center, Naigaon East, Juchandra, Maharashtra 401208, India
+                Phone: <a href="tel:+917021539267" className="text-primary-500 hover:underline">+91 70215 39267</a><br />
+                Address: Naigaon East, Juchandra, Maharashtra 401208, India
               </p>
             </div>
           </div>

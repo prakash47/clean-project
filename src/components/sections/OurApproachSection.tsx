@@ -162,19 +162,19 @@ export default function OurApproachSection() {
               aria-label="Illustration of Intention Infoservice's approach as a cycle of innovation"
             >
               {/* Background */}
-              <rect x="0" y="0" width="400" height="300" rx="20" fill="#1E293B" stroke="#14B8A6" strokeWidth="2" />
+              <rect x="0" y="0" width="400" height="300" rx="20" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
               {/* Cycle of Innovation (Centered) */}
               <g transform="translate(200, 150)">
                 {/* Rotating Cycle (Base, Segments, and Labels) */}
                 <g className="cycle">
-                  <circle cx="0" cy="0" r="80" fill="none" stroke="#14B8A6" strokeWidth="4" opacity="0.3" />
-                  <circle cx="0" cy="0" r="60" fill="none" stroke="#14B8A6" strokeWidth="2" opacity="0.5" />
+                  <circle cx="0" cy="0" r="80" fill="none" stroke="#00a0e3" strokeWidth="4" opacity="0.3" />
+                  <circle cx="0" cy="0" r="60" fill="none" stroke="#00a0e3" strokeWidth="2" opacity="0.5" />
                   {/* Segment 1: Discovery & Planning */}
                   <g className="segment">
                     <path
                       d="M0,0 L0,-60 A60,60 0 0,1 51.96,-30 Z"
                       fill="#0F172A"
-                      stroke="#14B8A6"
+                      stroke="#00a0e3"
                       strokeWidth="2"
                     />
                     <text
@@ -185,7 +185,7 @@ export default function OurApproachSection() {
                       fontWeight="bold"
                       textAnchor="middle"
                       className="segment-label"
-                      style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                      style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                     >
                       Discovery & Planning
                     </text>
@@ -195,7 +195,7 @@ export default function OurApproachSection() {
                     <path
                       d="M0,0 L0,-60 A60,60 0 0,1 51.96,-30 Z"
                       fill="#0F172A"
-                      stroke="#14B8A6"
+                      stroke="#00a0e3"
                       strokeWidth="2"
                     />
                     <text
@@ -206,7 +206,7 @@ export default function OurApproachSection() {
                       fontWeight="bold"
                       textAnchor="middle"
                       className="segment-label"
-                      style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                      style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                     >
                       Design & Development
                     </text>
@@ -216,7 +216,7 @@ export default function OurApproachSection() {
                     <path
                       d="M0,0 L0,-60 A60,60 0 0,1 51.96,-30 Z"
                       fill="#0F172A"
-                      stroke="#14B8A6"
+                      stroke="#00a0e3"
                       strokeWidth="2"
                     />
                     <text
@@ -227,7 +227,7 @@ export default function OurApproachSection() {
                       fontWeight="bold"
                       textAnchor="middle"
                       className="segment-label"
-                      style={{ textShadow: '0 0 3px rgba(20, 184, 166, 0.5)' }}
+                      style={{ textShadow: '0 0 3px rgba(0, 160, 227, 0.5)' }}
                     >
                       Launch & Support
                     </text>
@@ -237,36 +237,36 @@ export default function OurApproachSection() {
                 {/* Icon 1: Discovery & Planning (Magnifying Glass) */}
                 <g className="segment-icon">
                   <g transform="translate(0, -100)">
-                    <circle cx="0" cy="0" r="10" fill="#10B981" />
+                    <circle cx="0" cy="0" r="10" fill="#00a0e3" />
                     <path d="M-3,-3 L3,3 M-3,3 L3,-3" stroke="#1E293B" strokeWidth="2" />
                   </g>
                 </g>
                 {/* Icon 2: Design & Development (Pencil) */}
                 <g transform="rotate(120)" className="segment-icon">
                   <g transform="translate(0, -100)">
-                    <path d="M-8,-8 L8,8 M-8,8 L8,-8" stroke="#10B981" strokeWidth="3" />
+                    <path d="M-8,-8 L8,8 M-8,8 L8,-8" stroke="#00a0e3" strokeWidth="3" />
                   </g>
                 </g>
                 {/* Icon 3: Launch & Support (Rocket) */}
                 <g transform="rotate(240)" className="segment-icon">
                   <g transform="translate(0, -100)">
-                    <path d="M-8,0 L8,0 M0,-8 L0,8" stroke="#10B981" strokeWidth="3" />
+                    <path d="M-8,0 L8,0 M0,-8 L0,8" stroke="#00a0e3" strokeWidth="3" />
                   </g>
                 </g>
               </g>
               {/* Orbiting Particles (Decorative) */}
               <g transform="translate(200, 150)">
                 <g transform="rotate(0)" className="particle">
-                  <circle cx="0" cy="100" r="5" fill="#14B8A6" opacity="0.7" />
+                  <circle cx="0" cy="100" r="5" fill="#00a0e3" opacity="0.7" />
                 </g>
                 <g transform="rotate(90)" className="particle">
-                  <circle cx="0" cy="100" r="4" fill="#10B981" opacity="0.7" />
+                  <circle cx="0" cy="100" r="4" fill="#00a0e3" opacity="0.7" />
                 </g>
                 <g transform="rotate(180)" className="particle">
-                  <circle cx="0" cy="100" r="6" fill="#14B8A6" opacity="0.7" />
+                  <circle cx="0" cy="100" r="6" fill="#00a0e3" opacity="0.7" />
                 </g>
                 <g transform="rotate(270)" className="particle">
-                  <circle cx="0" cy="100" r="3" fill="#10B981" opacity="0.7" />
+                  <circle cx="0" cy="100" r="3" fill="#00a0e3" opacity="0.7" />
                 </g>
               </g>
             </svg>

@@ -21,14 +21,14 @@ export default function OurValuesSection() {
         card.addEventListener('mouseenter', () => {
           gsap.to(card, {
             scale: 1.05,
-            boxShadow: '0 0 15px rgba(20, 184, 166, 0.5)',
+            boxShadow: '0 0 15px rgba(0, 160, 227, 0.5)',
             duration: 0.3,
           });
         });
         card.addEventListener('mouseleave', () => {
           gsap.to(card, {
             scale: 1,
-            boxShadow: '0 0 0 rgba(20, 184, 166, 0)',
+            boxShadow: '0 0 0 rgba(0, 160, 227, 0)',
             duration: 0.3,
           });
         });
@@ -45,7 +45,7 @@ export default function OurValuesSection() {
           width="48"
           height="48"
           viewBox="0 0 48 48"
-          className="text-teal-500"
+          className="text-brand-blue"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -63,7 +63,7 @@ export default function OurValuesSection() {
           width="48"
           height="48"
           viewBox="0 0 48 48"
-          className="text-teal-500"
+          className="text-brand-blue"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -80,7 +80,7 @@ export default function OurValuesSection() {
           width="48"
           height="48"
           viewBox="0 0 48 48"
-          className="text-teal-500"
+          className="text-brand-blue"
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
