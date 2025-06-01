@@ -12,7 +12,7 @@ const blogPosts = [
     slug: 'top-5-trends-in-software-development-2025',
     title: 'Top 5 Trends in Software Development for 2025',
     excerpt: 'Discover the top trends shaping the software development industry in 2025, including AI integration, cloud solutions, and more.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Software+Trends+2025',
+    featuredImage: '/images/Top_5_Trends_2025_Converted.webp',
     category: 'Software Development',
     date: 'April 15, 2025',
     author: 'Shubham',
