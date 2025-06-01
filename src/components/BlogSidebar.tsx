@@ -46,9 +46,9 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
             placeholder="Search blog posts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white text-gray-800 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-teal-500"
+            className="w-full bg-white text-gray-800 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-brand-blue"
           />
-          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-teal-500">
+          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-brand-blue transition-colors">
             <FaSearch className="w-5 h-5" />
           </button>
         </div>
@@ -71,7 +71,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                       />
                     </div>
                     <div>
-                      <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-teal-600 transition-colors">
+                      <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
                         <h4 className="text-sm font-semibold">{post.title}</h4>
                       </Link>
                       <p className="text-xs text-gray-600">{post.date}</p>
@@ -92,7 +92,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
         <ul className="space-y-2">
           {categories.map(category => (
             <li key={category}>
-              <Link href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} className="text-gray-800 hover:text-teal-600 transition-colors">
+              <Link href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} className="text-gray-800 hover:text-brand-blue transition-colors">
                 {category}
               </Link>
             </li>
@@ -116,7 +116,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                 />
               </div>
               <div>
-                <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-teal-600 transition-colors">
+                <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
                   <h4 className="text-sm font-semibold">{post.title}</h4>
                 </Link>
                 <p className="text-xs text-gray-600">{post.date}</p>

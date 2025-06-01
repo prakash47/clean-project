@@ -69,8 +69,8 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                   loading="lazy"
                 />
               </div>
-              <div className="p-6">
-                <span className="inline-block bg-teal-500 text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+              <div className="p-8">
+                <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
                   {post.category}
                 </span>
                 <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>

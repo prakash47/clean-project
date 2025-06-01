@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
+import CommentForm from '@/components/CommentForm';
 
 // Updated blog posts data (16 posts, including the 3 new ones)
 const blogPosts = [
@@ -14,9 +15,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Software+Trends+2025',
     category: 'Software Development',
     date: 'April 15, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
-    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a senior software engineer with over 10 years of experience in building scalable web applications.',
     content: `
       <h2>Introduction</h2>
       <p>The software development industry is evolving rapidly, and 2025 promises to bring exciting new trends that will shape the future of technology. In this blog post, we explore the top 5 trends that every software company should watch out for.</p>
@@ -49,9 +50,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Custom+Software',
     category: 'Business Solutions',
     date: 'April 10, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
-    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
     content: `
       <h2>Introduction</h2>
       <p>In today's competitive landscape, off-the-shelf software often falls short of meeting unique business needs. Custom software offers a tailored solution that can transform your operations.</p>
@@ -79,9 +80,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing',
     category: 'Digital Marketing',
     date: 'April 5, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
-    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a senior software engineer with over 10 years of experience in building scalable web applications.',
     content: `
       <h2>Introduction</h2>
       <p>Digital marketing is evolving at a rapid pace, driven by new technologies and changing consumer behaviors. In this post, we explore strategies to succeed in 2025.</p>
@@ -107,9 +108,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Tech+Stack',
     category: 'Software Development',
     date: 'April 1, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
-    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
     content: `
       <h2>Introduction</h2>
       <p>Choosing the right tech stack is critical for the success of any software project. The wrong choice can lead to scalability issues, performance bottlenecks, and increased costs. In this guide, we'll walk you through the key factors to consider when selecting a tech stack for your project.</p>
@@ -138,9 +139,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Low+Code',
     category: 'Technology',
     date: 'March 28, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
-    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
     content: `
       <h2>Introduction</h2>
       <p>Low-code platforms are revolutionizing software development by enabling rapid application development with minimal coding. In 2025, they are becoming a game-changer for businesses of all sizes.</p>
@@ -171,9 +172,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Cybersecurity',
     category: 'Technology',
     date: 'March 25, 2025',
-    author: 'Bob Wilson',
-    authorImage: 'https://placehold.co/40x40.webp?text=BW',
-    authorBio: 'Bob Wilson is a cybersecurity expert with over 15 years of experience in protecting businesses from digital threats.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a cybersecurity expert with over 15 years of experience in protecting businesses from digital threats.',
     content: `
       <h2>Introduction</h2>
       <p>With cyber threats becoming more sophisticated, businesses must prioritize cybersecurity in 2025. This blog post outlines essential best practices to safeguard your organization.</p>
@@ -202,9 +203,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=UI+UX+Trends',
     category: 'UI/UX Design',
     date: 'March 20, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
-    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a senior software engineer with over 10 years of experience in building scalable web applications.',
     content: `
       <h2>Introduction</h2>
       <p>UI/UX design is constantly evolving, driven by new technologies and user expectations. In this post, we explore the top trends to watch in 2025.</p>
@@ -230,9 +231,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Cloud+Computing',
     category: 'Business Solutions',
     date: 'March 15, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
-    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
     content: `
       <h2>Introduction</h2>
       <p>Cloud computing has become a game-changer for small businesses, offering affordable and scalable solutions. In this post, we explore the benefits and challenges of adopting cloud computing in 2025.</p>
@@ -260,9 +261,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+Dev',
     category: 'Software Development',
     date: 'March 10, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
-    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
     content: `
       <h2>Introduction</h2>
       <p>Mobile app development is a lucrative field, and 2025 is the perfect time to get started. This beginner's guide will walk you through the basics of building your first mobile app.</p>
@@ -291,9 +292,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Voice+Search',
     category: 'Digital Marketing',
     date: 'March 5, 2025',
-    author: 'Bob Wilson',
-    authorImage: 'https://placehold.co/40x40.webp?text=BW',
-    authorBio: 'Bob Wilson is a cybersecurity expert with over 15 years of experience in protecting businesses from digital threats.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a cybersecurity expert with over 15 years of experience in protecting businesses from digital threats.',
     content: `
       <h2>Introduction</h2>
       <p>Voice search is rapidly gaining popularity with the rise of smart speakers and voice assistants. In 2025, optimizing for voice search is essential for SEO success.</p>
@@ -319,9 +320,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Sustainable+Software',
     category: 'Technology',
     date: 'March 1, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
-    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
     content: `
       <h2>Introduction</h2>
       <p>Sustainability is a growing concern in the tech industry. In 2025, software companies are adopting sustainable practices to reduce their environmental footprint.</p>
@@ -347,9 +348,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Blockchain',
     category: 'Technology',
     date: 'February 25, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
-    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
     content: `
       <h2>Introduction</h2>
       <p>Blockchain technology is transforming industries, and software development is no exception. In 2025, blockchain offers exciting opportunities and challenges for developers.</p>
@@ -372,9 +373,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Video+Marketing',
     category: 'Digital Marketing',
     date: 'February 20, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
-    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a senior software engineer with over 10 years of experience in building scalable web applications.',
     content: `
       <h2>Introduction</h2>
       <p>Video marketing continues to dominate digital strategies, and 2025 will bring new opportunities to engage your audience. In this post, we share top video marketing strategies.</p>
@@ -400,9 +401,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Web+Design+Trends+2025',
     category: 'UI/UX Design',
     date: 'May 15, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
-    authorBio: 'Jane Doe is a senior software engineer with over 10 years of experience in building scalable web applications.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a senior software engineer with over 10 years of experience in building scalable web applications.',
     content: `
       <h2>Introduction</h2>
       <p>Web design continues to evolve at a rapid pace, with new trends emerging each year that redefine how businesses connect with their audiences online. As we move into 2025, staying ahead of these trends is crucial for creating modern, user-friendly websites that stand out. In this article, we explore the <strong>top 5 web design trends for 2025</strong> that can elevate your online presence, from minimalist layouts to immersive experiences.</p>
@@ -459,9 +460,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+UX',
     category: 'Software Development',
     date: 'May 10, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
-    authorBio: 'John Smith is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a business strategist with a passion for helping companies leverage technology to achieve their goals.',
     content: `
       <h2>Introduction</h2>
       <p>User experience (UX) is the cornerstone of a successful mobile app. In 2025, with millions of apps competing for attention, delivering a seamless and intuitive UX is more important than ever. This article explores <strong>how to optimize your mobile app for better UX</strong>, covering strategies for intuitive navigation, performance improvements, and user-friendly design.</p>
@@ -518,9 +519,9 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing+Guide',
     category: 'Digital Marketing',
     date: 'May 5, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
-    authorBio: 'Alice Johnson is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
+    authorBio: 'Shubham is a tech enthusiast and writer focusing on emerging technologies and their impact on businesses.',
     content: `
       <h2>Introduction</h2>
       <p>Digital marketing is a dynamic field, and 2025 brings new opportunities to connect with audiences in innovative ways. This <strong>ultimate guide to digital marketing in 2025</strong> covers the most effective strategies to boost your brand’s visibility, drive traffic, and increase conversions. From SEO to social media and PPC, we’ve got you covered.</p>
@@ -692,7 +693,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 to-transparent flex items-end p-6">
               <div>
-                <span className="inline-block bg-teal-500 text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
                   {post.category}
                 </span>
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
@@ -732,7 +733,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   href={`https://twitter.com/intent/tweet?url=https://intentioninfoservice.com/blog/${post.slug}&text=${post.title}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-colors"
+                  className="flex items-center justify-center w-10 h-10 bg-brand-blue text-white rounded-full hover:bg-brand-blue/80 transition-colors"
                   title="Share on Twitter"
                 >
                   <FaTwitter size={20} />
@@ -741,7 +742,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   href={`https://www.facebook.com/sharer/sharer.php?u=https://intentioninfoservice.com/blog/${post.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-colors"
+                  className="flex items-center justify-center w-10 h-10 bg-brand-blue text-white rounded-full hover:bg-brand-blue/80 transition-colors"
                   title="Share on Facebook"
                 >
                   <FaFacebook size={20} />
@@ -750,7 +751,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   href={`https://www.linkedin.com/shareArticle?mini=true&url=https://intentioninfoservice.com/blog/${post.slug}&title=${post.title}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 bg-teal-500 text-white rounded-full hover:bg-teal-600 transition-colors"
+                  className="flex items-center justify-center w-10 h-10 bg-brand-blue text-white rounded-full hover:bg-brand-blue/80 transition-colors"
                   title="Share on LinkedIn"
                 >
                   <FaLinkedin size={20} />
@@ -775,11 +776,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             </div>
 
-            {/* Comments Section (Placeholder) */}
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">Comments</h3>
-              <p className="text-gray-600">Comments section coming soon! Stay tuned for updates.</p>
-            </div>
+            {/* Leave a Reply Section */}
+            <CommentForm />
           </div>
         </article>
 
@@ -791,7 +789,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <ul className="space-y-2">
               {['Software Development', 'Business Solutions', 'Digital Marketing', 'UI/UX Design', 'Technology'].map(category => (
                 <li key={category}>
-                  <Link href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} className="text-gray-800 hover:text-teal-600 transition-colors">
+                  <Link href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} className="text-gray-800 hover:text-brand-blue transition-colors">
                     {category}
                   </Link>
                 </li>
@@ -816,7 +814,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                       />
                     </div>
                     <div>
-                      <Link href={`/blog/${relatedPost.slug}`} className="text-gray-800 hover:text-teal-600 transition-colors">
+                      <Link href={`/blog/${relatedPost.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
                         <h4 className="text-sm font-semibold">{relatedPost.title}</h4>
                       </Link>
                       <p className="text-xs text-gray-600">{relatedPost.date}</p>

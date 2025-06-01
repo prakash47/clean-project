@@ -46,15 +46,12 @@ export async function generateStaticParams() {
 
 // Generate metadata dynamically based on the category
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
-  // Resolve the params Promise
   const resolvedParams = await params;
-  
-  // Debug: Log params to verify its value
   console.log('generateMetadata resolvedParams:', resolvedParams);
 
   const category = resolvedParams?.category;
   if (!category || !validCategories.includes(category)) {
-    notFound(); // Redirect to 404 if category is invalid
+    notFound();
   }
 
   const capitalizedCategory = category
@@ -97,15 +94,12 @@ export const viewport = {
 };
 
 export default async function BlogCategoryPage({ params }: { params: Promise<{ category: string }> }) {
-  // Resolve the params Promise
   const resolvedParams = await params;
-
-  // Debug: Log params to verify its value
   console.log('BlogCategoryPage resolvedParams:', resolvedParams);
 
   const category = resolvedParams?.category;
   if (!category || !validCategories.includes(category)) {
-    notFound(); // Redirect to 404 if category is invalid
+    notFound();
   }
 
   const capitalizedCategory = category
@@ -113,12 +107,11 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ c
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
-  // Filter blog posts by category
   const filteredPosts = blogPosts.filter(post => post.category === category);
 
   return (
     <MainLayout>
-      <section className="bg-dark-950 py-16 md:py-24">
+      <section className="bg-dark-950 py-20 md:py-32">
         <div className="w-full px-[10%]">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
             {capitalizedCategory} Blog Posts
@@ -128,7 +121,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ c
               {filteredPosts.map(post => (
                 <div
                   key={post.id}
-                  className="bg-dark-900 p-6 rounded-lg shadow-lg hover:shadow-teal-500/40 transition-shadow duration-300 flex flex-col items-center"
+                  className="bg-dark-900 p-8 rounded-lg shadow-lg hover:shadow-brand-blue/40 transition-shadow duration-300 flex flex-col items-center"
                 >
                   <img
                     src={post.image}
@@ -140,7 +133,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ c
                   <p className="text-gray-400 text-center mb-4">{post.excerpt}</p>
                   <Link
                     href={post.href}
-                    className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold py-2 px-4 rounded"
+                    className="bg-gradient-to-r from-brand-blue to-blue-700 hover:bg-brand-blue/80 text-white font-semibold py-2 px-4 rounded transition-all duration-300"
                   >
                     Read More
                   </Link>

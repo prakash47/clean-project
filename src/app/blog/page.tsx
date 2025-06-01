@@ -47,8 +47,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Software+Trends+2025',
     category: 'Software Development',
     date: 'April 15, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '2',
@@ -58,8 +58,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Custom+Software',
     category: 'Business Solutions',
     date: 'April 10, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '3',
@@ -69,8 +69,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing',
     category: 'Digital Marketing',
     date: 'April 5, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '4',
@@ -80,8 +80,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Tech+Stack',
     category: 'Software Development',
     date: 'April 1, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '5',
@@ -91,8 +91,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Low+Code',
     category: 'Technology',
     date: 'March 28, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '6',
@@ -102,8 +102,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Cybersecurity',
     category: 'Technology',
     date: 'March 25, 2025',
-    author: 'Bob Wilson',
-    authorImage: 'https://placehold.co/40x40.webp?text=BW',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '7',
@@ -113,8 +113,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=UI+UX+Trends',
     category: 'UI/UX Design',
     date: 'March 20, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '8',
@@ -124,8 +124,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Cloud+Computing',
     category: 'Business Solutions',
     date: 'March 15, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '9',
@@ -135,8 +135,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+Dev',
     category: 'Software Development',
     date: 'March 10, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '10',
@@ -146,8 +146,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Voice+Search',
     category: 'Digital Marketing',
     date: 'March 5, 2025',
-    author: 'Bob Wilson',
-    authorImage: 'https://placehold.co/40x40.webp?text=BW',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '11',
@@ -157,8 +157,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Sustainable+Software',
     category: 'Technology',
     date: 'March 1, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '12',
@@ -168,8 +168,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Blockchain',
     category: 'Technology',
     date: 'February 25, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '13',
@@ -179,8 +179,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Video+Marketing',
     category: 'Digital Marketing',
     date: 'February 20, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '14',
@@ -190,8 +190,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Web+Design+Trends+2025',
     category: 'UI/UX Design',
     date: 'May 15, 2025',
-    author: 'Jane Doe',
-    authorImage: 'https://placehold.co/40x40.webp?text=JD',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '15',
@@ -201,8 +201,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+UX',
     category: 'Software Development',
     date: 'May 10, 2025',
-    author: 'John Smith',
-    authorImage: 'https://placehold.co/40x40.webp?text=JS',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
   {
     id: '16',
@@ -212,8 +212,8 @@ const blogPosts = [
     featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing+Guide',
     category: 'Digital Marketing',
     date: 'May 5, 2025',
-    author: 'Alice Johnson',
-    authorImage: 'https://placehold.co/40x40.webp?text=AJ',
+    author: 'Shubham',
+    authorImage: 'https://placehold.co/40x40.webp?text=S',
   },
 ];
 
@@ -264,7 +264,7 @@ export default function BlogPage() {
       }} />
 
       {/* Hero Section */}
-      <section className="relative bg-dark-900 py-16 md:py-24">
+      <section className="relative bg-dark-900 py-20 md:py-32">
         <div className="container mx-auto px-4 md:px-[10%] text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
             Intention Infoservice Blog
@@ -277,7 +277,7 @@ export default function BlogPage() {
 
       {/* Featured Post Section */}
       {blogPosts.length > 0 && (
-        <section className="container mx-auto px-4 md:px-[10%] py-12">
+        <section className="container mx-auto px-4 md:px-[10%] py-16">
           <h2 className="text-3xl font-bold text-white mb-8">Featured Post</h2>
           <div className="relative">
             <Link href={`/blog/${blogPosts[0].slug}`}>
@@ -290,9 +290,9 @@ export default function BlogPage() {
                   className="transition-transform duration-300 hover:scale-105"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent flex items-end p-6">
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent flex items-end p-8">
                   <div>
-                    <span className="inline-block bg-teal-500 text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                    <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
                       {blogPosts[0].category}
                     </span>
                     <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{blogPosts[0].title}</h3>
@@ -319,7 +319,7 @@ export default function BlogPage() {
       )}
 
       {/* Main Blog Section with Sidebar */}
-      <section className="container mx-auto px-4 md:px-[10%] py-12 flex flex-col lg:flex-row gap-8">
+      <section className="container mx-auto px-4 md:px-[10%] py-16 flex flex-col lg:flex-row gap-8">
         {/* Blog Posts Grid */}
         <BlogPostsList initialPosts={initialPosts} allPosts={blogPosts} />
 
