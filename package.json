@@ -10,11 +10,13 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "axios": "^1.9.0",
     "canvas-confetti": "^1.9.3",
     "critters": "^0.0.23",
     "framer-motion": "^11.2.10",
     "googleapis": "^148.0.0",
+    "graphql": "^16.11.0",
     "gsap": "^3.12.7",
     "next": "^15.3.1",
     "next-seo": "^6.6.0",

@@ -21,8 +21,19 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'placehold.co',
+        hostname: 'secure.gravatar.com', 
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co', 
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cms.intentioninfoservice.com', 
+        port: '',
+        pathname: '/wp-content/uploads/**',
       },
     ],
   },

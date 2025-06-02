@@ -3,6 +3,48 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import BlogPostsList from '@/components/BlogPostsList';
 import BlogSidebar from '@/components/BlogSidebar';
+import { gql } from '@apollo/client';
+import client from '@/lib/apolloClient';
+
+// Define the structure of the raw WordPress post data
+interface WordPressPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  featuredImage?: {
+    node?: {
+      sourceUrl: string;
+    };
+  };
+  categories: {
+    nodes: Array<{
+      name: string;
+    }>;
+  };
+  date: string;
+  author: {
+    node: {
+      name: string;
+      avatar?: {
+        url: string;
+      };
+    };
+  };
+}
+
+// Define the structure of the transformed blog post data
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  featuredImage: string;
+  category: string;
+  date: string;
+  author: string;
+  authorImage: string;
+}
 
 export const metadata: Metadata = {
   title: 'Blog - Intention Infoservice',
@@ -37,187 +79,60 @@ export const viewport = {
   initialScale: 1,
 };
 
-// Updated blog posts data (16 posts, including the 3 new ones)
-const blogPosts = [
-  {
-    id: '1',
-    slug: 'top-5-trends-in-software-development-2025',
-    title: 'Top 5 Trends in Software Development for 2025',
-    excerpt: 'Discover the top trends shaping the software development industry in 2025, including AI integration, cloud solutions, and more.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Software+Trends+2025',
-    category: 'Software Development',
-    date: 'April 15, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '2',
-    slug: 'why-your-business-needs-custom-software',
-    title: 'Why Your Business Needs Custom Software in 2025',
-    excerpt: 'Learn how custom software solutions can streamline operations, improve efficiency, and give your business a competitive edge.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Custom+Software',
-    category: 'Business Solutions',
-    date: 'April 10, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '3',
-    slug: 'the-future-of-digital-marketing',
-    title: 'The Future of Digital Marketing: Strategies for Success',
-    excerpt: 'Explore the future of digital marketing with strategies to boost engagement, drive traffic, and increase conversions in 2025.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing',
-    category: 'Digital Marketing',
-    date: 'April 5, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '4',
-    slug: 'how-to-choose-the-right-tech-stack',
-    title: 'How to Choose the Right Tech Stack for Your Project',
-    excerpt: 'A guide to selecting the best tech stack for your software project, balancing scalability, performance, and cost.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Tech+Stack',
-    category: 'Software Development',
-    date: 'April 1, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '5',
-    slug: 'the-rise-of-low-code-platforms',
-    title: 'The Rise of Low-Code Platforms: Revolutionizing Development',
-    excerpt: 'Low-code platforms are changing the way software is developed. Learn how they can benefit your business.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Low+Code',
-    category: 'Technology',
-    date: 'March 28, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '6',
-    slug: 'cybersecurity-best-practices-2025',
-    title: 'Cybersecurity Best Practices for Businesses in 2025',
-    excerpt: 'Protect your business from cyber threats with these essential cybersecurity best practices.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Cybersecurity',
-    category: 'Technology',
-    date: 'March 25, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '7',
-    slug: 'ui-ux-design-trends-2025',
-    title: 'UI/UX Design Trends to Watch in 2025',
-    excerpt: 'Stay ahead of the curve with the latest UI/UX design trends that will shape user experiences in 2025.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=UI+UX+Trends',
-    category: 'UI/UX Design',
-    date: 'March 20, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '8',
-    slug: 'cloud-computing-for-small-businesses',
-    title: 'Cloud Computing for Small Businesses: Benefits and Challenges',
-    excerpt: 'Explore how cloud computing can help small businesses grow, along with potential challenges to consider.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Cloud+Computing',
-    category: 'Business Solutions',
-    date: 'March 15, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '9',
-    slug: 'mobile-app-development-guide',
-    title: "A Beginner's Guide to Mobile App Development in 2025",
-    excerpt: 'Get started with mobile app development with this comprehensive guide tailored for beginners.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+Dev',
-    category: 'Software Development',
-    date: 'March 10, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '10',
-    slug: 'voice-search-optimization',
-    title: 'Voice Search Optimization: The Future of SEO',
-    excerpt: 'Learn how to optimize your website for voice search to stay ahead in SEO rankings.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Voice+Search',
-    category: 'Digital Marketing',
-    date: 'March 5, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '11',
-    slug: 'sustainable-software-practices',
-    title: 'Sustainable Software Practices for a Greener Future',
-    excerpt: 'Discover how software companies can adopt sustainable practices to reduce environmental impact.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Sustainable+Software',
-    category: 'Technology',
-    date: 'March 1, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '12',
-    slug: 'blockchain-in-software-development',
-    title: 'Blockchain in Software Development: Opportunities and Challenges',
-    excerpt: 'Explore the role of blockchain technology in software development and its potential impact.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Blockchain',
-    category: 'Technology',
-    date: 'February 25, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '13',
-    slug: 'video-marketing-strategies-2025',
-    title: 'Video Marketing Strategies for 2025: Engage Your Audience',
-    excerpt: 'Boost your marketing efforts with these video marketing strategies tailored for 2025.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Video+Marketing',
-    category: 'Digital Marketing',
-    date: 'February 20, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '14',
-    slug: 'web-design-trends-2025',
-    title: 'Top 5 Web Design Trends for 2025',
-    excerpt: 'Explore the latest trends in web design that can elevate your online presence, from minimalist layouts to immersive experiences.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Web+Design+Trends+2025',
-    category: 'UI/UX Design',
-    date: 'May 15, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '15',
-    slug: 'optimize-mobile-app-ux',
-    title: 'How to Optimize Your Mobile App for Better UX',
-    excerpt: 'Learn key strategies to improve user experience in mobile apps, including intuitive navigation and performance optimization.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Mobile+App+UX',
-    category: 'Software Development',
-    date: 'May 10, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-  {
-    id: '16',
-    slug: 'digital-marketing-guide-2025',
-    title: 'The Ultimate Guide to Digital Marketing in 2025',
-    excerpt: 'Discover effective digital marketing strategies to boost your brand’s visibility, including SEO, social media, and PPC tips.',
-    featuredImage: 'https://placehold.co/800x400.webp?text=Digital+Marketing+Guide',
-    category: 'Digital Marketing',
-    date: 'May 5, 2025',
-    author: 'Shubham',
-    authorImage: 'https://placehold.co/40x40.webp?text=S',
-  },
-];
+// Fetch blog posts from WordPress
+async function fetchBlogPosts(): Promise<BlogPost[]> {
+  const { data } = await client.query({
+    query: gql`
+      query GetAllPosts {
+        posts(first: 16) {
+          nodes {
+            id
+            slug
+            title
+            excerpt
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+            categories {
+              nodes {
+                name
+              }
+            }
+            date
+            author {
+              node {
+                name
+                avatar {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  });
 
-// Sample categories
+  return data.posts.nodes.map((post: WordPressPost) => ({
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
+    category: post.categories.nodes[0]?.name || 'Uncategorized',
+    date: new Date(post.date).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }),
+    author: post.author.node.name,
+    authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
+  }));
+}
+
+// Sample categories (can be fetched dynamically if needed)
 const categories = [
   'Software Development',
   'Business Solutions',
@@ -226,7 +141,11 @@ const categories = [
   'Technology',
 ];
 
-export default function BlogPage() {
+// Enable ISR with a revalidation interval of 60 seconds
+export const revalidate = 60;
+
+export default async function BlogPage() {
+  const blogPosts = await fetchBlogPosts();
   const initialPosts = blogPosts.slice(0, 4);
 
   return (
