@@ -13,7 +13,7 @@ interface WordPressPost {
   slug: string;
   title: string;
   excerpt: string;
-  content: string; // Content is always a string in the GraphQL response
+  content: string;
   featuredImage?: {
     node?: {
       sourceUrl: string;
@@ -63,13 +63,19 @@ interface WordPressRelatedPost {
   };
 }
 
+// Define the structure of the raw WordPress category data
+interface WordPressCategory {
+  name: string;
+  slug: string;
+}
+
 // Define the structure of the transformed blog post data
 interface BlogPost {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
-  content: string; // Make content required since the query always returns it
+  content: string;
   featuredImage: string;
   category: string;
   date: string;
@@ -118,12 +124,14 @@ async function fetchPostBySlug(slug: string): Promise<BlogPost | null> {
   const post: WordPressPost | null = data.postBy;
   if (!post) return null;
 
+  console.log('Excerpt from /blog/[slug]:', post.excerpt); // Log for debugging
+
   return {
     id: post.id,
     slug: post.slug,
     title: post.title,
     excerpt: post.excerpt,
-    content: post.content || '', // Ensure content is a string (GraphQL always returns it, but fallback to empty string for safety)
+    content: post.content || '',
     featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
     category: post.categories.nodes[0]?.name || 'Uncategorized',
     date: new Date(post.date).toLocaleDateString('en-US', {
@@ -188,6 +196,31 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
     author: p.author.node.name,
     authorImage: p.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
   }));
+}
+
+// Fetch categories from WordPress
+async function fetchCategories(): Promise<WordPressCategory[]> {
+  const { data } = await client.query({
+    query: gql`
+      query GetCategories {
+        categories(first: 50) {
+          nodes {
+            name
+            slug
+          }
+        }
+      }
+    `,
+  });
+
+  // Debug categories before and after sorting
+  console.log('Categories before sorting:', data.categories.nodes.map((cat: WordPressCategory) => cat.name));
+  const categories: WordPressCategory[] = data.categories.nodes
+    .filter((category: WordPressCategory) => category.name !== 'Uncategorized') // Exclude 'Uncategorized'
+    .sort((a: WordPressCategory, b: WordPressCategory) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  console.log('Categories after sorting:', categories.map(cat => cat.name));
+
+  return categories;
 }
 
 // Dynamic metadata based on the slug
@@ -267,6 +300,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   const allPosts: BlogPost[] = await fetchAllPosts();
+  const categories: WordPressCategory[] = await fetchCategories();
   const relatedPosts: BlogPost[] = allPosts
     .filter(p => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
@@ -311,6 +345,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               fill
               style={{ objectFit: 'cover' }}
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 to-transparent flex items-end p-6">
               <div>
@@ -318,6 +353,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   {post.category}
                 </span>
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
+                <div className="text-gray-300 mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
                 <div className="flex items-center gap-3">
                   <Image
                     src={post.authorImage}
@@ -325,6 +361,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     width={40}
                     height={40}
                     className="rounded-full"
+                    sizes="40px"
                   />
                   <div>
                     <p className="text-sm text-gray-300">{post.author}</p>
@@ -389,6 +426,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   width={60}
                   height={60}
                   className="rounded-full"
+                  sizes="60px"
                 />
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800">{post.author}</h3>
@@ -408,10 +446,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="mb-8 bg-gray-200 p-8 rounded-lg shadow-lg">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">Categories</h3>
             <ul className="space-y-2">
-              {['Software Development', 'Business Solutions', 'Digital Marketing', 'UI/UX Design', 'Technology'].map(category => (
-                <li key={category}>
-                  <Link href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} className="text-gray-800 hover:text-brand-blue transition-colors">
-                    {category}
+              {categories.map(category => (
+                <li key={category.slug}>
+                  <Link href={`/blog/category/${category.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
+                    {category.name}
                   </Link>
                 </li>
               ))}
@@ -432,6 +470,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                         fill
                         style={{ objectFit: 'cover' }}
                         loading="lazy"
+                        sizes="80px"
                       />
                     </div>
                     <div>

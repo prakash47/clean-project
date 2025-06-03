@@ -16,9 +16,14 @@ type BlogPost = {
   authorImage: string;
 };
 
+type Category = {
+  name: string;
+  slug: string;
+};
+
 type BlogSidebarProps = {
   blogPosts: BlogPost[];
-  categories: string[];
+  categories: Category[];
 };
 
 export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps) {
@@ -68,6 +73,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                         fill
                         style={{ objectFit: 'cover' }}
                         loading="lazy"
+                        sizes="64px"
                       />
                     </div>
                     <div>
@@ -91,9 +97,9 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Categories</h3>
         <ul className="space-y-2">
           {categories.map(category => (
-            <li key={category}>
-              <Link href={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`} className="text-gray-800 hover:text-brand-blue transition-colors">
-                {category}
+            <li key={category.slug}>
+              <Link href={`/blog/category/${category.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
+                {category.name}
               </Link>
             </li>
           ))}
@@ -113,6 +119,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                   fill
                   style={{ objectFit: 'cover' }}
                   loading="lazy"
+                  sizes="80px"
                 />
               </div>
               <div>

@@ -67,6 +67,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                   style={{ objectFit: 'cover' }}
                   className="transition-transform duration-300 hover:scale-105"
                   loading="lazy"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
               <div className="p-8">
@@ -74,7 +75,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                   {post.category}
                 </span>
                 <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
-                <p className="text-gray-400 mb-4">{post.excerpt}</p>
+                <div className="text-gray-400 mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
                 <div className="flex items-center gap-3">
                   <Image
                     src={post.authorImage}
@@ -82,6 +83,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                     width={32}
                     height={32}
                     className="rounded-full"
+                    sizes="32px"
                   />
                   <div>
                     <p className="text-sm text-gray-400">{post.author}</p>

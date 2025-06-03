@@ -1,78 +1,120 @@
+import Link from 'next/link';
+import Image from 'next/image';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import MainLayout from '@/components/layout/MainLayout';
-import Link from 'next/link';
+import CategoryPostsList from '@/components/CategoryPostsList'; // Import the new component
+import { gql } from '@apollo/client';
+import client from '@/lib/apolloClient';
 
-// Mock data for blog posts (replace with actual data fetching logic)
-const blogPosts = [
-  {
-    id: '1',
-    title: 'Top 5 Web Design Trends for 2025',
-    excerpt: 'Explore the latest trends in web design that can elevate your online presence, from minimalist layouts to immersive experiences.',
-    category: 'web-design',
-    href: '/blog/web-design-trends-2025',
-    date: 'May 15, 2025',
-    image: 'https://placehold.co/800x400.webp?text=Web+Design+Trends+2025',
-  },
-  {
-    id: '2',
-    title: 'How to Optimize Your Mobile App for Better UX',
-    excerpt: 'Learn key strategies to improve user experience in mobile apps, including intuitive navigation and performance optimization.',
-    category: 'mobile-apps',
-    href: '/blog/optimize-mobile-app-ux',
-    date: 'May 10, 2025',
-    image: 'https://placehold.co/800x400.webp?text=Mobile+App+UX',
-  },
-  {
-    id: '3',
-    title: 'The Ultimate Guide to Digital Marketing in 2025',
-    excerpt: 'Discover effective digital marketing strategies to boost your brand’s visibility, including SEO, social media, and PPC tips.',
-    category: 'digital-marketing',
-    href: '/blog/digital-marketing-guide-2025',
-    date: 'May 5, 2025',
-    image: 'https://placehold.co/800x400.webp?text=Digital+Marketing+Guide',
-  },
-];
+// Define the structure of the raw WordPress post data
+interface WordPressPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  featuredImage?: {
+    node?: {
+      sourceUrl: string;
+    };
+  };
+  categories: {
+    nodes: Array<{
+      name: string;
+      slug: string;
+    }>;
+  };
+  date: string;
+  author: {
+    node: {
+      name: string;
+      avatar?: {
+        url: string;
+      };
+    };
+  };
+}
 
-// Define valid categories for static generation
-const validCategories = ['web-design', 'mobile-apps', 'digital-marketing'];
+// Define the structure of the raw WordPress category data
+interface WordPressCategory {
+  name: string;
+  slug: string;
+}
+
+// Define the structure of the transformed blog post data
+interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  featuredImage: string;
+  category: string;
+  date: string;
+  author: string;
+  authorImage: string;
+}
 
 // Generate static params for pre-rendering category pages
 export async function generateStaticParams() {
-  return validCategories.map(category => ({
-    category,
-  }));
+  const { data } = await client.query({
+    query: gql`
+      query GetAllCategorySlugs {
+        categories(first: 50) {
+          nodes {
+            slug
+          }
+        }
+      }
+    `,
+  });
+
+  return data.categories.nodes
+    .filter((category: WordPressCategory) => category.slug !== 'uncategorized') // Exclude 'uncategorized'
+    .map((category: WordPressCategory) => ({
+      category: category.slug,
+    }));
 }
 
 // Generate metadata dynamically based on the category
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
-  console.log('generateMetadata resolvedParams:', resolvedParams);
+  const categorySlug = resolvedParams?.category;
 
-  const category = resolvedParams?.category;
-  if (!category || !validCategories.includes(category)) {
-    notFound();
+  const { data } = await client.query({
+    query: gql`
+      query GetCategoryBySlug($slug: [String]) {
+        categories(where: { slug: $slug }) {
+          nodes {
+            name
+          }
+        }
+      }
+    `,
+    variables: { slug: [categorySlug] },
+  });
+
+  const categoryName = data.categories.nodes[0]?.name || 'Category Not Found';
+
+  if (!data.categories.nodes.length) {
+    return {
+      title: 'Category Not Found - Intention Infoservice',
+      description: 'The category you are looking for does not exist.',
+    };
   }
 
-  const capitalizedCategory = category
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-
   return {
-    title: `${capitalizedCategory} Blog Posts - Intention Infoservice`,
-    description: `Explore blog posts about ${capitalizedCategory} from Intention Infoservice, covering topics like web design, mobile apps, digital marketing, and more in 2025.`,
+    title: `${categoryName} Blog Posts - Intention Infoservice`,
+    description: `Explore blog posts in the ${categoryName} category from Intention Infoservice.`,
     metadataBase: new URL('https://intentioninfoservice.com'),
     openGraph: {
-      url: `https://intentioninfoservice.com/blog/category/${category}`,
-      title: `${capitalizedCategory} Blog Posts - Intention Infoservice`,
-      description: `Explore blog posts about ${capitalizedCategory} from Intention Infoservice, covering topics like web design, mobile apps, digital marketing, and more in 2025.`,
+      url: `https://intentioninfoservice.com/blog/category/${categorySlug}`,
+      title: `${categoryName} Blog Posts - Intention Infoservice`,
+      description: `Explore blog posts in the ${categoryName} category from Intention Infoservice.`,
       images: [
         {
           url: '/images/blog-og-image.webp',
           width: 1200,
           height: 630,
-          alt: `${capitalizedCategory} Blog Posts`,
+          alt: `${categoryName} Blog Posts`,
         },
       ],
       siteName: 'Intention Infoservice',
@@ -83,7 +125,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
       creator: '@intentioninfo',
     },
     alternates: {
-      canonical: `https://intentioninfoservice.com/blog/category/${category}`,
+      canonical: `https://intentioninfoservice.com/blog/category/${categorySlug}`,
     },
   };
 }
@@ -93,46 +135,110 @@ export const viewport = {
   initialScale: 1,
 };
 
-export default async function BlogCategoryPage({ params }: { params: Promise<{ category: string }> }) {
-  const resolvedParams = await params;
-  console.log('BlogCategoryPage resolvedParams:', resolvedParams);
+// Fetch blog posts for the given category slug
+async function fetchCategoryData(categorySlug: string) {
+  const { data } = await client.query({
+    query: gql`
+      query GetCategoryData($categorySlug: String!) {
+        posts(where: { categoryName: $categorySlug }, first: 16) {
+          nodes {
+            id
+            slug
+            title
+            excerpt
+            featuredImage {
+              node {
+                sourceUrl
+              }
+            }
+            categories {
+              nodes {
+                name
+                slug
+              }
+            }
+            date
+            author {
+              node {
+                name
+                avatar {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: { categorySlug },
+  });
 
-  const category = resolvedParams?.category;
-  if (!category || !validCategories.includes(category)) {
-    notFound();
-  }
+  // Transform blog posts
+  const blogPosts: BlogPost[] = data.posts.nodes.map((post: WordPressPost) => ({
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
+    category: post.categories.nodes[0]?.name || 'Uncategorized',
+    date: new Date(post.date).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }),
+    author: post.author.node.name,
+    authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
+  }));
 
-  const capitalizedCategory = category
+  // Capitalize category name for display
+  const categoryName = data.posts.nodes[0]?.categories.nodes[0]?.name || categorySlug
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
-  const filteredPosts = blogPosts.filter(post => post.category === category);
+  return { blogPosts, categoryName };
+}
+
+export default async function BlogCategoryPage({ params }: { params: Promise<{ category: string }> }) {
+  const resolvedParams = await params;
+  const categorySlug = resolvedParams?.category;
+
+  const { blogPosts, categoryName } = await fetchCategoryData(categorySlug);
+
+  if (blogPosts.length === 0) {
+    notFound();
+  }
+
+  const initialPosts = blogPosts.slice(0, 4);
 
   return (
-    <MainLayout>
+    <div className="bg-dark-950 text-white">
+      {/* Upper Section: Initial Posts in a 3-Column Grid */}
       <section className="bg-dark-950 py-20 md:py-32">
         <div className="w-full px-[10%]">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
-            {capitalizedCategory} Blog Posts
+            {categoryName} Blog Posts
           </h1>
-          {filteredPosts.length > 0 ? (
+          {blogPosts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map(post => (
+              {blogPosts.map(post => (
                 <div
                   key={post.id}
                   className="bg-dark-900 p-8 rounded-lg shadow-lg hover:shadow-brand-blue/40 transition-shadow duration-300 flex flex-col items-center"
                 >
-                  <img
-                    src={post.image}
+                  <Image
+                    src={post.featuredImage}
                     alt={post.title}
+                    width={800}
+                    height={400}
                     className="w-full h-48 object-cover rounded-md mb-4"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <h3 className="text-xl font-semibold text-white text-center mb-2">{post.title}</h3>
                   <p className="text-gray-500 text-sm text-center mb-2">{post.date}</p>
-                  <p className="text-gray-400 text-center mb-4">{post.excerpt}</p>
+                  <div className="text-gray-400 text-center mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
                   <Link
-                    href={post.href}
+                    href={`/blog/${post.slug}`}
                     className="bg-gradient-to-r from-brand-blue to-blue-700 hover:bg-brand-blue/80 text-white font-semibold py-2 px-4 rounded transition-all duration-300"
                   >
                     Read More
@@ -145,6 +251,11 @@ export default async function BlogCategoryPage({ params }: { params: Promise<{ c
           )}
         </div>
       </section>
-    </MainLayout>
+
+      {/* Lower Section: Full-Width Category Posts with Recent Posts */}
+      <section className="container mx-auto px-4 md:px-[10%] py-16">
+        <CategoryPostsList initialPosts={initialPosts} allPosts={blogPosts} />
+      </section>
+    </div>
   );
 }

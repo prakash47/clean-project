@@ -33,6 +33,12 @@ interface WordPressPost {
   };
 }
 
+// Define the structure of the raw WordPress category data
+interface WordPressCategory {
+  name: string;
+  slug: string;
+}
+
 // Define the structure of the transformed blog post data
 interface BlogPost {
   id: string;
@@ -79,11 +85,11 @@ export const viewport = {
   initialScale: 1,
 };
 
-// Fetch blog posts from WordPress
-async function fetchBlogPosts(): Promise<BlogPost[]> {
+// Fetch blog posts and categories from WordPress
+async function fetchBlogData() {
   const { data } = await client.query({
     query: gql`
-      query GetAllPosts {
+      query GetBlogData {
         posts(first: 16) {
           nodes {
             id
@@ -111,41 +117,51 @@ async function fetchBlogPosts(): Promise<BlogPost[]> {
             }
           }
         }
+        categories(first: 50) {
+          nodes {
+            name
+            slug
+          }
+        }
       }
     `,
   });
 
-  return data.posts.nodes.map((post: WordPressPost) => ({
-    id: post.id,
-    slug: post.slug,
-    title: post.title,
-    excerpt: post.excerpt,
-    featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
-    category: post.categories.nodes[0]?.name || 'Uncategorized',
-    date: new Date(post.date).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    }),
-    author: post.author.node.name,
-    authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
-  }));
-}
+  // Transform blog posts
+  const blogPosts: BlogPost[] = data.posts.nodes.map((post: WordPressPost) => {
+    console.log('Excerpt from /blog:', post.excerpt); // Log for debugging
+    return {
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
+      category: post.categories.nodes[0]?.name || 'Uncategorized',
+      date: new Date(post.date).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }),
+      author: post.author.node.name,
+      authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
+    };
+  });
 
-// Sample categories (can be fetched dynamically if needed)
-const categories = [
-  'Software Development',
-  'Business Solutions',
-  'Digital Marketing',
-  'UI/UX Design',
-  'Technology',
-];
+  // Fetch and sort categories alphabetically (case-insensitive)
+  console.log('Categories before sorting:', data.categories.nodes.map((cat: WordPressCategory) => cat.name));
+  const categories: WordPressCategory[] = data.categories.nodes
+    .filter((category: WordPressCategory) => category.name !== 'Uncategorized') // Exclude 'Uncategorized'
+    .sort((a: WordPressCategory, b: WordPressCategory) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  console.log('Categories after sorting:', categories.map(cat => cat.name));
+
+  return { blogPosts, categories };
+}
 
 // Enable ISR with a revalidation interval of 60 seconds
 export const revalidate = 60;
 
 export default async function BlogPage() {
-  const blogPosts = await fetchBlogPosts();
+  const { blogPosts, categories } = await fetchBlogData();
   const initialPosts = blogPosts.slice(0, 4);
 
   return (
@@ -208,6 +224,7 @@ export default async function BlogPage() {
                   style={{ objectFit: 'cover' }}
                   className="transition-transform duration-300 hover:scale-105"
                   priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 to-transparent flex items-end p-8">
                   <div>
@@ -215,7 +232,7 @@ export default async function BlogPage() {
                       {blogPosts[0].category}
                     </span>
                     <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{blogPosts[0].title}</h3>
-                    <p className="text-gray-300 mb-4">{blogPosts[0].excerpt}</p>
+                    <div className="text-gray-300 mb-4" dangerouslySetInnerHTML={{ __html: blogPosts[0].excerpt }} />
                     <div className="flex items-center gap-3">
                       <Image
                         src={blogPosts[0].authorImage}
@@ -223,6 +240,7 @@ export default async function BlogPage() {
                         width={40}
                         height={40}
                         className="rounded-full"
+                        sizes="40px"
                       />
                       <div>
                         <p className="text-sm text-gray-400">{blogPosts[0].author}</p>
