@@ -324,7 +324,7 @@ export default async function BlogPage() {
           <BlogPostsList initialPosts={initialPosts} allPosts={blogPosts} />
 
           {/* Sidebar */}
-          <aside className="lg:w-1/3">
+          <aside className="lg:w-1/3 md:mt-[4.25rem]">
             <BlogSidebar blogPosts={blogPosts} categories={categories} />
           </aside>
         </section>
