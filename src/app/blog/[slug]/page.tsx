@@ -3,9 +3,9 @@ import Image from 'next/image';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
-import CommentForm from '@/components/CommentForm';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
+import DOMPurify from 'dompurify'; // Verify this import
 
 // Define the structure of the raw WordPress post data for a single post
 interface WordPressPost {
@@ -28,6 +28,8 @@ interface WordPressPost {
   author: {
     node: {
       name: string;
+      firstName: string;
+      lastName: string;
       avatar?: {
         url: string;
       };
@@ -56,6 +58,8 @@ interface WordPressRelatedPost {
   author: {
     node: {
       name: string;
+      firstName: string;
+      lastName: string;
       avatar?: {
         url: string;
       };
@@ -75,7 +79,9 @@ interface BlogPost {
   slug: string;
   title: string;
   excerpt: string;
+  sanitizedExcerpt: string;
   content: string;
+  sanitizedContent: string;
   featuredImage: string;
   category: string;
   date: string;
@@ -109,6 +115,8 @@ async function fetchPostBySlug(slug: string): Promise<BlogPost | null> {
           author {
             node {
               name
+              firstName
+              lastName
               avatar {
                 url
               }
@@ -124,14 +132,22 @@ async function fetchPostBySlug(slug: string): Promise<BlogPost | null> {
   const post: WordPressPost | null = data.postBy;
   if (!post) return null;
 
-  console.log('Excerpt from /blog/[slug]:', post.excerpt); // Log for debugging
-
+  console.log('Excerpt from /blog/[slug]:', post.excerpt);
+  const fullName = [post.author.node.firstName, post.author.node.lastName]
+    .filter(Boolean)
+    .join(' ');
+  const sanitize = DOMPurify && DOMPurify.sanitize ? DOMPurify.sanitize : ((html: string) => {
+    console.warn('DOMPurify not loaded, returning unsanitized HTML:', html);
+    return html;
+  }); // Enhanced fallback with warning
   return {
     id: post.id,
     slug: post.slug,
     title: post.title,
     excerpt: post.excerpt,
+    sanitizedExcerpt: sanitize(post.excerpt),
     content: post.content || '',
+    sanitizedContent: sanitize(post.content || ''),
     featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
     category: post.categories.nodes[0]?.name || 'Uncategorized',
     date: new Date(post.date).toLocaleDateString('en-US', {
@@ -139,7 +155,7 @@ async function fetchPostBySlug(slug: string): Promise<BlogPost | null> {
       day: 'numeric',
       year: 'numeric',
     }),
-    author: post.author.node.name,
+    author: fullName || post.author.node.name || 'Unknown Author',
     authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
     authorBio: post.author.node.description || 'No bio available.',
   };
@@ -170,6 +186,8 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
             author {
               node {
                 name
+                firstName
+                lastName
                 avatar {
                   url
                 }
@@ -181,21 +199,30 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
     `,
   });
 
-  return data.posts.nodes.map((p: WordPressRelatedPost) => ({
-    id: p.id,
-    slug: p.slug,
-    title: p.title,
-    excerpt: p.excerpt,
-    featuredImage: p.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
-    category: p.categories.nodes[0]?.name || 'Uncategorized',
-    date: new Date(p.date).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    }),
-    author: p.author.node.name,
-    authorImage: p.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
-  }));
+  const sanitize = DOMPurify && DOMPurify.sanitize ? DOMPurify.sanitize : ((html: string) => html);
+  return data.posts.nodes.map((p: WordPressRelatedPost) => {
+    const fullName = [p.author.node.firstName, p.author.node.lastName]
+      .filter(Boolean)
+      .join(' ');
+    return {
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt,
+      sanitizedExcerpt: sanitize(p.excerpt),
+      content: '',
+      sanitizedContent: '',
+      featuredImage: p.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
+      category: p.categories.nodes[0]?.name || 'Uncategorized',
+      date: new Date(p.date).toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }),
+      author: fullName || p.author.node.name || 'Unknown Author',
+      authorImage: p.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
+    };
+  });
 }
 
 // Fetch categories from WordPress
@@ -216,7 +243,7 @@ async function fetchCategories(): Promise<WordPressCategory[]> {
   // Debug categories before and after sorting
   console.log('Categories before sorting:', data.categories.nodes.map((cat: WordPressCategory) => cat.name));
   const categories: WordPressCategory[] = data.categories.nodes
-    .filter((category: WordPressCategory) => category.name !== 'Uncategorized') // Exclude 'Uncategorized'
+    .filter((category: WordPressCategory) => category.name !== 'Uncategorized')
     .sort((a: WordPressCategory, b: WordPressCategory) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
   console.log('Categories after sorting:', categories.map(cat => cat.name));
 
@@ -238,7 +265,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
-    "description": post.excerpt,
+    "description": post.sanitizedExcerpt,
     "url": `https://intentioninfoservice.com/blog/${post.slug}`,
     "datePublished": post.date,
     "author": {
@@ -259,12 +286,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   return {
     title: `${post.title} - Intention Infoservice`,
-    description: post.excerpt,
+    description: post.sanitizedExcerpt,
     metadataBase: new URL('https://intentioninfoservice.com'),
     openGraph: {
       url: `https://intentioninfoservice.com/blog/${post.slug}`,
       title: post.title,
-      description: post.excerpt,
+      description: post.sanitizedExcerpt,
       images: [
         {
           url: post.featuredImage,
@@ -309,7 +336,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
-    "description": post.excerpt,
+    "description": post.sanitizedExcerpt,
     "url": `https://intentioninfoservice.com/blog/${post.slug}`,
     "datePublished": post.date,
     "author": {
@@ -336,7 +363,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       }} />
 
       {/* Hero Section */}
-      <section className="relative bg-dark-900 py-16 md:py-24">
+      <section className="relative bg-dark-900 py-16 md:py-8">
         <div className="container mx-auto px-4 md:px-[10%]">
           <div className="relative w-full h-[400px] rounded-lg overflow-hidden mb-8">
             <Image
@@ -353,7 +380,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   {post.category}
                 </span>
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
-                <div className="text-gray-300 mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+                
                 <div className="flex items-center gap-3">
                   <Image
                     src={post.authorImage}
@@ -379,8 +406,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Post Content */}
         <article className="lg:w-2/3">
           <div className="bg-gray-200 p-8 rounded-lg shadow-lg">
+           
             <div className="prose prose-lg max-w-none text-gray-800">
-              <div dangerouslySetInnerHTML={{ __html: post.content }} />
+              <h2>{post.title}</h2>
+
+              <div dangerouslySetInnerHTML={{ __html: post.sanitizedContent }} />
             </div>
 
             {/* Share Buttons */}
@@ -434,9 +464,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 </div>
               </div>
             </div>
-
-            {/* Leave a Reply Section */}
-            <CommentForm />
           </div>
         </article>
 

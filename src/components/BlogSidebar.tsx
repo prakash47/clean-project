@@ -41,7 +41,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
     .slice(0, 7);
 
   return (
-    <aside className="lg:w-1/3 sticky top-8 md:mt-[4.25rem]">
+    <aside className=" sticky top-8 ">
       {/* Search Bar */}
       <div className="mb-8 bg-gray-200 p-8 rounded-lg shadow-lg">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Search</h3>

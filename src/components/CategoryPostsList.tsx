@@ -2,12 +2,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
+import { gql } from '@apollo/client';
+import client from '@/lib/apolloClient';
+import DOMPurify from 'dompurify';
 
 type BlogPost = {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
+  sanitizedExcerpt: string;
   featuredImage: string;
   category: string;
   date: string;
@@ -18,24 +22,92 @@ type BlogPost = {
 type CategoryPostsListProps = {
   initialPosts: BlogPost[];
   allPosts: BlogPost[];
+  hasNextPage?: boolean;
+  endCursor?: string;
+  categorySlug: string;
 };
 
-export default function CategoryPostsList({ initialPosts, allPosts }: CategoryPostsListProps) {
+export default function CategoryPostsList({ initialPosts, allPosts, hasNextPage: initialHasNextPage, endCursor: initialEndCursor, categorySlug }: CategoryPostsListProps) {
   const [displayedPosts, setDisplayedPosts] = useState(initialPosts);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(initialHasNextPage ?? true);
+  const [endCursor, setEndCursor] = useState<string | undefined>(initialEndCursor);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  // Infinite scroll logic for main posts
+  // Fetch more posts with pagination
+  const fetchMorePosts = async () => {
+    const { data } = await client.query({
+      query: gql`
+        query GetMoreCategoryPosts($categorySlug: String!, $after: String) {
+          posts(where: { categoryName: $categorySlug }, first: 4, after: $after) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              id
+              slug
+              title
+              excerpt
+              featuredImage {
+                node {
+                  sourceUrl
+                }
+              }
+              categories {
+                nodes {
+                  name
+                  slug
+                }
+              }
+              date
+              author {
+                node {
+                  name
+                  firstName
+                  lastName
+                  avatar {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: { categorySlug, after: endCursor },
+    });
+
+    const newPosts: BlogPost[] = data.posts.nodes.map((post: any) => {
+      const fullName = [post.author.node.firstName, post.author.node.lastName].filter(Boolean).join(' ');
+      return {
+        id: post.id,
+        slug: post.slug,
+        title: post.title,
+        excerpt: post.excerpt,
+        sanitizedExcerpt: DOMPurify.sanitize(post.excerpt),
+        featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
+        category: post.categories.nodes[0]?.name || 'Uncategorized',
+        date: new Date(post.date).toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric',
+        }),
+        author: fullName || post.author.node.name || 'Unknown Author',
+        authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
+      };
+    });
+
+    setDisplayedPosts(prev => [...prev, ...newPosts]);
+    setHasMore(data.posts.pageInfo.hasNextPage);
+    setEndCursor(data.posts.pageInfo.endCursor);
+  };
+
+  // Infinite scroll logic
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          // Load more posts
-          const nextPosts = allPosts.slice(displayedPosts.length, displayedPosts.length + 4);
-          setDisplayedPosts(prev => [...prev, ...nextPosts]);
-          if (displayedPosts.length + nextPosts.length >= allPosts.length) {
-            setHasMore(false);
-          }
+          fetchMorePosts();
         }
       },
       { threshold: 0.1 }
@@ -50,18 +122,13 @@ export default function CategoryPostsList({ initialPosts, allPosts }: CategoryPo
         observer.unobserve(observerRef.current);
       }
     };
-  }, [displayedPosts, hasMore, allPosts]);
-
-  // Sort blog posts by date (most recent first) and take the last 7 for Recent Posts
-  const recentPosts = [...allPosts]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 7);
+  }, [hasMore, endCursor, categorySlug]);
 
   return (
     <div className="w-full">
       {/* Main Posts Section */}
       <h2 className="text-3xl font-bold text-white mb-8">More Posts</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8"> {/* Changed to 2 columns on md and up */}
         {displayedPosts.map(post => (
           <div
             key={post.id}
@@ -77,7 +144,7 @@ export default function CategoryPostsList({ initialPosts, allPosts }: CategoryPo
             />
             <h3 className="text-xl font-semibold text-white text-center mb-2">{post.title}</h3>
             <p className="text-gray-500 text-sm text-center mb-2">{post.date}</p>
-            <div className="text-gray-400 text-center mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+            <div className="text-gray-400 text-center mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
             <Link
               href={`/blog/${post.slug}`}
               className="bg-gradient-to-r from-brand-blue to-blue-700 hover:bg-brand-blue/80 text-white font-semibold py-2 px-4 rounded transition-all duration-300"
@@ -93,34 +160,6 @@ export default function CategoryPostsList({ initialPosts, allPosts }: CategoryPo
           <p className="text-gray-400">Loading more posts...</p>
         </div>
       )}
-
-      {/* Recent Posts Section */}
-      <div className="mt-16">
-        <h3 className="text-3xl font-bold text-white mb-8">Recent Posts</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {recentPosts.map(post => (
-            <div
-              key={post.id}
-              className="bg-dark-900 p-8 rounded-lg shadow-lg hover:shadow-brand-blue/40 transition-shadow duration-300 flex flex-col items-center"
-            >
-              <div className="relative w-full h-20 rounded-md overflow-hidden mb-4">
-                <Image
-                  src={post.featuredImage}
-                  alt={post.title}
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  loading="lazy"
-                  sizes="80px"
-                />
-              </div>
-              <Link href={`/blog/${post.slug}`} className="text-white hover:text-brand-blue transition-colors">
-                <h4 className="text-lg font-semibold text-center">{post.title}</h4>
-              </Link>
-              <p className="text-sm text-gray-500 text-center">{post.date}</p>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }

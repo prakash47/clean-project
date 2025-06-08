@@ -2,12 +2,45 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
+import { gql } from '@apollo/client';
+import client from '@/lib/apolloClient';
+import DOMPurify from 'dompurify';
+
+// Define the structure of the raw WordPress post data from GraphQL
+interface WordPressPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  featuredImage?: {
+    node?: {
+      sourceUrl: string;
+    };
+  };
+  categories: {
+    nodes: Array<{
+      name: string;
+    }>;
+  };
+  date: string;
+  author: {
+    node: {
+      name: string;
+      firstName: string;
+      lastName: string;
+      avatar?: {
+        url: string;
+      };
+    };
+  };
+}
 
 type BlogPost = {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
+  sanitizedExcerpt: string;
   featuredImage: string;
   category: string;
   date: string;
@@ -21,21 +54,89 @@ type BlogPostsListProps = {
 };
 
 export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListProps) {
-  const [displayedPosts, setDisplayedPosts] = useState(initialPosts);
+  const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>(initialPosts);
   const [hasMore, setHasMore] = useState(true);
+  const [endCursor, setEndCursor] = useState<string | undefined>(undefined);
   const observerRef = useRef<HTMLDivElement | null>(null);
+
+  // Fetch more posts with pagination, excluding already displayed posts
+  const fetchMorePosts = async () => {
+    const { data } = await client.query({
+      query: gql`
+        query GetMorePosts($after: String) {
+          posts(first: 4, after: $after) {
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+            nodes {
+              id
+              slug
+              title
+              excerpt
+              featuredImage {
+                node {
+                  sourceUrl
+                }
+              }
+              categories {
+                nodes {
+                  name
+                }
+              }
+              date
+              author {
+                node {
+                  name
+                  firstName
+                  lastName
+                  avatar {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: { after: endCursor },
+    });
+
+    const newPosts: BlogPost[] = data.posts.nodes
+      .filter((newPost: WordPressPost) => !displayedPosts.some(post => post.id === newPost.id)) // Explicitly typed newPost
+      .map((post: WordPressPost) => {
+        const fullName = [post.author.node.firstName, post.author.node.lastName].filter(Boolean).join(' ');
+        const rawExcerpt = post.excerpt || ''; // Ensure excerpt exists
+        const truncatedExcerpt = rawExcerpt.length > 30 ? rawExcerpt.substring(0, 30) + '....' : rawExcerpt;
+        return {
+          id: post.id,
+          slug: post.slug,
+          title: post.title,
+          excerpt: post.excerpt,
+          sanitizedExcerpt: DOMPurify.sanitize(truncatedExcerpt),
+          featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
+          category: post.categories.nodes[0]?.name || 'Uncategorized',
+          date: new Date(post.date).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          }),
+          author: fullName || post.author.node.name || 'Unknown Author',
+          authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
+        };
+      });
+
+    setDisplayedPosts(prev => [...prev, ...newPosts]);
+    setHasMore(data.posts.pageInfo.hasNextPage);
+    setEndCursor(data.posts.pageInfo.endCursor);
+  };
 
   // Infinite scroll logic
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          // Load more posts
-          const nextPosts = allPosts.slice(displayedPosts.length, displayedPosts.length + 4);
-          setDisplayedPosts(prev => [...prev, ...nextPosts]);
-          if (displayedPosts.length + nextPosts.length >= allPosts.length) {
-            setHasMore(false);
-          }
+          fetchMorePosts();
         }
       },
       { threshold: 0.1 }
@@ -50,7 +151,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
         observer.unobserve(observerRef.current);
       }
     };
-  }, [displayedPosts, hasMore, allPosts]);
+  }, [hasMore, endCursor]);
 
   return (
     <div className="lg:w-2/3">
@@ -75,7 +176,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                   {post.category}
                 </span>
                 <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
-                <div className="text-gray-400 mb-4" dangerouslySetInnerHTML={{ __html: post.excerpt }} />
+                <div className="text-gray-400 mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
                 <div className="flex items-center gap-3">
                   <Image
                     src={post.authorImage}
