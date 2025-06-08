@@ -107,7 +107,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
       .map((post: WordPressPost) => {
         const fullName = [post.author.node.firstName, post.author.node.lastName].filter(Boolean).join(' ');
         const rawExcerpt = post.excerpt || ''; // Ensure excerpt exists
-        const truncatedExcerpt = rawExcerpt.length > 30 ? rawExcerpt.substring(0, 30) + '....' : rawExcerpt;
+        const truncatedExcerpt = rawExcerpt.length > 90 ? rawExcerpt.substring(0, 90) + '....' : rawExcerpt;
         return {
           id: post.id,
           slug: post.slug,

@@ -35,12 +35,6 @@ interface WordPressPost {
       };
     };
   };
-  // yoastSeo?: { // Commented out until plugin is active
-  //   title?: string;
-  //   metaDesc?: string;
-  //   canonical?: string;
-  //   focuskw?: string;
-  // };
 }
 
 // Define the structure of the raw WordPress category data
@@ -61,10 +55,6 @@ interface BlogPost {
   date: string;
   author: string;
   authorImage: string;
-  // yoastTitle?: string; // Commented out until plugin is active
-  // yoastMetaDesc?: string;
-  // yoastCanonical?: string;
-  // yoastFocuskw?: string;
 }
 
 export const metadata: Metadata = {
@@ -100,7 +90,7 @@ export const viewport = {
   initialScale: 1,
 };
 
-// Fetch blog posts and categories from WordPress with Yoast SEO data
+// Fetch blog posts and categories from WordPress
 async function fetchBlogData() {
   const { data } = await client.query({
     query: gql`
@@ -132,12 +122,6 @@ async function fetchBlogData() {
                 }
               }
             }
-            # yoastSeo { // Commented out until plugin is active
-            #   title
-            #   metaDesc
-            #   canonical
-            #   focuskw
-            # }
           }
         }
         categories(first: 50) {
@@ -153,19 +137,21 @@ async function fetchBlogData() {
     return { data: { posts: { nodes: [] }, categories: { nodes: [] } } }; // Fallback to empty data
   });
 
-  // Transform blog posts
+  // Transform blog posts with truncated excerpts
   const blogPosts: BlogPost[] = data.posts.nodes.map((post: WordPressPost) => {
     console.log('Excerpt from /blog:', post.excerpt); // Log for debugging
     const fullName = [post.author.node.firstName, post.author.node.lastName]
       .filter(Boolean)
       .join(' ');
     const sanitize = DOMPurify.sanitize || ((html: string) => html); // Fallback if DOMPurify is not loaded
+    const rawExcerpt = post.excerpt || ''; // Ensure excerpt exists
+    const truncatedExcerpt = rawExcerpt.length > 90 ? rawExcerpt.substring(0, 90) + '....' : rawExcerpt;
     return {
       id: post.id,
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
-      sanitizedExcerpt: sanitize(post.excerpt),
+      sanitizedExcerpt: sanitize(truncatedExcerpt),
       featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
       category: post.categories.nodes[0]?.name || 'Uncategorized',
       date: new Date(post.date).toLocaleDateString('en-US', {
@@ -175,10 +161,6 @@ async function fetchBlogData() {
       }),
       author: fullName || post.author.node.name || 'Unknown Author',
       authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
-      // yoastTitle: post.yoastSeo?.title || post.title, // Commented out
-      // yoastMetaDesc: post.yoastSeo?.metaDesc || 'Explore insights from Intention Infoservice.',
-      // yoastCanonical: post.yoastSeo?.canonical || `https://intentioninfoservice.com/blog/${post.slug}`,
-      // yoastFocuskw: post.yoastSeo?.focuskw || '',
     };
   });
 
@@ -202,42 +184,36 @@ export default async function BlogPage() {
   return (
     <>
       <Head>
-        <title>{/* blogPosts[0]?.yoastTitle || */ 'Blog - Intention Infoservice'}</title>
-        <meta name="description" content={/* blogPosts[0]?.yoastMetaDesc || */ 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'} />
-        <meta name="keywords" content={/* blogPosts[0]?.yoastFocuskw || */ 'software development, technology, digital solutions, Intention Infoservice'} />
-        <link rel="canonical" href={/* blogPosts[0]?.yoastCanonical || */ 'https://intentioninfoservice.com/blog'} />
-        <meta property="og:title" content={/* blogPosts[0]?.yoastTitle || */ 'Blog - Intention Infoservice'} />
-        <meta property="og:description" content={/* blogPosts[0]?.yoastMetaDesc || */ 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'} />
-        <meta property="og:url" content={/* blogPosts[0]?.yoastCanonical || */ 'https://intentioninfoservice.com/blog'} />
+        <title>{blogPosts[0]?.title || 'Blog - Intention Infoservice'}</title>
+        <meta
+          name="description"
+          content={blogPosts[0]?.excerpt.substring(0, 160) || 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'}
+        />
+        <meta name="keywords" content="software development, technology, digital solutions, Intention Infoservice" />
+        <link rel="canonical" href="https://intentioninfoservice.com/blog" />
+        <meta property="og:title" content={blogPosts[0]?.title || 'Blog - Intention Infoservice'} />
+        <meta property="og:description" content={blogPosts[0]?.excerpt.substring(0, 160) || 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'} />
+        <meta property="og:url" content="https://intentioninfoservice.com/blog" />
         <meta property="og:image" content={blogPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp?text=Intention+Infoservice+Blog'} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={/* blogPosts[0]?.yoastTitle || */ 'Blog - Intention Infoservice'} />
-        <meta name="twitter:description" content={/* blogPosts[0]?.yoastMetaDesc || */ 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'} />
+        <meta name="twitter:title" content={blogPosts[0]?.title || 'Blog - Intention Infoservice'} />
+        <meta name="twitter:description" content={blogPosts[0]?.excerpt.substring(0, 160) || 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'} />
         <meta name="twitter:image" content={blogPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp?text=Intention+Infoservice+Blog'} />
-        {/* Additional SEO enhancements */}
         <meta name="robots" content="index, follow" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
-      <div className="bg-dark-950 text-white">
-        {/* Schema Markup for Blog */}
-        <div dangerouslySetInnerHTML={{
-          __html: `<script type="application/ld+json">${JSON.stringify({
+        <script type="application/ld+json">
+          {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Blog",
             "name": "Intention Infoservice Blog",
-            "description": /* blogPosts[0]?.yoastMetaDesc || */ "Explore the latest insights, trends, and updates in software development, technology, and digital solutions.",
+            "description": blogPosts[0]?.excerpt.substring(0, 160) || "Explore the latest insights, trends, and updates in software development, technology, and digital solutions.",
             "url": "https://intentioninfoservice.com/blog",
             "publisher": {
               "@type": "Organization",
               "name": "Intention Infoservice",
               "url": "https://intentioninfoservice.com",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://intentioninfoservice.com/logo.png", // Replace with actual logo URL
-                "width": 600,
-                "height": 60,
-              },
+              "logo": { "@type": "ImageObject", "url": "https://intentioninfoservice.com/logo.png", "width": 600, "height": 60 },
             },
             "blogPost": blogPosts.map(post => ({
               "@type": "BlogPosting",
@@ -245,20 +221,13 @@ export default async function BlogPage() {
               "description": post.sanitizedExcerpt,
               "url": `https://intentioninfoservice.com/blog/${post.slug}`,
               "datePublished": post.date,
-              "author": {
-                "@type": "Person",
-                "name": post.author,
-              },
+              "author": { "@type": "Person", "name": post.author },
               "image": post.featuredImage,
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": `https://intentioninfoservice.com/blog/${post.slug}`,
-              },
-              "keywords": /* post.yoastFocuskw || */ 'software development, technology, digital solutions',
             })),
-          })}</script>`,
-        }} />
-
+          })}
+        </script>
+      </Head>
+      <div className="bg-dark-950 text-white">
         {/* Hero Section */}
         <section className="relative bg-dark-900 py-20 md:py-6">
           <div className="container mx-auto px-4 md:px-[10%] text-center">
@@ -287,15 +256,15 @@ export default async function BlogPage() {
                     priority
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-dark-900/80 flex items-end p-6"> {/* Overlay for visibility */}
-                    <div className="w-full"> {/* Ensure full width for text container */}
+                  <div className="absolute inset-0 bg-dark-900/80 flex items-end p-6">
+                    <div className="w-full">
                       <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
                         {blogPosts[0].category}
                       </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 whitespace-normal break-words"> {/* Allow multiple lines */}
+                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 whitespace-normal break-words">
                         {blogPosts[0].title}
                       </h3>
-                      <div className="text-gray-300 mb-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-full" dangerouslySetInnerHTML={{ __html: blogPosts[0].sanitizedExcerpt }} /> {/* One line with ellipsis */}
+                      <div className="text-gray-300 mb-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-full" dangerouslySetInnerHTML={{ __html: blogPosts[0].sanitizedExcerpt }} />
                       <div className="flex items-center gap-3">
                         <Image
                           src={blogPosts[0].authorImage}
@@ -324,7 +293,7 @@ export default async function BlogPage() {
           <BlogPostsList initialPosts={initialPosts} allPosts={blogPosts} />
 
           {/* Sidebar */}
-          <aside className="lg:w-1/3 md:mt-[4.25rem]">
+          <aside className="lg:w-1/3">
             <BlogSidebar blogPosts={blogPosts} categories={categories} />
           </aside>
         </section>
