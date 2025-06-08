@@ -5,7 +5,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { Manrope } from 'next/font/google';
 import ClientLayout from '@/components/ClientLayout';
-import ClientLayoutWrapper from '@/components/ClientLayoutWrapper'; // New client-side wrapper
+import ClientLayoutWrapper from '@/components/ClientLayoutWrapper';
 
 // Load Manrope font using next/font/google
 const manrope = Manrope({
@@ -28,6 +28,25 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" className="dark">
       <head>
         <link rel="manifest" href="/manifest.webmanifest" />
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+            />
+            <script
+              id="gtag-init"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+                `,
+              }}
+            />
+          </>
+        )}
       </head>
       <body className={`${manrope.className} flex min-h-screen flex-col bg-dark-950`}>
         <ClientLayout>
