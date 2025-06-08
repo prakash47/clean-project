@@ -58,13 +58,13 @@ interface BlogPost {
 }
 
 export const metadata: Metadata = {
-  title: 'Blog - Intention Infoservice',
-  description: 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.',
+  title: '2025 Software Development & IT Solutions Blog | Intention Infoservice',
+  description: 'Explore 2025’s top software development & IT solutions trends with Intention Infoservice. Get expert insights on digital innovation, consulting, and more. Boost your business now!',
   metadataBase: new URL('https://intentioninfoservice.com'),
   openGraph: {
     url: 'https://intentioninfoservice.com/blog',
-    title: 'Blog - Intention Infoservice',
-    description: 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.',
+    title: '2025 Software Development & IT Solutions Blog | Intention Infoservice',
+    description: 'Explore 2025’s top software development & IT solutions trends with Intention Infoservice. Get expert insights on digital innovation, consulting, and more. Boost your business now!',
     images: [
       {
         url: 'https://placehold.co/1200x630.webp?text=Intention+Infoservice+Blog',
@@ -184,20 +184,20 @@ export default async function BlogPage() {
   return (
     <>
       <Head>
-        <title>{blogPosts[0]?.title || 'Blog - Intention Infoservice'}</title>
+        <title>2025 Software Development & IT Solutions Blog | Intention Infoservice</title>
         <meta
           name="description"
-          content={blogPosts[0]?.excerpt.substring(0, 160) || 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'}
+          content="Explore 2025’s top software development & IT solutions trends with Intention Infoservice. Get expert insights on digital innovation, consulting, and more. Boost your business now!"
         />
-        <meta name="keywords" content="software development, technology, digital solutions, Intention Infoservice" />
+        <meta name="keywords" content="2025 software development, IT solutions, digital innovation, consulting, Intention Infoservice" />
         <link rel="canonical" href="https://intentioninfoservice.com/blog" />
-        <meta property="og:title" content={blogPosts[0]?.title || 'Blog - Intention Infoservice'} />
-        <meta property="og:description" content={blogPosts[0]?.excerpt.substring(0, 160) || 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'} />
+        <meta property="og:title" content="2025 Software Development & IT Solutions Blog | Intention Infoservice" />
+        <meta property="og:description" content="Explore 2025’s top software development & IT solutions trends with Intention Infoservice. Get expert insights on digital innovation, consulting, and more. Boost your business now!" />
         <meta property="og:url" content="https://intentioninfoservice.com/blog" />
         <meta property="og:image" content={blogPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp?text=Intention+Infoservice+Blog'} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={blogPosts[0]?.title || 'Blog - Intention Infoservice'} />
-        <meta name="twitter:description" content={blogPosts[0]?.excerpt.substring(0, 160) || 'Explore the latest insights, trends, and updates in software development, technology, and digital solutions from Intention Infoservice.'} />
+        <meta name="twitter:title" content="2025 Software Development & IT Solutions Blog | Intention Infoservice" />
+        <meta name="twitter:description" content="Explore 2025’s top software development & IT solutions trends with Intention Infoservice. Get expert insights on digital innovation, consulting, and more. Boost your business now!" />
         <meta name="twitter:image" content={blogPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp?text=Intention+Infoservice+Blog'} />
         <meta name="robots" content="index, follow" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />

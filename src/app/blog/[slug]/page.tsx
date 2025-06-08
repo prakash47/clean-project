@@ -140,12 +140,16 @@ async function fetchPostBySlug(slug: string): Promise<BlogPost | null> {
     console.warn('DOMPurify not loaded, returning unsanitized HTML:', html);
     return html;
   }); // Enhanced fallback with warning
+  const rawExcerpt = post.excerpt || '';
+  const sanitizedExcerpt = sanitize(rawExcerpt); // Sanitize HTML
+  const plainExcerpt = sanitizedExcerpt.replace(/<\/?p>/g, ''); // Remove <p> tags manually
+  const truncatedExcerpt = plainExcerpt.length > 90 ? plainExcerpt.substring(0, 90) + '....' : plainExcerpt;
   return {
     id: post.id,
     slug: post.slug,
     title: post.title,
     excerpt: post.excerpt,
-    sanitizedExcerpt: sanitize(post.excerpt),
+    sanitizedExcerpt: truncatedExcerpt, // Use plain-text truncated excerpt for display
     content: post.content || '',
     sanitizedContent: sanitize(post.content || ''),
     featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
@@ -204,12 +208,16 @@ async function fetchAllPosts(): Promise<BlogPost[]> {
     const fullName = [p.author.node.firstName, p.author.node.lastName]
       .filter(Boolean)
       .join(' ');
+    const rawExcerpt = p.excerpt || '';
+    const sanitizedExcerpt = sanitize(rawExcerpt); // Sanitize HTML
+    const plainExcerpt = sanitizedExcerpt.replace(/<\/?p>/g, ''); // Remove <p> tags manually
+    const truncatedExcerpt = plainExcerpt.length > 90 ? plainExcerpt.substring(0, 90) + '....' : plainExcerpt;
     return {
       id: p.id,
       slug: p.slug,
       title: p.title,
       excerpt: p.excerpt,
-      sanitizedExcerpt: sanitize(p.excerpt),
+      sanitizedExcerpt: truncatedExcerpt, // Use plain-text truncated excerpt for display
       content: '',
       sanitizedContent: '',
       featuredImage: p.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
