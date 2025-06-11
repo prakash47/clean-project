@@ -247,10 +247,12 @@ export default function BlogCategoryPage() {
     notFound();
   }
 
-  const categoryHeading = `${categorySlug
+  // Use the actual category name from the first post to preserve original capitalization
+  const categoryName = displayedPosts[0]?.category || categorySlug
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')} Insights 2025 | Software & IT Solutions - Intention Infoservice`;
+    .join(' ');
+  const categoryHeading = `${categoryName} Insights 2025 | Software & IT Solutions - Intention Infoservice`;
 
   return (
     <>
@@ -258,17 +260,17 @@ export default function BlogCategoryPage() {
         <title>{categoryHeading}</title>
         <meta
           name="description"
-          content={`Discover 2025 ${categorySlug} insights from Intention Infoservice. Learn expert software & IT solutions for ${categorySlug} to grow your business. Explore trends and tips today!`}
+          content={`Discover 2025 ${categoryName} insights from Intention Infoservice. Learn expert software & IT solutions for ${categoryName} to grow your business. Explore trends and tips today!`}
         />
-        <meta name="keywords" content={`2025 ${categorySlug} insights, software, IT solutions, grow your business, Intention Infoservice`} />
+        <meta name="keywords" content={`2025 ${categoryName} insights, software, IT solutions, grow your business, Intention Infoservice`} />
         <link rel="canonical" href={`https://intentioninfoservice.com/blog/category/${categorySlug}`} />
         <meta property="og:title" content={categoryHeading} />
-        <meta property="og:description" content={`Discover 2025 ${categorySlug} insights from Intention Infoservice. Learn expert software & IT solutions for ${categorySlug} to grow your business. Explore trends and tips today!`} />
+        <meta property="og:description" content={`Discover 2025 ${categoryName} insights from Intention Infoservice. Learn expert software & IT solutions for ${categoryName} to grow your business. Explore trends and tips today!`} />
         <meta property="og:url" content={`https://intentioninfoservice.com/blog/category/${categorySlug}`} />
         <meta property="og:image" content={displayedPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp'} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={categoryHeading} />
-        <meta name="twitter:description" content={`Discover 2025 ${categorySlug} insights from Intention Infoservice. Learn expert software & IT solutions for ${categorySlug} to grow your business. Explore trends and tips today!`} />
+        <meta name="twitter:description" content={`Discover 2025 ${categoryName} insights from Intention Infoservice. Learn expert software & IT solutions for ${categoryName} to grow your business. Explore trends and tips today!`} />
         <meta name="twitter:image" content={displayedPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp'} />
         <meta name="robots" content="index, follow" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -278,7 +280,7 @@ export default function BlogCategoryPage() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             "name": `${categoryHeading}`,
-            "description": displayedPosts[0]?.excerpt.substring(0, 160) || `Explore ${categorySlug} category insights from Intention Infoservice.`,
+            "description": displayedPosts[0]?.excerpt.substring(0, 160) || `Explore ${categoryName} category insights from Intention Infoservice.`,
             "url": `https://intentioninfoservice.com/blog/category/${categorySlug}`,
             "publisher": { "@type": "Organization", "name": "Intention Infoservice", "url": "https://intentioninfoservice.com", "logo": { "@type": "ImageObject", "url": "https://intentioninfoservice.com/logo.png", "width": 600, "height": 60 } },
             "hasPart": displayedPosts.map(post => ({
@@ -294,75 +296,28 @@ export default function BlogCategoryPage() {
         </script>
       </Head>
       <div className="bg-dark-950 text-white">
-        <section className="relative bg-dark-900 py-20 md:py-6">
-          <div className="container mx-auto px-4 md:px-[10%] text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-              {categorySlug
-                .split('-')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ')} Blog
+        <section className="relative bg-dark-900 py-20 sm:py-12 md:py-6">
+          <div className="container mx-auto px-4 sm:px-6 md:px-[10%] text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+              {categoryName} Blog
             </h1>
-            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
-              Stay updated with the latest insights, trends, and updates in the {categorySlug} category from Intention Infoservice.
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
+              Stay updated with the latest insights, trends, and updates in the {categoryName} category from Intention Infoservice.
             </p>
           </div>
         </section>
-        {displayedPosts.length > 0 && displayedPosts[0] && (
-          <section className="container mx-auto px-4 md:px-[10%] py-6">
-            <h2 className="text-3xl font-bold text-white mb-8">Featured Post</h2>
-            <div className="relative">
-              <Link href={`/blog/${displayedPosts[0].slug}`}>
-                <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
-                  <Image
-                    src={displayedPosts[0].featuredImage}
-                    alt={displayedPosts[0].title}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    className="transition-transform duration-300 hover:scale-105"
-                    priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-dark-900/80 flex items-end p-6">
-                    <div>
-                      <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
-                        {displayedPosts[0].category}
-                      </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 whitespace-normal break-words">
-                        {displayedPosts[0].title}
-                      </h3>
-                      <div className="text-gray-300 mb-4 overflow-hidden text-ellipsis whitespace-nowrap" dangerouslySetInnerHTML={{ __html: displayedPosts[0].sanitizedExcerpt }} />
-                      <div className="flex items-center gap-3">
-                        <Image
-                          src={displayedPosts[0].authorImage}
-                          alt={displayedPosts[0].author}
-                          width={40}
-                          height={40}
-                          className="rounded-full"
-                          sizes="40px"
-                        />
-                        <div>
-                          {CONFIG.SHOW_DATES && (
-                            <p className="text-sm text-gray-400">{displayedPosts[0].date}</p>
-                          )}
-                          <p className="text-sm text-gray-400">{displayedPosts[0].author}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </section>
-        )}
-        <section className="container mx-auto px-4 md:px-[10%] py-6 flex flex-col lg:flex-row gap-8">
+        
+        <section className="container mx-auto px-4 sm:px-6 md:px-[10%] py-6 flex flex-col lg:flex-row gap-6 sm:gap-8">
           <div className="lg:w-2/3">
-            <h2 className="text-3xl font-bold text-white mb-8">{categoryHeading}</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-white mb-8">
+              {categoryName} Blog
+            </h2>
             {displayedPosts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {displayedPosts.map(post => (
                   <article key={post.id} className="bg-dark-900 rounded-lg overflow-hidden">
                     <Link href={`/blog/${post.slug}`}>
-                      <div className="relative w-full h-[200px]">
+                      <div className="relative w-full h-[150px] sm:h-[200px] md:h-[200px]">
                         <Image
                           src={post.featuredImage}
                           alt={post.title}
@@ -370,29 +325,29 @@ export default function BlogCategoryPage() {
                           style={{ objectFit: 'cover' }}
                           className="transition-transform duration-300 hover:scale-105"
                           loading="lazy"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       </div>
-                      <div className="p-8">
-                        <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                      <div className="p-4 sm:p-6">
+                        <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-2 sm:px-3 py-1 rounded-full mb-2">
                           {post.category}
                         </span>
-                        <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
-                        <div className="text-gray-400 mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
-                        <div className="flex items-center gap-3">
+                        <h3 className="text-lg sm:text-xl md:text-xl font-bold text-white mb-2">{post.title}</h3>
+                        <div className="text-gray-400 mb-2 sm:mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
+                        <div className="flex items-center gap-2 sm:gap-3">
                           <Image
                             src={post.authorImage}
                             alt={post.author}
-                            width={32}
-                            height={32}
+                            width={24}
+                            height={24}
                             className="rounded-full"
-                            sizes="32px"
+                            sizes="24px"
                           />
                           <div>
                             {CONFIG.SHOW_DATES && (
-                              <p className="text-sm text-gray-400">{post.date}</p>
+                              <p className="text-xs sm:text-sm text-gray-400">{post.date}</p>
                             )}
-                            <p className="text-sm text-gray-400">{post.author}</p>
+                            <p className="text-xs sm:text-sm text-gray-400">{post.author}</p>
                           </div>
                         </div>
                       </div>
@@ -404,12 +359,12 @@ export default function BlogCategoryPage() {
               <p className="text-gray-400">No posts available.</p>
             )}
             {hasMore && (
-              <div ref={observerRef} className="py-8 text-center">
+              <div ref={observerRef} className="py-4 sm:py-8 text-center">
                 <p className="text-gray-400">Loading more posts...</p>
               </div>
             )}
           </div>
-          <aside className="lg:w-1/3 min-w-[300px]">
+          <aside className="w-full lg:w-1/3 mt-6 sm:mt-8 md:mt-[4.25rem]">
             <BlogSidebar blogPosts={displayedPosts} categories={categories} />
           </aside>
         </section>

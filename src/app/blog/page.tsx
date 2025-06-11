@@ -219,22 +219,22 @@ export default async function BlogPage() {
         </script>
       </Head>
       <div className="bg-dark-950 text-white">
-        <section className="relative bg-dark-900 py-20 md:py-6">
-          <div className="container mx-auto px-4 md:px-[10%] text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+        <section className="relative bg-dark-900 py-20 sm:py-12">
+          <div className="container mx-auto px-4 sm:px-6 md:px-[10%] text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
               Intention Infoservice Blog
             </h1>
-            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
               Stay updated with the latest insights, trends, and updates in software development, technology, and digital solutions.
             </p>
           </div>
         </section>
         {blogPosts.length > 0 && (
-          <section className="container mx-auto px-4 md:px-[10%] py-6">
-            <h2 className="text-3xl font-bold text-white mb-8">Featured Post</h2>
+          <section className="container mx-auto px-4 sm:px-6 md:px-[10%] py-6">
+            <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-white mb-8">Featured Post</h2>
             <div className="relative">
               <Link href={`/blog/${blogPosts[0].slug}`}>
-                <div className="relative w-full h-[400px] rounded-lg overflow-hidden">
+                <div className="relative w-full h-[250px] sm:h-[300px] md:h-[400px] rounded-lg overflow-hidden">
                   <Image
                     src={blogPosts[0].featuredImage}
                     alt={blogPosts[0].title}
@@ -242,31 +242,31 @@ export default async function BlogPage() {
                     style={{ objectFit: 'cover' }}
                     className="transition-transform duration-300 hover:scale-105"
                     priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-dark-900/80 flex items-end p-6">
+                  <div className="absolute inset-0 bg-dark-900/80 flex items-end p-4 sm:p-6">
                     <div className="w-full">
-                      <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                      <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-2 sm:px-3 py-1 rounded-full mb-2">
                         {blogPosts[0].category}
                       </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 whitespace-normal break-words">
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 whitespace-normal break-words">
                         {blogPosts[0].title}
                       </h3>
-                      <div className="text-gray-300 mb-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-full" dangerouslySetInnerHTML={{ __html: blogPosts[0].sanitizedExcerpt }} />
-                      <div className="flex items-center gap-3">
+                      <div className="text-gray-300 mb-2 sm:mb-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-full" dangerouslySetInnerHTML={{ __html: blogPosts[0].sanitizedExcerpt }} />
+                      <div className="flex items-center gap-2 sm:gap-3">
                         <Image
                           src={blogPosts[0].authorImage}
                           alt={blogPosts[0].author}
-                          width={40}
-                          height={40}
+                          width={30}
+                          height={30}
                           className="rounded-full"
-                          sizes="40px"
+                          sizes="30px"
                         />
                         <div>
                           {CONFIG.SHOW_DATES && (
-                            <p className="text-sm text-gray-400">{blogPosts[0].date}</p>
+                            <p className="text-xs sm:text-sm text-gray-400">{blogPosts[0].date}</p>
                           )}
-                          <p className="text-sm text-gray-400">{blogPosts[0].author}</p>
+                          <p className="text-xs sm:text-sm text-gray-400">{blogPosts[0].author}</p>
                         </div>
                       </div>
                     </div>
@@ -276,9 +276,9 @@ export default async function BlogPage() {
             </div>
           </section>
         )}
-        <section className="container mx-auto px-4 md:px-[10%] py-6 flex flex-col lg:flex-row gap-8">
+        <section className="container mx-auto px-4 sm:px-6 md:px-[10%] py-6 flex flex-col sm:flex-col md:flex-col lg:flex-row gap-6 sm:gap-8">
           <BlogPostsList initialPosts={initialPosts} allPosts={blogPosts} />
-          <aside className="lg:w-1/3">
+          <aside className="w-full lg:w-1/3 sm:mt-8 md:mt-[4.25rem]">
             <BlogSidebar blogPosts={blogPosts} categories={categories} />
           </aside>
         </section>

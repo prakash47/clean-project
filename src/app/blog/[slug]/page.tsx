@@ -282,37 +282,38 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         })}</script>`,
       }} />
 
-      <section className="relative bg-dark-900 py-16 md:py-8">
-        <div className="container mx-auto px-4 md:px-[10%]">
-          <div className="relative w-full h-[400px] rounded-lg overflow-hidden mb-8">
+      <section className="relative bg-dark-900 py-16 sm:py-12 md:py-8">
+        <div className="container mx-auto px-4 sm:px-6 md:px-[10%]">
+          <div className="relative w-full h-[250px] sm:h-[300px] md:h-[400px] rounded-lg overflow-hidden mb-8 shadow-md">
             <Image
               src={post.featuredImage}
               alt={post.title}
               fill
               style={{ objectFit: 'cover' }}
+              className="rounded-lg transition-transform duration-300 hover:scale-105"
               priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 to-transparent flex items-end p-6">
+            <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 to-transparent flex items-end p-4 sm:p-6">
               <div>
-                <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-2 sm:px-3 py-1 rounded-full mb-2">
                   {post.category}
                 </span>
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
-                <div className="flex items-center gap-3">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">{post.title}</h1>
+                <div className="flex items-center gap-2 sm:gap-3">
                   <Image
                     src={post.authorImage}
                     alt={post.author}
-                    width={40}
-                    height={40}
+                    width={30}
+                    height={30}
                     className="rounded-full"
-                    sizes="40px"
+                    sizes="30px"
                   />
                   <div>
                     {CONFIG.SHOW_DATES && (
-                      <p className="text-sm text-gray-300">{post.date}</p>
+                      <p className="text-xs sm:text-sm text-gray-300">{post.date}</p>
                     )}
-                    <p className="text-sm text-gray-300">{post.author}</p>
+                    <p className="text-xs sm:text-sm text-gray-300">{post.author}</p>
                   </div>
                 </div>
               </div>
@@ -321,16 +322,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
       </section>
 
-      <section className="container mx-auto px-4 md:px-[10%] py-12 flex flex-col lg:flex-row gap-8">
-        <article className="lg:w-2/3">
-          <div className="bg-gray-200 p-8 rounded-lg shadow-lg">
+      <section className="container mx-auto px-4 sm:px-6 md:px-[10%] py-6 sm:py-8 md:py-12 flex flex-col lg:flex-row gap-6 sm:gap-8">
+        <article className="w-full lg:w-2/3">
+          <div className="bg-gray-200 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
             <div className="prose prose-lg max-w-none text-gray-800">
               <h2>{post.title}</h2>
               <div dangerouslySetInnerHTML={{ __html: post.sanitizedContent }} />
             </div>
           </div>
         </article>
-        <aside className="lg:w-1/3">
+        <aside className="w-full lg:w-1/3 mt-6 sm:mt-8 md:mt-0">
           <BlogSidebar blogPosts={blogPosts} categories={categories} />
         </aside>
       </section>
