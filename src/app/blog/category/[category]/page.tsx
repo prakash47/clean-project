@@ -1,18 +1,14 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { notFound, useParams } from 'next/navigation'; // Import useParams for client-side params
-import { useState, useEffect, useRef } from 'react'; // Add React hooks
-import BlogSidebar from '@/components/BlogSidebar'; // Import BlogSidebar
+import { notFound, useParams } from 'next/navigation';
+import { useState, useEffect, useRef } from 'react';
+import BlogSidebar from '@/components/BlogSidebar';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
-import DOMPurify from 'dompurify'; // Verify this import
-import { generateStaticParams } from '@/utils/category-utils'; // Updated import path
-import { generateMetadata } from '@/utils/category-metadata'; // Updated import path
+import DOMPurify from 'dompurify';
 import Head from 'next/head';
-
-console.log('generateStaticParams imported:', generateStaticParams); // Debug log
-console.log('generateMetadata imported:', generateMetadata); // Debug log
+import { CONFIG } from '@/config'; // Import config
 
 // Define the structure of the raw WordPress post data
 interface WordPressPost {
@@ -66,7 +62,7 @@ interface BlogPost {
 
 // Fetch blog posts for the given category slug with pagination
 async function fetchCategoryData(categorySlug: string, after?: string) {
-  console.log('Fetching category data for:', categorySlug); // Debug log
+  console.log('Fetching category data for:', categorySlug);
   const queryString = `
     query GetCategoryData($categorySlug: String!, $after: String) {
       posts(where: { categoryName: $categorySlug }, first: 16, after: $after) {
@@ -105,7 +101,7 @@ async function fetchCategoryData(categorySlug: string, after?: string) {
       }
     }
   `;
-  console.log('Raw query string:', queryString); // Debug raw query
+  console.log('Raw query string:', queryString);
   try {
     const { data, errors } = await client.query({
       query: gql(queryString),
@@ -115,17 +111,16 @@ async function fetchCategoryData(categorySlug: string, after?: string) {
     if (errors) {
       console.error('GraphQL Errors:', errors);
     }
-    console.log('Fetched data:', data); // Debug log
-    // Transform blog posts with truncated excerpts
+    console.log('Fetched data:', data);
     const sanitize = DOMPurify && DOMPurify.sanitize ? DOMPurify.sanitize : ((html: string) => {
       console.warn('DOMPurify not loaded, returning unsanitized HTML:', html);
       return html;
-    }); // Enhanced fallback with warning
+    });
     const blogPosts: BlogPost[] = data.posts.nodes.map((post: WordPressPost) => {
       const fullName = [post.author.node.firstName, post.author.node.lastName]
         .filter(Boolean)
         .join(' ');
-      const rawExcerpt = post.excerpt || ''; // Ensure excerpt exists
+      const rawExcerpt = post.excerpt || '';
       const truncatedExcerpt = rawExcerpt.length > 90 ? rawExcerpt.substring(0, 90) + '....' : rawExcerpt;
       return {
         id: post.id,
@@ -135,11 +130,7 @@ async function fetchCategoryData(categorySlug: string, after?: string) {
         sanitizedExcerpt: sanitize(truncatedExcerpt),
         featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
         category: post.categories.nodes[0]?.name || 'Uncategorized',
-        date: new Date(post.date).toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        }),
+        date: post.date,
         author: fullName || post.author.node.name || 'Unknown Author',
         authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
       };
@@ -152,7 +143,7 @@ async function fetchCategoryData(categorySlug: string, after?: string) {
     };
   } catch (error) {
     console.error('GraphQL Error in fetchCategoryData:', error);
-    throw error; // Re-throw to handle in useEffect
+    throw error;
   }
 }
 
@@ -177,27 +168,26 @@ async function fetchCategories(): Promise<WordPressCategory[]> {
 }
 
 export default function BlogCategoryPage() {
-  const params = useParams(); // Use useParams to get params as a Promise
+  const params = useParams();
   const [displayedPosts, setDisplayedPosts] = useState<BlogPost[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [endCursor, setEndCursor] = useState<string | undefined>(undefined);
   const [categories, setCategories] = useState<WordPressCategory[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const categorySlug = params?.category as string; // Unwrap params.category safely
+  const categorySlug = params?.category as string;
 
-  // Initial data fetch
   useEffect(() => {
     const loadInitialData = async () => {
-      setIsLoading(true); // Set loading state
+      setIsLoading(true);
       try {
         const { blogPosts, hasNextPage, endCursor } = await fetchCategoryData(categorySlug);
         if (blogPosts.length === 0) {
           setIsLoading(false);
-          notFound(); // Trigger 404 only if no posts
+          notFound();
         } else {
-          setDisplayedPosts(blogPosts.slice(0, 4)); // Initial 4 posts
+          setDisplayedPosts(blogPosts.slice(0, 4));
           setHasMore(hasNextPage);
           setEndCursor(endCursor);
           const cats = await fetchCategories();
@@ -206,17 +196,16 @@ export default function BlogCategoryPage() {
       } catch (error) {
         console.error('Error loading initial data:', error);
       } finally {
-        setIsLoading(false); // Reset loading state
+        setIsLoading(false);
       }
     };
-    if (categorySlug) loadInitialData(); // Only fetch if categorySlug is defined
+    if (categorySlug) loadInitialData();
   }, [categorySlug]);
 
-  // Infinite scroll fetch
   const fetchMorePosts = async () => {
     if (!hasMore || !endCursor || isLoading) return;
 
-    setIsLoading(true); // Set loading state
+    setIsLoading(true);
     try {
       const { blogPosts, hasNextPage, endCursor: newEndCursor } = await fetchCategoryData(categorySlug, endCursor);
       setDisplayedPosts(prev => [...prev, ...blogPosts]);
@@ -225,7 +214,7 @@ export default function BlogCategoryPage() {
     } catch (error) {
       console.error('Error loading more posts:', error);
     } finally {
-      setIsLoading(false); // Reset loading state
+      setIsLoading(false);
     }
   };
 
@@ -251,36 +240,35 @@ export default function BlogCategoryPage() {
   }, [hasMore, endCursor, isLoading]);
 
   if (!categorySlug || (isLoading && displayedPosts.length === 0)) {
-    return <div>Loading...</div>; // Temporary loading state to avoid immediate 404
+    return <div>Loading...</div>;
   }
 
   if (displayedPosts.length === 0) {
     notFound();
   }
 
-  // Dynamic heading based on categorySlug
   const categoryHeading = `${categorySlug
     .split('-')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')} Blog Posts`;
+    .join(' ')} Insights 2025 | Software & IT Solutions - Intention Infoservice`;
 
   return (
     <>
       <Head>
-        <title>{categoryHeading} - Intention Infoservice</title>
+        <title>{categoryHeading}</title>
         <meta
           name="description"
-          content={displayedPosts[0]?.excerpt.substring(0, 160) || `Explore ${categorySlug} category insights from Intention Infoservice.`}
+          content={`Discover 2025 ${categorySlug} insights from Intention Infoservice. Learn expert software & IT solutions for ${categorySlug} to grow your business. Explore trends and tips today!`}
         />
-        <meta name="keywords" content={`${categorySlug}, software development, technology, Intention Infoservice`} />
+        <meta name="keywords" content={`2025 ${categorySlug} insights, software, IT solutions, grow your business, Intention Infoservice`} />
         <link rel="canonical" href={`https://intentioninfoservice.com/blog/category/${categorySlug}`} />
-        <meta property="og:title" content={`${categoryHeading} - Intention Infoservice`} />
-        <meta property="og:description" content={displayedPosts[0]?.excerpt.substring(0, 160) || `Explore ${categorySlug} category insights from Intention Infoservice.`} />
+        <meta property="og:title" content={categoryHeading} />
+        <meta property="og:description" content={`Discover 2025 ${categorySlug} insights from Intention Infoservice. Learn expert software & IT solutions for ${categorySlug} to grow your business. Explore trends and tips today!`} />
         <meta property="og:url" content={`https://intentioninfoservice.com/blog/category/${categorySlug}`} />
         <meta property="og:image" content={displayedPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp'} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${categoryHeading} - Intention Infoservice`} />
-        <meta name="twitter:description" content={displayedPosts[0]?.excerpt.substring(0, 160) || `Explore ${categorySlug} category insights from Intention Infoservice.`} />
+        <meta name="twitter:title" content={categoryHeading} />
+        <meta name="twitter:description" content={`Discover 2025 ${categorySlug} insights from Intention Infoservice. Learn expert software & IT solutions for ${categorySlug} to grow your business. Explore trends and tips today!`} />
         <meta name="twitter:image" content={displayedPosts[0]?.featuredImage || 'https://placehold.co/1200x630.webp'} />
         <meta name="robots" content="index, follow" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -289,7 +277,7 @@ export default function BlogCategoryPage() {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            "name": `${categoryHeading} - Intention Infoservice`,
+            "name": `${categoryHeading}`,
             "description": displayedPosts[0]?.excerpt.substring(0, 160) || `Explore ${categorySlug} category insights from Intention Infoservice.`,
             "url": `https://intentioninfoservice.com/blog/category/${categorySlug}`,
             "publisher": { "@type": "Organization", "name": "Intention Infoservice", "url": "https://intentioninfoservice.com", "logo": { "@type": "ImageObject", "url": "https://intentioninfoservice.com/logo.png", "width": 600, "height": 60 } },
@@ -306,7 +294,6 @@ export default function BlogCategoryPage() {
         </script>
       </Head>
       <div className="bg-dark-950 text-white">
-        {/* Hero Section */}
         <section className="relative bg-dark-900 py-20 md:py-6">
           <div className="container mx-auto px-4 md:px-[10%] text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
@@ -320,8 +307,6 @@ export default function BlogCategoryPage() {
             </p>
           </div>
         </section>
-
-        {/* Featured Post Section */}
         {displayedPosts.length > 0 && displayedPosts[0] && (
           <section className="container mx-auto px-4 md:px-[10%] py-6">
             <h2 className="text-3xl font-bold text-white mb-8">Featured Post</h2>
@@ -356,8 +341,10 @@ export default function BlogCategoryPage() {
                           sizes="40px"
                         />
                         <div>
+                          {CONFIG.SHOW_DATES && (
+                            <p className="text-sm text-gray-400">{displayedPosts[0].date}</p>
+                          )}
                           <p className="text-sm text-gray-400">{displayedPosts[0].author}</p>
-                          <p className="text-sm text-gray-400">{displayedPosts[0].date}</p>
                         </div>
                       </div>
                     </div>
@@ -367,10 +354,7 @@ export default function BlogCategoryPage() {
             </div>
           </section>
         )}
-
-        {/* Main Section with Recent Posts and Sidebar */}
         <section className="container mx-auto px-4 md:px-[10%] py-6 flex flex-col lg:flex-row gap-8">
-          {/* Recent Posts Grid */}
           <div className="lg:w-2/3">
             <h2 className="text-3xl font-bold text-white mb-8">{categoryHeading}</h2>
             {displayedPosts.length > 0 ? (
@@ -405,8 +389,10 @@ export default function BlogCategoryPage() {
                             sizes="32px"
                           />
                           <div>
+                            {CONFIG.SHOW_DATES && (
+                              <p className="text-sm text-gray-400">{post.date}</p>
+                            )}
                             <p className="text-sm text-gray-400">{post.author}</p>
-                            <p className="text-sm text-gray-400">{post.date}</p>
                           </div>
                         </div>
                       </div>
@@ -417,14 +403,12 @@ export default function BlogCategoryPage() {
             ) : (
               <p className="text-gray-400">No posts available.</p>
             )}
-            {/* Infinite Scroll Trigger */}
             {hasMore && (
               <div ref={observerRef} className="py-8 text-center">
                 <p className="text-gray-400">Loading more posts...</p>
               </div>
             )}
           </div>
-          {/* Sidebar */}
           <aside className="lg:w-1/3 min-w-[300px]">
             <BlogSidebar blogPosts={displayedPosts} categories={categories} />
           </aside>

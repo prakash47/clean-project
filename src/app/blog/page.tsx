@@ -6,7 +6,8 @@ import BlogSidebar from '@/components/BlogSidebar';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import DOMPurify from 'dompurify';
-import Head from 'next/head'; // Correct default import
+import Head from 'next/head';
+import { CONFIG } from '@/config'; // Import config
 
 // Define the structure of the raw WordPress post data
 interface WordPressPost {
@@ -57,7 +58,7 @@ interface BlogPost {
   authorImage: string;
 }
 
-export const metadata: Metadata = {
+export const metadata = {
   title: '2025 Software Development & IT Solutions Blog | Intention Infoservice',
   description: 'Explore 2025’s top software development & IT solutions trends with Intention Infoservice. Get expert insights on digital innovation, consulting, and more. Boost your business now!',
   metadataBase: new URL('https://intentioninfoservice.com'),
@@ -134,17 +135,15 @@ async function fetchBlogData() {
     `,
   }).catch(error => {
     console.error('GraphQL query error:', error);
-    return { data: { posts: { nodes: [] }, categories: { nodes: [] } } }; // Fallback to empty data
+    return { data: { posts: { nodes: [] }, categories: { nodes: [] } } };
   });
 
-  // Transform blog posts with truncated excerpts
   const blogPosts: BlogPost[] = data.posts.nodes.map((post: WordPressPost) => {
-    console.log('Excerpt from /blog:', post.excerpt); // Log for debugging
     const fullName = [post.author.node.firstName, post.author.node.lastName]
       .filter(Boolean)
       .join(' ');
-    const sanitize = DOMPurify.sanitize || ((html: string) => html); // Fallback if DOMPurify is not loaded
-    const rawExcerpt = post.excerpt || ''; // Ensure excerpt exists
+    const sanitize = DOMPurify.sanitize || ((html: string) => html);
+    const rawExcerpt = post.excerpt || '';
     const truncatedExcerpt = rawExcerpt.length > 90 ? rawExcerpt.substring(0, 90) + '....' : rawExcerpt;
     return {
       id: post.id,
@@ -154,27 +153,19 @@ async function fetchBlogData() {
       sanitizedExcerpt: sanitize(truncatedExcerpt),
       featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
       category: post.categories.nodes[0]?.name || 'Uncategorized',
-      date: new Date(post.date).toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      }),
+      date: post.date,
       author: fullName || post.author.node.name || 'Unknown Author',
       authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
     };
   });
 
-  // Fetch and sort categories alphabetically (case-insensitive)
-  console.log('Categories before sorting:', data.categories.nodes.map((cat: WordPressCategory) => cat.name));
   const categories: WordPressCategory[] = data.categories.nodes
     .filter((category: WordPressCategory) => category.name !== 'Uncategorized')
     .sort((a: WordPressCategory, b: WordPressCategory) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-  console.log('Categories after sorting:', categories.map(cat => cat.name));
 
   return { blogPosts, categories };
 }
 
-// Enable ISR with a revalidation interval of 60 seconds
 export const revalidate = 60;
 
 export default async function BlogPage() {
@@ -228,7 +219,6 @@ export default async function BlogPage() {
         </script>
       </Head>
       <div className="bg-dark-950 text-white">
-        {/* Hero Section */}
         <section className="relative bg-dark-900 py-20 md:py-6">
           <div className="container mx-auto px-4 md:px-[10%] text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
@@ -239,8 +229,6 @@ export default async function BlogPage() {
             </p>
           </div>
         </section>
-
-        {/* Featured Post Section */}
         {blogPosts.length > 0 && (
           <section className="container mx-auto px-4 md:px-[10%] py-6">
             <h2 className="text-3xl font-bold text-white mb-8">Featured Post</h2>
@@ -275,8 +263,10 @@ export default async function BlogPage() {
                           sizes="40px"
                         />
                         <div>
+                          {CONFIG.SHOW_DATES && (
+                            <p className="text-sm text-gray-400">{blogPosts[0].date}</p>
+                          )}
                           <p className="text-sm text-gray-400">{blogPosts[0].author}</p>
-                          <p className="text-sm text-gray-400">{blogPosts[0].date}</p>
                         </div>
                       </div>
                     </div>
@@ -286,13 +276,8 @@ export default async function BlogPage() {
             </div>
           </section>
         )}
-
-        {/* Main Blog Section with Sidebar */}
         <section className="container mx-auto px-4 md:px-[10%] py-6 flex flex-col lg:flex-row gap-8">
-          {/* Blog Posts Grid */}
           <BlogPostsList initialPosts={initialPosts} allPosts={blogPosts} />
-
-          {/* Sidebar */}
           <aside className="lg:w-1/3">
             <BlogSidebar blogPosts={blogPosts} categories={categories} />
           </aside>

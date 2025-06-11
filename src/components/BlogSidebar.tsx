@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import { CONFIG } from '@/config'; // Import config
 
 type BlogPost = {
   id: string;
@@ -41,7 +42,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
     .slice(0, 7);
 
   return (
-    <aside className=" sticky top-8 md:mt-[4.25rem]">
+    <aside className="sticky top-8 md:mt-[4.25rem]">
       {/* Search Bar */}
       <div className="mb-8 bg-gray-200 p-8 rounded-lg shadow-lg">
         <h3 className="text-xl font-semibold text-gray-800 mb-4">Search</h3>
@@ -80,7 +81,9 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                       <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
                         <h4 className="text-sm font-semibold">{post.title}</h4>
                       </Link>
-                      <p className="text-xs text-gray-600">{post.date}</p>
+                      {CONFIG.SHOW_DATES && (
+                        <p className="text-xs text-gray-600">{post.date}</p>
+                      )}
                     </div>
                   </li>
                 ))}
@@ -126,7 +129,9 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                 <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
                   <h4 className="text-sm font-semibold">{post.title}</h4>
                 </Link>
-                <p className="text-xs text-gray-600">{post.date}</p>
+                {CONFIG.SHOW_DATES && (
+                  <p className="text-xs text-gray-600">{post.date}</p>
+                )}
               </div>
             </li>
           ))}

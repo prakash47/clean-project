@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import DOMPurify from 'dompurify';
+import { CONFIG } from '@/config'; // Import config
 
 type BlogPost = {
   id: string;
@@ -87,11 +88,7 @@ export default function CategoryPostsList({ initialPosts, allPosts, hasNextPage:
         sanitizedExcerpt: DOMPurify.sanitize(post.excerpt),
         featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
         category: post.categories.nodes[0]?.name || 'Uncategorized',
-        date: new Date(post.date).toLocaleDateString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-        }),
+        date: post.date,
         author: fullName || post.author.node.name || 'Unknown Author',
         authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
       };
@@ -126,9 +123,8 @@ export default function CategoryPostsList({ initialPosts, allPosts, hasNextPage:
 
   return (
     <div className="w-full">
-      {/* Main Posts Section */}
       <h2 className="text-3xl font-bold text-white mb-8">More Posts</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8"> {/* Changed to 2 columns on md and up */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {displayedPosts.map(post => (
           <div
             key={post.id}
@@ -143,7 +139,9 @@ export default function CategoryPostsList({ initialPosts, allPosts, hasNextPage:
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <h3 className="text-xl font-semibold text-white text-center mb-2">{post.title}</h3>
-            <p className="text-gray-500 text-sm text-center mb-2">{post.date}</p>
+            {CONFIG.SHOW_DATES && (
+              <p className="text-gray-500 text-sm text-center mb-2">{post.date}</p>
+            )}
             <div className="text-gray-400 text-center mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
             <Link
               href={`/blog/${post.slug}`}
@@ -154,7 +152,6 @@ export default function CategoryPostsList({ initialPosts, allPosts, hasNextPage:
           </div>
         ))}
       </div>
-      {/* Infinite Scroll Trigger */}
       {hasMore && (
         <div ref={observerRef} className="py-8 text-center">
           <p className="text-gray-400">Loading more posts...</p>

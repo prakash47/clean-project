@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import DOMPurify from 'dompurify';
+import { CONFIG } from '@/config'; // Import config
 
 // Define the structure of the raw WordPress post data from GraphQL
 interface WordPressPost {
@@ -103,10 +104,10 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
     });
 
     const newPosts: BlogPost[] = data.posts.nodes
-      .filter((newPost: WordPressPost) => !displayedPosts.some(post => post.id === newPost.id)) // Explicitly typed newPost
+      .filter((newPost: WordPressPost) => !displayedPosts.some(post => post.id === newPost.id))
       .map((post: WordPressPost) => {
         const fullName = [post.author.node.firstName, post.author.node.lastName].filter(Boolean).join(' ');
-        const rawExcerpt = post.excerpt || ''; // Ensure excerpt exists
+        const rawExcerpt = post.excerpt || '';
         const truncatedExcerpt = rawExcerpt.length > 90 ? rawExcerpt.substring(0, 90) + '....' : rawExcerpt;
         return {
           id: post.id,
@@ -116,11 +117,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
           sanitizedExcerpt: DOMPurify.sanitize(truncatedExcerpt),
           featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
           category: post.categories.nodes[0]?.name || 'Uncategorized',
-          date: new Date(post.date).toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric',
-          }),
+          date: post.date,
           author: fullName || post.author.node.name || 'Unknown Author',
           authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
         };
@@ -176,6 +173,9 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                   {post.category}
                 </span>
                 <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
+                {CONFIG.SHOW_DATES && (
+                  <p className="text-sm text-gray-400">{post.date}</p>
+                )}
                 <div className="text-gray-400 mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
                 <div className="flex items-center gap-3">
                   <Image
@@ -188,7 +188,6 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                   />
                   <div>
                     <p className="text-sm text-gray-400">{post.author}</p>
-                    <p className="text-sm text-gray-400">{post.date}</p>
                   </div>
                 </div>
               </div>
