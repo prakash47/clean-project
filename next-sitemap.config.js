@@ -11,7 +11,11 @@ module.exports = {
       },
     ],
   },
-  exclude: ['/server-sitemap.xml'],
+  exclude: ['/server-sitemap.xml',
+    '/portfolio',
+    '/portfolio/*',
+    '/services',
+  ],
   generateIndexSitemap: false,
   outDir: 'public',
 };
