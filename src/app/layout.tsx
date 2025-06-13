@@ -1,5 +1,4 @@
 import './globals.css';
-import '../styles/prose.css';
 import { ReactNode } from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -39,7 +38,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               dangerouslySetInnerHTML={{
                 __html: `
                   window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
+                  function gtag( ){dataLayer.push(arguments);}
                   gtag('js', new Date());
                   gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
                 `,
@@ -48,7 +47,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </>
         )}
       </head>
-      <body className={`${manrope.className} flex min-h-screen flex-col bg-dark-950`}>
+      <body className={`${manrope.className} flex min-h-screen flex-col bg-[theme(colors.dark.950)]`}>
         <ClientLayout>
           <Header />
           <ClientLayoutWrapper>

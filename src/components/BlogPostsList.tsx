@@ -116,7 +116,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
           sanitizedExcerpt: DOMPurify.sanitize(truncatedExcerpt),
           featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
           category: post.categories.nodes[0]?.name || 'Uncategorized',
-          date: new Date(post.date).toLocaleDateString('en-US', {
+          date: new Date(post.date ).toLocaleDateString('en-US', {
             month: 'long',
             day: 'numeric',
             year: 'numeric',
@@ -124,7 +124,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
           author: fullName || post.author.node.name || 'Unknown Author',
           authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
         };
-      });
+      } );
 
     setDisplayedPosts(prev => [...prev, ...newPosts]);
     setHasMore(data.posts.pageInfo.hasNextPage);
@@ -158,7 +158,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
       <h2 className="text-3xl font-bold text-white mb-8">Recent Posts</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {displayedPosts.map(post => (
-          <article key={post.id} className="bg-dark-900 rounded-lg overflow-hidden">
+          <article key={post.id} className="bg-[theme(colors.dark.900)] rounded-lg overflow-hidden">
             <Link href={`/blog/${post.slug}`}>
               <div className="relative w-full h-[200px]">
                 <Image
@@ -172,7 +172,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                 />
               </div>
               <div className="p-8">
-                <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                <span className="inline-block bg-[theme(colors.brand.blue)] text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
                   {post.category}
                 </span>
                 <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
