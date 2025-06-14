@@ -9,7 +9,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, helperText, error = false, fullWidth = true, className = '', ...props }, ref) => {
-    const baseStyles = 'rounded-md border px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent';
+    const baseStyles = 'rounded-md border px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[theme(colors.primary.500)] focus:border-transparent';
     const errorStyles = error
       ? 'border-red-500 focus:ring-red-500'
       : 'border-gray-300';
@@ -48,7 +48,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, helperText, error = false, fullWidth = true, className = '', ...props }, ref) => {
-    const baseStyles = 'rounded-md border px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent';
+    const baseStyles = 'rounded-md border px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[theme(colors.primary.500)] focus:border-transparent';
     const errorStyles = error
       ? 'border-red-500 focus:ring-red-500'
       : 'border-gray-300';
@@ -88,7 +88,7 @@ interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ label, helperText, error = false, fullWidth = true, options, className = '', ...props }, ref) => {
-    const baseStyles = 'rounded-md border px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent';
+    const baseStyles = 'rounded-md border px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[theme(colors.primary.500)] focus:border-transparent';
     const errorStyles = error
       ? 'border-red-500 focus:ring-red-500'
       : 'border-gray-300';
@@ -138,7 +138,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <input
               ref={ref}
               type="checkbox"
-              className={`h-4 w-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500 ${className}`}
+              className={`h-4 w-4 text-[theme(colors.primary.600)] border-gray-300 rounded focus:ring-[theme(colors.primary.500)] ${className}`}
               {...props}
             />
           </div>

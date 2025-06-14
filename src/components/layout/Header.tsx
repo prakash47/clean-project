@@ -26,7 +26,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-dark-900">
+    <header className="sticky top-0 z-50 bg-[theme(colors.dark.900)]">
       <style jsx global>{`
         @keyframes bg-spin {
           to {
@@ -75,18 +75,18 @@ export default function Header() {
             <div key={link.name} className="relative group">
               {link.hasSubmenu ? (
                 <div
-                  className="text-white font-medium hover:text-brand-blue transition-all cursor-pointer py-2"
+                  className="text-white font-medium hover:text-[theme(colors.brand.blue)] transition-all cursor-pointer py-2"
                   onMouseEnter={() => setIsServicesOpen(true)}
                   onMouseLeave={() => setIsServicesOpen(false)}
                 >
                   {link.name}
                   {isServicesOpen && (
-                    <div className="absolute left-0 top-full mt-0 w-64 bg-dark-900 border border-gray-600/20 rounded-md shadow-lg p-2">
+                    <div className="absolute left-0 top-full mt-0 w-64 bg-[theme(colors.dark.900)] border border-gray-600/20 rounded-md shadow-lg p-2">
                       {servicesSubmenu.map((subLink) => (
                         <Link
                           key={subLink.name}
                           href={subLink.href}
-                          className="block px-4 py-2 text-white hover:text-brand-blue transition-all"
+                          className="block px-4 py-2 text-white hover:text-[theme(colors.brand.blue)] transition-all"
                         >
                           {subLink.name}
                         </Link>
@@ -104,7 +104,7 @@ export default function Header() {
               ) : (
                 <Link
                   href={link.href}
-                  className="text-white font-medium hover:text-brand-blue transition-all py-2"
+                  className="text-white font-medium hover:text-[theme(colors.brand.blue)] transition-all py-2"
                 >
                   {link.name}
                 </Link>
@@ -121,7 +121,7 @@ export default function Header() {
         </button>
       </div>
       {isOpen && (
-        <nav className="lg:hidden bg-dark-900">
+        <nav className="lg:hidden bg-[theme(colors.dark.900)]">
           <div className="max-w-5xl mx-auto px-6 py-6 flex flex-col gap-4">
             {navLinks.map((link, index) => (
               <div key={link.name}>
@@ -133,7 +133,7 @@ export default function Header() {
                         <Link
                           key={subLink.name}
                           href={subLink.href}
-                          className="text-gray-400 hover:text-brand-blue transition-all"
+                          className="text-gray-400 hover:text-[theme(colors.brand.blue)] transition-all"
                           onClick={() => setIsOpen(false)}
                         >
                           {subLink.name}
@@ -152,7 +152,7 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.href}
-                    className="text-white font-medium hover:text-brand-blue transition-all"
+                    className="text-white font-medium hover:text-[theme(colors.brand.blue)] transition-all"
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}

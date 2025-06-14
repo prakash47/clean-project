@@ -22,9 +22,9 @@ export default function Section({
   const backgroundStyles = {
     white: 'bg-white',
     light: 'bg-gray-50',
-    dark: 'bg-dark text-white',
-    primary: 'bg-primary-50',
-    gradient: 'bg-gradient-to-r from-primary-600 to-secondary-600 text-white',
+    dark: 'bg-[theme(colors.dark.900)] text-white',
+    primary: 'bg-[theme(colors.primary.50)]',
+    gradient: 'bg-gradient-to-r from-[theme(colors.primary.600)] to-secondary-600 text-white',
   };
   
   const paddingStyles = {

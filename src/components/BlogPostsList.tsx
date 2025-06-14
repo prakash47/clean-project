@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import DOMPurify from 'dompurify';
-import { CONFIG } from '@/config'; // Import config
 
 // Define the structure of the raw WordPress post data from GraphQL
 interface WordPressPost {
@@ -104,10 +103,10 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
     });
 
     const newPosts: BlogPost[] = data.posts.nodes
-      .filter((newPost: WordPressPost) => !displayedPosts.some(post => post.id === newPost.id))
+      .filter((newPost: WordPressPost) => !displayedPosts.some(post => post.id === newPost.id)) // Explicitly typed newPost
       .map((post: WordPressPost) => {
         const fullName = [post.author.node.firstName, post.author.node.lastName].filter(Boolean).join(' ');
-        const rawExcerpt = post.excerpt || '';
+        const rawExcerpt = post.excerpt || ''; // Ensure excerpt exists
         const truncatedExcerpt = rawExcerpt.length > 90 ? rawExcerpt.substring(0, 90) + '....' : rawExcerpt;
         return {
           id: post.id,
@@ -117,11 +116,15 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
           sanitizedExcerpt: DOMPurify.sanitize(truncatedExcerpt),
           featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
           category: post.categories.nodes[0]?.name || 'Uncategorized',
-          date: post.date,
+          date: new Date(post.date ).toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          }),
           author: fullName || post.author.node.name || 'Unknown Author',
           authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
         };
-      });
+      } );
 
     setDisplayedPosts(prev => [...prev, ...newPosts]);
     setHasMore(data.posts.pageInfo.hasNextPage);
@@ -155,7 +158,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
       <h2 className="text-3xl font-bold text-white mb-8">Recent Posts</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {displayedPosts.map(post => (
-          <article key={post.id} className="bg-dark-900 rounded-lg overflow-hidden">
+          <article key={post.id} className="bg-[theme(colors.dark.900)] rounded-lg overflow-hidden">
             <Link href={`/blog/${post.slug}`}>
               <div className="relative w-full h-[200px]">
                 <Image
@@ -169,13 +172,10 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                 />
               </div>
               <div className="p-8">
-                <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
+                <span className="inline-block bg-[theme(colors.brand.blue)] text-white text-sm font-semibold px-3 py-1 rounded-full mb-2">
                   {post.category}
                 </span>
                 <h3 className="text-xl font-bold text-white mb-2">{post.title}</h3>
-                {CONFIG.SHOW_DATES && (
-                  <p className="text-sm text-gray-400">{post.date}</p>
-                )}
                 <div className="text-gray-400 mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
                 <div className="flex items-center gap-3">
                   <Image
@@ -188,6 +188,7 @@ export default function BlogPostsList({ initialPosts, allPosts }: BlogPostsListP
                   />
                   <div>
                     <p className="text-sm text-gray-400">{post.author}</p>
+                    <p className="text-sm text-gray-400">{post.date}</p>
                   </div>
                 </div>
               </div>

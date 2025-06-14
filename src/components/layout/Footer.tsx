@@ -22,7 +22,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-dark text-white border-t border-gray-700 pt-8">
+    <footer className="bg-[theme(colors.dark.900)] text-white border-t border-gray-700 pt-8">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full px-4 md:px-[10%]">
           {/* Company Info */}
@@ -39,7 +39,7 @@ export default function Footer() {
                 href="https://in.linkedin.com/company/intentioninfoservice"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-brand-blue transition-colors"
+                className="text-gray-300 hover:text-[theme(colors.brand.blue )] transition-colors"
                 title="Follow us on LinkedIn"
               >
                 <FaLinkedin size={20} className="w-5 h-5" />
@@ -48,7 +48,7 @@ export default function Footer() {
                 href="https://www.instagram.com/intention_infoservice/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-brand-blue transition-colors"
+                className="text-gray-300 hover:text-[theme(colors.brand.blue )] transition-colors"
                 title="Follow us on Instagram"
               >
                 <FaInstagram size={20} className="w-5 h-5" />
@@ -57,7 +57,7 @@ export default function Footer() {
                 href="https://x.com/IInfoservice"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-brand-blue transition-colors"
+                className="text-gray-300 hover:text-[theme(colors.brand.blue )] transition-colors"
                 title="Follow us on Twitter"
               >
                 <svg
@@ -75,7 +75,7 @@ export default function Footer() {
                 href="https://www.facebook.com/intentioninfoservice/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-300 hover:text-brand-blue transition-colors"
+                className="text-gray-300 hover:text-[theme(colors.brand.blue )] transition-colors"
                 title="Follow us on Facebook"
               >
                 <FaFacebook size={20} className="w-5 h-5" />
@@ -89,7 +89,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service.name}>
-                  <Link href={service.href} className="text-gray-300 hover:text-brand-blue transition-colors">
+                  <Link href={service.href} className="text-gray-300 hover:text-[theme(colors.brand.blue)] transition-colors">
                     {service.name}
                   </Link>
                 </li>
@@ -103,7 +103,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {quickLinks.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-gray-300 hover:text-brand-blue transition-colors">
+                  <Link href={link.href} className="text-gray-300 hover:text-[theme(colors.brand.blue)] transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -116,24 +116,24 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <div className="w-5 h-5 flex items-center justify-center mt-1 mr-3 text-brand-blue">
+                <div className="w-5 h-5 flex items-center justify-center mt-1 mr-3 text-[theme(colors.brand.blue)]">
                   <FaMapMarkerAlt className="w-[18px] h-[18px]" />
                 </div>
                 <span className="text-gray-300">Naigaon East, Juchandra Maharashtra - 401208</span>
               </li>
               <li className="flex items-center">
-                <div className="w-5 h-5 flex items-center justify-center mr-3 text-brand-blue">
+                <div className="w-5 h-5 flex items-center justify-center mr-3 text-[theme(colors.brand.blue)]">
                   <FaPhone className="w-[18px] h-[18px]" />
                 </div>
-                <a href="tel:+917021539267" className="text-gray-300 hover:text-brand-blue transition-colors">
+                <a href="tel:+917021539267" className="text-gray-300 hover:text-[theme(colors.brand.blue)] transition-colors">
                   +91 70215 39267
                 </a>
               </li>
               <li className="flex items-center">
-                <div className="w-5 h-5 flex items-center justify-center mr-3 text-brand-blue">
+                <div className="w-5 h-5 flex items-center justify-center mr-3 text-[theme(colors.brand.blue)]">
                   <FaEnvelope className="w-[18px] h-[18px]" />
                 </div>
-                <a href="mailto:contact@intentioninfoservice.com" className="text-gray-300 hover:text-brand-blue transition-colors">
+                <a href="mailto:contact@intentioninfoservice.com" className="text-gray-300 hover:text-[theme(colors.brand.blue)] transition-colors">
                   contact@intentioninfoservice.com
                 </a>
               </li>
@@ -144,10 +144,10 @@ export default function Footer() {
         <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
           <p>© {currentYear} Intention Infoservice. All rights reserved.</p>
           <div className="mt-2 space-x-4">
-            <Link href="/privacy-policy" className="hover:text-brand-blue transition-colors">
+            <Link href="/privacy-policy" className="hover:text-[theme(colors.brand.blue)] transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms-of-service" className="hover:text-brand-blue transition-colors">
+            <Link href="/terms-of-service" className="hover:text-[theme(colors.brand.blue)] transition-colors">
               Terms of Service
             </Link>
           </div>

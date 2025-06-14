@@ -28,7 +28,7 @@ export default function Button({
   ariaLabel,
   children,
 }: ButtonProps) {
-  const baseClasses = `inline-flex items-center justify-center rounded-lg font-semibold transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-brand-blue bg-gradient-to-r from-brand-indigo to-brand-blue text-white shadow-lg border-2 border-brand-blue hover:bg-gradient-to-r hover:from-brand-blue hover:to-brand-indigo hover:shadow-brand-blue/40`;
+  const baseClasses = `inline-flex items-center justify-center rounded-lg font-semibold transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[theme(colors.brand.blue)] bg-gradient-to-r from-[theme(colors.brand.indigo)] to-[theme(colors.brand.blue)] text-white shadow-lg border-2 border-[theme(colors.brand.blue)] hover:bg-gradient-to-r hover:from-[theme(colors.brand.blue)] hover:to-[theme(colors.brand.indigo)] hover:shadow-[theme(colors.brand.blue)]/40`;
   const sizeClasses: Record<Size, string> = {
     sm: 'px-3 py-1.5 text-sm',
     md: 'px-4 py-2 text-base',
