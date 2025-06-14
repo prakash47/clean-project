@@ -96,7 +96,7 @@ export default function WhyChooseUsSection() {
 
   return (
     <section id="why-choose-us" className="relative bg-dark-950 py-8 md:py-12 overflow-hidden">
-      <div className="w-full px-2 sm:px-[10%] relative z-10">
+      <div className="w-full px-4 sm:px-[10%] relative z-10">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -169,7 +169,7 @@ export default function WhyChooseUsSection() {
             `}
           </style>
         </div>
-        <div className="w-full px-2 sm:px-[10%] relative z-10">
+        <div className="w-full px-4 sm:px-[10%] relative z-10">
           <div className="text-center mb-12">
             <motion.h2
               className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
@@ -204,13 +204,11 @@ export default function WhyChooseUsSection() {
               className="absolute w-[900px] h-[900px] rounded-full bg-gradient-radial from-brand-blue/30 to-transparent z-0"
               style={{ opacity: glowOpacity }}
             />
-            <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-8 w-full sm:max-w-5xl mx-auto">
+            <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto">
               {reasons.map((reason, index) => (
                 <motion.div
                   key={index}
-                  className={`relative backdrop-blur-sm bg-white/10 rounded-lg p-8 border border-[rgba(0,160,227,0.3)] shadow-inner hover:border-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.7)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center w-full max-w-md mx-auto ${
-                    index % 2 === 0 ? 'sm:ml-0 sm:mr-auto rotate-2 md:-translate-y-12' : 'sm:ml-auto sm:mr-0 -rotate-2'
-                  }`}
+                  className="relative backdrop-blur-sm bg-white/10 rounded-lg p-6 border border-[rgba(0,160,227,0.3)] shadow-inner hover:border-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.7)] hover:scale-105 transition-all duration-300 flex flex-col items-center text-center w-full"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}

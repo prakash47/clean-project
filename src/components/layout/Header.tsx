@@ -1,11 +1,13 @@
 'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const pathname = usePathname();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -24,6 +26,25 @@ export default function Header() {
     { name: 'Digital Marketing', href: '/services/digital-marketing' },
     { name: 'Custom Business Solutions', href: '/services/custom-business-solutions' },
   ];
+
+  // Helper function to check if a link is active
+  const isActiveLink = (href: string, hasSubmenu?: boolean) => {
+    if (hasSubmenu) {
+      // For services menu, check if current path starts with /services
+      return pathname.startsWith('/services');
+    }
+    // For exact match on home page
+    if (href === '/') {
+      return pathname === '/';
+    }
+    // For other pages, check if current path starts with the href
+    return pathname.startsWith(href);
+  };
+
+  // Helper function to check if a submenu item is active
+  const isActiveSubmenuItem = (href: string) => {
+    return pathname === href;
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-[theme(colors.dark.900)]">
@@ -75,7 +96,11 @@ export default function Header() {
             <div key={link.name} className="relative group">
               {link.hasSubmenu ? (
                 <div
-                  className="text-white font-medium hover:text-[theme(colors.brand.blue)] transition-all cursor-pointer py-2"
+                  className={`font-medium hover:text-[theme(colors.brand.blue)] transition-all cursor-pointer py-2 relative ${
+                    isActiveLink(link.href, link.hasSubmenu) 
+                      ? 'text-[theme(colors.brand.blue)] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[theme(colors.brand.blue)] after:rounded-full' 
+                      : 'text-white'
+                  }`}
                   onMouseEnter={() => setIsServicesOpen(true)}
                   onMouseLeave={() => setIsServicesOpen(false)}
                 >
@@ -86,7 +111,11 @@ export default function Header() {
                         <Link
                           key={subLink.name}
                           href={subLink.href}
-                          className="block px-4 py-2 text-white hover:text-[theme(colors.brand.blue)] transition-all"
+                          className={`block px-4 py-2 hover:text-[theme(colors.brand.blue)] transition-all ${
+                            isActiveSubmenuItem(subLink.href)
+                              ? 'text-[theme(colors.brand.blue)]'
+                              : 'text-white'
+                          }`}
                         >
                           {subLink.name}
                         </Link>
@@ -97,14 +126,22 @@ export default function Header() {
               ) : index === navLinks.length - 1 ? (
                 <Link
                   href={link.href}
-                  className="contact-us-button text-white font-medium px-4 py-2 rounded"
+                  className={`contact-us-button font-medium px-4 py-2 rounded ${
+                    isActiveLink(link.href) 
+                      ? 'text-[theme(colors.brand.blue)]' 
+                      : 'text-white'
+                  }`}
                 >
                   {link.name}
                 </Link>
               ) : (
                 <Link
                   href={link.href}
-                  className="text-white font-medium hover:text-[theme(colors.brand.blue)] transition-all py-2"
+                  className={`font-medium hover:text-[theme(colors.brand.blue)] transition-all py-2 relative ${
+                    isActiveLink(link.href) 
+                      ? 'text-[theme(colors.brand.blue)] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[theme(colors.brand.blue)] after:rounded-full' 
+                      : 'text-white'
+                  }`}
                 >
                   {link.name}
                 </Link>
@@ -126,14 +163,22 @@ export default function Header() {
             {navLinks.map((link, index) => (
               <div key={link.name}>
                 {link.hasSubmenu ? (
-                  <div className="text-white font-medium">
+                  <div className={`font-medium relative ${
+                    isActiveLink(link.href, link.hasSubmenu) 
+                      ? 'text-[theme(colors.brand.blue)] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[theme(colors.brand.blue)] after:rounded-full' 
+                      : 'text-white'
+                  }`}>
                     {link.name}
                     <div className="ml-4 mt-2 flex flex-col gap-2">
                       {servicesSubmenu.map((subLink) => (
                         <Link
                           key={subLink.name}
                           href={subLink.href}
-                          className="text-gray-400 hover:text-[theme(colors.brand.blue)] transition-all"
+                          className={`hover:text-[theme(colors.brand.blue)] transition-all ${
+                            isActiveSubmenuItem(subLink.href)
+                              ? 'text-[theme(colors.brand.blue)]'
+                              : 'text-gray-400'
+                          }`}
                           onClick={() => setIsOpen(false)}
                         >
                           {subLink.name}
@@ -144,7 +189,11 @@ export default function Header() {
                 ) : index === navLinks.length - 1 ? (
                   <Link
                     href={link.href}
-                    className="contact-us-button text-white font-medium px-4 py-2 rounded"
+                    className={`contact-us-button font-medium px-4 py-2 rounded ${
+                      isActiveLink(link.href) 
+                        ? 'text-[theme(colors.brand.blue)]' 
+                        : 'text-white'
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}
@@ -152,7 +201,11 @@ export default function Header() {
                 ) : (
                   <Link
                     href={link.href}
-                    className="text-white font-medium hover:text-[theme(colors.brand.blue)] transition-all"
+                    className={`font-medium hover:text-[theme(colors.brand.blue)] transition-all relative ${
+                      isActiveLink(link.href) 
+                        ? 'text-[theme(colors.brand.blue)] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-[theme(colors.brand.blue)] after:rounded-full' 
+                        : 'text-white'
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {link.name}
@@ -166,3 +219,4 @@ export default function Header() {
     </header>
   );
 }
+

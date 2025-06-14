@@ -1,8 +1,9 @@
+
 'use client';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaCode, FaMobileAlt, FaPaintBrush } from 'react-icons/fa';
 import { gsap } from 'gsap';
 
 export default function HeroSection() {
@@ -25,13 +26,6 @@ export default function HeroSection() {
     const connectionNodeElements = document.querySelectorAll('.connection-node');
     const supportIconElements = document.querySelectorAll('.support-icon');
     const uiuxIcon = document.querySelector('.uiux-icon');
-
-    // Debugging: Log elements to confirm they are found
-    console.log('Dashboard Screen:', dashboardScreen);
-    console.log('Webpage Header:', webpageHeader);
-    console.log('Webpage Content Elements:', webpageContentElements);
-    console.log('App Interface Elements:', appInterfaceElements);
-    console.log('App Button Elements:', appButtonElements);
 
     // Apply GSAP animations only if elements exist
     if (dashboardScreen) {
@@ -191,44 +185,20 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative bg-dark-950 pt-8 md:py-24 overflow-hidden">
+    <section className="relative bg-dark-950 pt-8 md:py-12 overflow-hidden">
       {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      {/* Inline Critical CSS for LCP Element */}
-      <style jsx>{`
-        h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
-          font-size: 2.25rem;
-          line-height: 2.5rem;
-          font-weight: 700;
-          color: #fff;
-          margin-bottom: 1rem;
-          letter-spacing: -0.025em;
-        }
-        @media (min-width: 640px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
-            font-size: 3rem;
-            line-height: 1;
-          }
-        }
-        @media (min-width: 1024px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-7xl.font-bold.text-white.mb-4.tracking-tight {
-            font-size: 4.5rem;
-            line-height: 1;
-          }
-        }
-      `}</style>
-
       {/* Subtle Grain Texture */}
       <div
         className="absolute inset-0 opacity-10 pointer-events-none"
         style={{ backgroundImage: "url('/textures/grain.webp')" }}
       />
-      <div className="w-full px-[10%] relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+      <div className="w-full px-[8%] md:px-[10%] lg:px-[10%] relative z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Left: Updated Headline, Tagline, Subheading, and CTA */}
           <div className="md:w-1/2 text-center md:text-left">
             <motion.h1
@@ -239,61 +209,103 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
+              itemProp="name"
             >
-              Empower Your Business with Global Digital Excellence in 2025
+              Empower Your Business with Global Digital Excellence
             </motion.h1>
+            
             <motion.p
-              className="text-lg md:text-xl text-gray-400 mb-4"
+              className="text-lg md:text-xl text-gray-400 mb-4 leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
+              itemProp="description"
             >
-              Innovative Web Design Solutions, Custom Mobile Apps, and Digital Marketing Strategies Worldwide
+              Custom Digital Solutions, UI/UX Design & Digital Marketing Services Worldwide
             </motion.p>
+            
             <motion.p
-              className="text-md md:text-lg text-gray-500 mb-8"
+              className="text-md md:text-lg text-gray-500 mb-8 leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              Transform your online presence with our expert services tailored for success in 2025.
+              Transform your business with our expert software development company. We specialize in responsive web design, custom mobile applications, enterprise solutions, and comprehensive digital marketing strategies for 2025.
             </motion.p>
+
             <motion.div
-              className="flex justify-start mt-12"
+              className="flex flex-col sm:flex-row justify-center md:justify-start gap-6 mb-6 md:mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{
                 opacity: 1,
                 y: 0,
-                scale: [1, 1.05, 1], // Pulsing scale effect
               }}
               transition={{
                 opacity: { duration: 0.8, delay: 0.6 },
                 y: { duration: 0.8, delay: 0.6 },
-                scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
               }}
-              whileHover={{ scale: 1.05 }}
             >
               <Button
                 size="lg"
-                className="btn btn-primary text-white font-semibold"
+                className="btn btn-primary text-white font-semibold shadow-glow hover:shadow-glow-lg transition-all duration-300 px-8 py-4 text-lg"
                 icon={<FaArrowRight />}
                 iconPosition="right"
                 href="/contact-us"
-                ariaLabel="Get your free quote today for mobile app development services"
+                ariaLabel="Get your free quote today for professional web development and mobile app development services"
               >
                 Get Your Free Quote Today
               </Button>
+              
+              {/* <Button
+                size="lg"
+                className="border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white transition-all duration-300 px-8 py-4 font-semibold text-lg"
+                href="/services"
+                ariaLabel="View our comprehensive software development services"
+              >
+                View Our Services
+              </Button> */}
             </motion.div>
+
+            {/* Trust Indicators */}
+            {/* <motion.div
+              className="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 justify-center md:justify-start"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
+              <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-4 h-4 bg-gradient-to-r from-green-400 to-green-500 rounded-full shadow-lg"></div>
+                  <span className="text-3xl font-bold text-white">150+</span>
+                </div>
+                <span className="text-base text-gray-400 font-medium">Projects Completed</span>
+              </div>
+              <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-4 h-4 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full shadow-lg"></div>
+                  <span className="text-3xl font-bold text-white">5+</span>
+                </div>
+                <span className="text-base text-gray-400 font-medium">Years Experience</span>
+              </div>
+              <div className="flex flex-col items-center md:items-start text-center md:text-left">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-4 h-4 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full shadow-lg animate-pulse"></div>
+                  <span className="text-3xl font-bold text-white">24/7</span>
+                </div>
+                <span className="text-base text-gray-400 font-medium">Support Available</span>
+              </div>
+            </motion.div> */}
           </div>
+
           {/* Right: Animated SVG Illustration */}
-          <div className="md:w-1/2 flex justify-center">
+          <div className="md:w-1/2 flex justify-center align-middle">
             <svg
               width="500"
               height="400"
               viewBox="0 0 500 400"
-              className="w-full max-w-[500px]"
+              className="w-full justify-center max-w-[500px]"
               role="img"
-              aria-label="Illustration of web design, mobile app, digital marketing, and UI/UX design services"
+              aria-label="Professional illustration showcasing web development, mobile app development, digital marketing, and UI/UX design services"
             >
               {/* Dashboard Background */}
               <rect
@@ -308,6 +320,7 @@ export default function HeroSection() {
                 className="dashboard-screen"
                 role="presentation"
               />
+              
               {/* Development: Dual-Display Screen (Web and Mobile) */}
               <g transform="translate(80, 80)" role="group" aria-label="Web and mobile development illustration">
                 {/* Web Development */}
@@ -345,7 +358,7 @@ export default function HeroSection() {
                   y="110"
                   width="70"
                   height="110"
-                  fill="#1A2526"
+                  fill="#1A5F7A"
                   className="webpage-content"
                   role="presentation"
                 />
@@ -354,7 +367,7 @@ export default function HeroSection() {
                   y="110"
                   width="70"
                   height="110"
-                  fill="#1A2526"
+                  fill="#1A5F7A"
                   className="webpage-content"
                   role="presentation"
                 />
@@ -468,140 +481,149 @@ export default function HeroSection() {
                     y="0"
                     width="50"
                     height="50"
-                    fill="#00a0e3"
-                    transform="rotate(45)"
+                    rx="5"
+                    fill="#393185"
+                    stroke="#00a0e3"
+                    strokeWidth="1"
                     role="presentation"
                   />
-                  <rect
-                    x="5"
-                    y="5"
-                    width="40"
-                    height="40"
-                    fill="#0F172A"
-                    transform="rotate(45)"
-                    role="presentation"
-                  />
-                  <text
-                    x="15"
-                    y="30"
-                    fill="#00a0e3"
-                    fontSize="10"
-                    fontFamily="monospace"
-                    role="presentation"
-                  >
-                    101
-                  </text>
                 </g>
                 {/* Digital Marketing: Graph */}
-                <polyline
-                  points="10,150 30,130 50,150 70,110 90,130"
-                  fill="none"
-                  stroke="#393185"
-                  strokeWidth="2"
-                  strokeDasharray="100"
-                  className="graph-line"
-                  role="presentation"
-                />
-                <circle cx="70" cy="110" r="5" fill="#393185" className="graph-dot" role="presentation" />
-                <circle cx="90" cy="130" r="5" fill="#393185" className="graph-dot" role="presentation" />
-                {/* UI/UX Design Icon */}
                 <g
-                  transform="translate(10, 10)"
-                  className="uiux-icon"
+                  transform="translate(30, 100)"
+                  className="digital-marketing-graph"
                   role="group"
-                  aria-label="UI/UX design icon"
+                  aria-label="Digital marketing graph illustration"
                 >
-                  <path
-                    d="M10,30 Q20,10 30,30 T50,30"
-                    fill="none"
+                  <line
+                    x1="0"
+                    y1="50"
+                    x2="20"
+                    y2="30"
                     stroke="#00a0e3"
                     strokeWidth="2"
+                    className="graph-line"
                     role="presentation"
                   />
-                  <circle cx="40" cy="30" r="5" fill="#00a0e3" role="presentation" />
+                  <circle
+                    cx="0"
+                    cy="50"
+                    r="3"
+                    fill="#00a0e3"
+                    className="graph-dot"
+                    role="presentation"
+                  />
+                  <circle
+                    cx="20"
+                    cy="30"
+                    r="3"
+                    fill="#00a0e3"
+                    className="graph-dot"
+                    role="presentation"
+                  />
+                  <line
+                    x1="20"
+                    y1="30"
+                    x2="40"
+                    y2="40"
+                    stroke="#00a0e3"
+                    strokeWidth="2"
+                    className="graph-line"
+                    role="presentation"
+                  />
+                  <circle
+                    cx="40"
+                    cy="40"
+                    r="3"
+                    fill="#00a0e3"
+                    className="graph-dot"
+                    role="presentation"
+                  />
                 </g>
-              </g>
-              {/* Connection Lines and Nodes */}
-              <line
-                x1="80"
-                y1="80"
-                x2="50"
-                y2="50"
-                stroke="#00a0e3"
-                strokeWidth="1"
-                strokeDasharray="100"
-                className="connection-line"
-                role="presentation"
-              />
-              <circle cx="50" cy="50" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
-              <line
-                x1="420"
-                y1="80"
-                x2="450"
-                y2="50"
-                stroke="#00a0e3"
-                strokeWidth="1"
-                strokeDasharray="100"
-                className="connection-line"
-                role="presentation"
-              />
-              <circle cx="450" cy="50" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
-              <line
-                x1="80"
-                y1="320"
-                x2="50"
-                y2="350"
-                stroke="#00a0e3"
-                strokeWidth="1"
-                strokeDasharray="100"
-                className="connection-line"
-                role="presentation"
-              />
-              <circle cx="50" cy="350" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
-              <line
-                x1="420"
-                y1="320"
-                x2="450"
-                y2="350"
-                stroke="#00a0e3"
-                strokeWidth="1"
-                strokeDasharray="100"
-                className="connection-line"
-                role="presentation"
-              />
-              <circle cx="450" cy="350" r="5" fill="#00a0e3" className="connection-node" role="presentation" />
-              {/* Supporting Icons (Other Services) */}
-              <g
-                transform="translate(50, 50)"
-                className="support-icon"
-                role="group"
-                aria-label="Supporting icon 1"
-              >
-                <path d="M0,0 L10,5 L0,10 L5,5 Z" fill="#00a0e3" role="presentation" />
-              </g>
-              <g
-                transform="translate(450, 50)"
-                className="support-icon"
-                role="group"
-                aria-label="Supporting icon 2"
-              >
-                <circle cx="5" cy="5" r="5" fill="#00a0e3" role="presentation" />
-              </g>
-              <g
-                transform="translate(50, 350)"
-                className="support-icon"
-                role="group"
-                aria-label="Supporting icon 3"
-              >
-                <rect x="0" y="0" width="10" height="10" fill="#00a0e3" role="presentation" />
-              </g>
-              <g
-                transform="translate(450, 350)"
-                className="support-icon"
-                role="group"
-                aria-label="Supporting icon 4"
-              >
-                <path d="M0,5 L5,0 L10,5 L5,10 Z" fill="#00a0e3" role="presentation" />
+                {/* UI/UX Design: Connections */}
+                <g
+                  transform="translate(20, 180)"
+                  className="uiux-design-connections"
+                  role="group"
+                  aria-label="UI/UX design connections illustration"
+                >
+                  <line
+                    x1="0"
+                    y1="0"
+                    x2="20"
+                    y2="20"
+                    stroke="#00a0e3"
+                    strokeWidth="1"
+                    className="connection-line"
+                    role="presentation"
+                  />
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="4"
+                    fill="#00a0e3"
+                    className="connection-node"
+                    role="presentation"
+                  />
+                  <circle
+                    cx="20"
+                    cy="20"
+                    r="4"
+                    fill="#00a0e3"
+                    className="connection-node"
+                    role="presentation"
+                  />
+                  <line
+                    x1="20"
+                    y1="20"
+                    x2="40"
+                    y2="0"
+                    stroke="#00a0e3"
+                    strokeWidth="1"
+                    className="connection-line"
+                    role="presentation"
+                  />
+                  <circle
+                    cx="40"
+                    cy="0"
+                    r="4"
+                    fill="#00a0e3"
+                    className="connection-node"
+                    role="presentation"
+                  />
+                </g>
+                {/* Website Maintenance: Support Icons */}
+                <g
+                  transform="translate(20, 250)"
+                  className="website-maintenance-support"
+                  role="group"
+                  aria-label="Website maintenance support illustration"
+                >
+                  <circle
+                    cx="0"
+                    cy="0"
+                    r="5"
+                    fill="#00a0e3"
+                    className="support-icon"
+                    role="presentation"
+                  />
+                  <circle
+                    cx="20"
+                    cy="-5"
+                    r="5"
+                    fill="#00a0e3"
+                    className="support-icon"
+                    role="presentation"
+                  />
+                  <circle
+                    cx="40"
+                    cy="0"
+                    r="5"
+                    fill="#00a0e3"
+                    className="support-icon"
+                    role="presentation"
+                  />
+                </g>
               </g>
             </svg>
           </div>
@@ -610,3 +632,5 @@ export default function HeroSection() {
     </section>
   );
 }
+
+

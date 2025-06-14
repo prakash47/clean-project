@@ -106,7 +106,7 @@ export default function OurValuesSection() {
   };
 
   return (
-    <section className="container mx-auto px-4 md:px-[10%] py-12">
+    <section className="bg-dark-950 container mx-auto px-4 md:px-[10%] py-12">
       {/* Structured Data */}
       <script
         type="application/ld+json"
