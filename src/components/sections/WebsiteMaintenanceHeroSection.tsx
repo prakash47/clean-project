@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -334,7 +335,7 @@ export default function WebsiteMaintenanceHeroSection() {
   }, []);
 
   return (
-    <section className="relative bg-dark-950 py-12 md:py-6 overflow-hidden">
+    <section className="relative bg-dark-950 py-12 md:py-12 overflow-hidden">
       {/* Skip to Content Link */}
       <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:bg-brand-blue focus:text-white focus:p-2 focus:rounded">
         Skip to main content
@@ -369,42 +370,7 @@ export default function WebsiteMaintenanceHeroSection() {
         `}
       </script>
 
-      {/* Inline Critical CSS for LCP Element */}
-      <style jsx>{`
-        h1.text-4xl.sm\\:text-5xl.lg\\:text-6xl.font-bold.text-white.mb-4.tracking-tight {
-          font-size: 2.25rem;
-          line-height: 2.5rem;
-          font-weight: 700;
-          color: #fff;
-          margin-bottom: 1rem;
-          letter-spacing: -0.025em;
-        }
-        @media (min-width: 640px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-6xl.font-bold.text-white.mb-4.tracking-tight {
-            font-size: 3rem;
-            line-height: 1;
-          }
-        }
-        @media (min-width: 1024px) {
-          h1.text-4xl.sm\\:text-5xl.lg\\:text-6xl.font-bold.text-white.mb-4.tracking-tight {
-            font-size: 3.75rem;
-            line-height: 1;
-          }
-        }
-      `}</style>
-
-      {/* Subtle Waveform Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <svg className="waveform w-full h-full opacity-10" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path
-            fill="#00a0e3"
-            fillOpacity="0.2"
-            d="M0,160L48,170.7C96,181,192,203,288,197.3C384,192,480,160,576,149.3C672,139,768,149,864,160C960,171,1056,181,1152,170.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-          />
-        </svg>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" id="main-content">
+      <div className="max-w-7xl mx-auto px-[5%] md:px-[10%] sm:px-6 lg:px-8 relative z-10" id="main-content">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           {/* Left: Headline, Tagline, Body, and CTA */}
           <div className="lg:w-1/2 text-center lg:text-left">
@@ -417,23 +383,23 @@ export default function WebsiteMaintenanceHeroSection() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
-              Keep Your Website Secure and Fast with Expert Maintenance
+              Expert Website Maintenance Services for Peak Performance
             </motion.h1>
-            <motion.p
-              className="text-lg md:text-xl font-semibold text-brand-blue mb-4"
+            <motion.h2
+              className="text-lg md:text-xl text-brand-blue mb-4 leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Prevent Downtime and Security Risks in 2025
-            </motion.p>
+              Ensure Your Website is Secure, Fast, and Always Up-to-Date in 2025
+            </motion.h2>
             <motion.p
-              className="text-md md:text-lg text-gray-400 mb-8 max-w-2xl mx-auto lg:mx-0"
+              className="text-md md:text-lg text-gray-500 mb-8 leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              Don’t let an outdated website or security vulnerabilities hold you back. Our expert maintenance services ensure your site stays secure, fast, and optimized for peak performance. Get a free website health check today!
+              Don’t let an outdated website or security vulnerabilities hold your business back. Our comprehensive website maintenance services provide proactive monitoring, security updates, performance optimization, and reliable support to keep your site running smoothly and securely.
             </motion.p>
             <motion.div
               className="flex justify-center lg:justify-start"
@@ -453,7 +419,7 @@ export default function WebsiteMaintenanceHeroSection() {
               </Button>
             </motion.div>
           </div>
-          {/* Right: Enhanced Website Maintenance Universe SVG Illustration */}
+           {/* Right: Enhanced Website Maintenance Universe SVG Illustration */}
           <div className="lg:w-1/2 flex justify-center">
             <svg
               width="500"
@@ -648,3 +614,5 @@ export default function WebsiteMaintenanceHeroSection() {
     </section>
   );
 }
+
+

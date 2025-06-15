@@ -269,7 +269,7 @@ const structuredData = {
         height: 100,
       },
       description: 'Leading mobile app development company with 50+ successful app launches, specializing in iOS, Android, React Native, and Flutter development.',
-      foundingDate: '2020',
+      foundingDate: '2015',
       numberOfEmployees: '50-100',
       slogan: 'Transforming Ideas into Digital Reality',
       knowsAbout: [

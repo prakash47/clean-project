@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
@@ -10,41 +11,41 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
 
   const services = [
     {
-      title: 'Security Updates',
-      description: 'Protect your website from threats with regular security updates, daily backups, and malware removal to ensure safety in 2025.',
+      title: 'Advanced Security & Updates',
+      description: 'Protect your website from evolving threats with continuous security updates, proactive malware scanning, and robust daily backups, ensuring ironclad safety and compliance in 2025.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="service-icon-svg" aria-hidden="true">
           <path d="M20,10 Q20,5 15,5 Q10,5 10,10 V30 Q10,35 20,40 Q30,35 30,30 V10 Q30,5 25,5 Q20,5 20,10 Z" fill="#00a0e3" />
           <path d="M15,25 L20,30 L30,15" fill="none" stroke="#0F172A" strokeWidth="2" />
         </svg>
       ),
-      stat: { label: 'Threats Blocked', value: 98, unit: '%' },
+      stat: { label: 'Threats Blocked', value: 99, unit: '%' },
     },
     {
-      title: 'Performance Optimization',
-      description: 'Ensure fast load times and optimal performance with regular optimization, improving user experience and Core Web Vitals.',
+      title: 'Peak Performance Optimization',
+      description: 'Achieve lightning-fast load times and seamless user experiences through meticulous performance optimization, significantly improving Core Web Vitals and search engine rankings.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="service-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
           <path d="M20,20 L20,10 A10,10 0 0,1 30,20" fill="none" stroke="#0F172A" strokeWidth="2" />
         </svg>
       ),
-      stat: { label: 'Uptime Guaranteed', value: 99.9, unit: '%' },
+      stat: { label: 'Uptime Guaranteed', value: 99.99, unit: '%' },
     },
     {
-      title: 'Content Updates',
-      description: 'Keep your website fresh with regular content updates, ensuring your visitors always see the latest information.',
+      title: 'Strategic Content Management',
+      description: 'Keep your website dynamic and engaging with regular content updates, ensuring your audience always accesses the most current and relevant information, boosting user retention.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="service-icon-svg" aria-hidden="true">
           <rect x="5" y="5" width="30" height="30" rx="3" fill="#00a0e3" />
           <path d="M10,10 L30,30 M10,30 L30,10" stroke="#0F172A" strokeWidth="2" />
         </svg>
       ),
-      stat: { label: 'Content Refresh Rate', value: 95, unit: '%' },
+      stat: { label: 'Content Refresh Rate', value: 98, unit: '%' },
     },
     {
-      title: 'Daily Backups',
-      description: 'Secure your data with daily backups, ensuring you can recover quickly from any unexpected issues or data loss.',
+      title: 'Reliable Daily Backups & Recovery',
+      description: 'Safeguard your valuable data with automated daily backups and a robust recovery protocol, guaranteeing swift restoration from any unforeseen issues or data loss scenarios.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="service-icon-svg" aria-hidden="true">
           <path d="M20,5 Q15,-5 0,5 Q15,15 20,25 Q25,15 40,5 Q25,-5 20,5 Z" fill="#00a0e3" />
@@ -55,8 +56,8 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
       stat: { label: 'Data Recovery Rate', value: 100, unit: '%' },
     },
     {
-      title: 'SEO Maintenance',
-      description: 'Boost your search rankings with ongoing SEO audits, keyword optimization, and content updates to stay competitive.',
+      title: 'Proactive SEO Maintenance',
+      description: 'Elevate your search engine visibility with continuous SEO audits, strategic keyword optimization, and timely content updates, ensuring your website remains highly competitive and ranks well.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="service-icon-svg" aria-hidden="true">
           <rect x="0" y="0" width="40" height="30" rx="3" fill="#00a0e3" />
@@ -64,11 +65,11 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
           <circle cx="15" cy="15" r="3" fill="#0F172A" />
         </svg>
       ),
-      stat: { label: 'SEO Improvement', value: 85, unit: '%' },
+      stat: { label: 'SEO Improvement', value: 90, unit: '%' },
     },
     {
-      title: 'Real-Time Monitoring',
-      description: 'Monitor your website 24/7 for uptime, performance issues, and security threats, ensuring immediate action when needed.',
+      title: '24/7 Real-Time Monitoring',
+      description: 'Benefit from round-the-clock monitoring of your website for uptime, performance bottlenecks, and potential security threats, enabling immediate detection and swift resolution of any issues.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="service-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
@@ -205,7 +206,7 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
   }, []);
 
   return (
-    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
+    <section className="bg-dark-900 py-12 md:py-12 relative overflow-hidden">
       {/* Structured Data for the Section */}
       <script type="application/ld+json">
         {JSON.stringify({
@@ -220,7 +221,7 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
               '@type': 'Organization',
               name: 'Intention Infoservice',
             },
-            keywords: `${service.title.toLowerCase().replace(/ & /g, ', ')}, website maintenance services 2025`,
+            keywords: `${service.title.toLowerCase().replace(/ & /g, ', ')}, website maintenance services, website security, performance optimization, SEO maintenance, daily backups, real-time monitoring, web support 2025`,
           })),
         })}
       </script>
@@ -245,46 +246,45 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
         </defs>
       </svg>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12">
+      <div className="max-w-7xl mx-auto px-[5%] md:px-[2%] relative z-10">
+        <div className="text-center mb-16">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            Comprehensive Website Maintenance Services
+            Our Comprehensive Website Maintenance Services
           </motion.h2>
           <motion.p
-            className="text-lg md:text-xl text-brand-blue font-semibold mb-6"
+            className="text-lg md:text-xl lg:text-2xl text-brand-blue font-semibold mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            We Keep Your Website Secure, Fast, and Up-to-Date
+            Keeping Your Digital Presence Secure, Fast, and Always Optimized
           </motion.p>
           <motion.p
-            className="text-md md:text-lg text-gray-400 max-w-3xl mx-auto"
+            className="text-base md:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Our website maintenance services in Tech City cover everything from security updates to SEO optimization, ensuring your site performs at its best in 2025. Prevent downtime and security breaches with our expert support.
+            Intention Infoservice provides end-to-end website maintenance solutions in Tech City, covering everything from advanced security updates and performance optimization to strategic SEO maintenance and real-time monitoring. Ensure your site performs at its absolute best in 2025 and beyond.
           </motion.p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              className={`service-card group relative p-6 rounded-lg border shadow-lg transition-all duration-500 hover:shadow-xl ${
+              className={`service-card group relative p-8 rounded-xl border shadow-lg transition-all duration-500 hover:shadow-2xl ${
                 index % 2 === 0
                   ? 'bg-dark-800 border-gray-700 hover:bg-dark-700 hover:border-brand-blue'
                   : 'bg-dark-700 border-gray-700 hover:bg-dark-600 hover:border-brand-indigo'
-              } ${index % 3 === 0 ? 'md:col-span-2 lg:col-span-1' : ''}`}
-              style={{ height: index % 3 === 0 ? 'auto' : 'auto' }}
+              }`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -295,22 +295,22 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <div className="flex items-start gap-4">
-                <div className="service-icon transition-transform duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
+              <div className="flex items-start gap-6">
+                <div className="service-icon transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
                   {service.icon}
                 </div>
                 <div className="flex-1">
-                  <h3 className="service-title text-2xl font-bold text-white mb-2 transition-transform duration-500">{service.title}</h3>
+                  <h3 className="service-title text-2xl font-bold text-white mb-3 transition-transform duration-500">{service.title}</h3>
                   <p className="service-description text-base text-gray-400 transition-all duration-500">{service.description}</p>
-                  <div className="mt-4">
-                    <p className="text-sm text-gray-500">{service.stat.label}</p>
-                    <div className="relative w-full h-2 bg-gray-700 rounded-full mt-1">
+                  <div className="mt-5">
+                    <p className="text-sm text-gray-500 font-medium">{service.stat.label}</p>
+                    <div className="relative w-full h-2 bg-gray-700 rounded-full mt-2">
                       <div
                         className="progress-bar h-full rounded-full bg-brand-blue transition-all duration-1000"
                         data-value={service.stat.value}
                       />
                     </div>
-                    <p className="text-sm text-gray-400 mt-1">{service.stat.value}{service.stat.unit}</p>
+                    <p className="text-sm text-gray-400 mt-2 font-semibold">{service.stat.value}{service.stat.unit}</p>
                   </div>
                 </div>
               </div>
@@ -318,7 +318,7 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
           ))}
         </div>
         <motion.div
-          className="flex justify-center mt-12"
+          className="flex justify-center mt-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -326,16 +326,18 @@ export default function WebsiteMaintenanceWhatWeOfferSection() {
         >
           <Button
             size="lg"
-            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
+            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.6)] transition-all duration-300 transform hover:-translate-y-1"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="../contact-us"
             ariaLabel="Explore our website maintenance plans and get a free website health check"
           >
-            Explore Our Plans
+            Explore Our Maintenance Plans
           </Button>
         </motion.div>
       </div>
     </section>
   );
 }
+
+

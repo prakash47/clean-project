@@ -7,27 +7,41 @@ import WebsiteMaintenanceWhyChooseUsSection from '@/components/sections/WebsiteM
 import WebsiteMaintenanceCTASection from '@/components/sections/WebsiteMaintenanceCTASection';
 
 export const metadata: Metadata = {
-  title: 'Website Maintenance Services - Intention Infoservice',
-  description: 'Keep your website secure, updated, and optimized with our expert maintenance services. Get a free quote for reliable website support in 2025.',
+  title: 'Expert Website Maintenance Services | Secure & Fast Websites - Intention Infoservice',
+  description: 'Ensure your website is always secure, fast, and up-to-date with Intention Infoservice\'s comprehensive website maintenance services. Proactive monitoring, security updates, and performance optimization for your business in 2025.',
   metadataBase: new URL('https://intentioninfoservice.com'),
   openGraph: {
     url: 'https://intentioninfoservice.com/services/website-maintenance',
-    title: 'Website Maintenance Services - Intention Infoservice',
-    description: 'Keep your website secure, updated, and optimized with our expert maintenance services. Get a free quote for reliable website support in 2025.',
+    title: 'Expert Website Maintenance Services | Secure & Fast Websites - Intention Infoservice',
+    description: 'Ensure your website is always secure, fast, and up-to-date with Intention Infoservice\'s comprehensive website maintenance services. Proactive monitoring, security updates, and performance optimization for your business in 2025.',
     images: [
       {
         url: '/images/website-maintenance-og-image.webp',
         width: 1200,
         height: 630,
-        alt: 'Website Maintenance Services by Intention Infoservice',
+        alt: 'Intention Infoservice - Expert Website Maintenance Services',
+        type: 'image/webp',
+      },
+      {
+        url: '/images/website-maintenance-og-image-square.webp',
+        width: 1200,
+        height: 1200,
+        alt: 'Intention Infoservice - Website Maintenance & Support',
+        type: 'image/webp',
       },
     ],
     siteName: 'Intention Infoservice',
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@intentioninfo',
-    creator: '@intentioninfo',
+    site: '@IInfoservice',
+    creator: '@IInfoservice',
+    images: [
+      {
+        url: '/images/website-maintenance-twitter-card.webp',
+        alt: 'Intention Infoservice - Website Maintenance & Security',
+      },
+    ],
   },
   alternates: {
     canonical: 'https://intentioninfoservice.com/services/website-maintenance',
@@ -58,3 +72,4 @@ export default function WebsiteMaintenance() {
     </>
   );
 }
+

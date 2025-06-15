@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -8,8 +9,8 @@ import { FaArrowRight } from 'react-icons/fa';
 export default function WebsiteMaintenanceProcessSection() {
   const steps = [
     {
-      title: 'Initial Audit',
-      description: 'We start with a thorough audit of your website to identify security risks, performance issues, and areas for improvement.',
+      title: 'Comprehensive Website Audit',
+      description: 'We begin with an in-depth analysis of your website, meticulously identifying security vulnerabilities, performance bottlenecks, and areas ripe for optimization to ensure a robust foundation.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
@@ -18,8 +19,8 @@ export default function WebsiteMaintenanceProcessSection() {
       ),
     },
     {
-      title: 'Regular Updates',
-      description: 'Our team performs regular updates to keep your site secure, including software patches, content updates, and backups.',
+      title: 'Proactive Updates & Patching',
+      description: 'Our expert team ensures your site remains secure and functional through regular software updates, critical security patches, and systematic content refreshes, minimizing risks and maximizing stability.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
@@ -29,8 +30,8 @@ export default function WebsiteMaintenanceProcessSection() {
       ),
     },
     {
-      title: 'Performance Optimization',
-      description: 'We optimize your website for speed and user experience, ensuring fast load times and high Core Web Vitals scores.',
+      title: 'Advanced Performance Optimization',
+      description: 'We fine-tune your website for unparalleled speed and an exceptional user experience, focusing on achieving rapid load times and superior Core Web Vitals scores for enhanced engagement and SEO benefits.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <path d="M20,5 Q30,0 40,10 Q30,20 20,30 Q10,20 0,10 Q10,0 20,5 Z" fill="#00a0e3" />
@@ -39,8 +40,8 @@ export default function WebsiteMaintenanceProcessSection() {
       ),
     },
     {
-      title: 'Monitoring & Support',
-      description: 'We provide 24/7 monitoring and support to ensure your website runs smoothly, addressing issues in real-time.',
+      title: 'Continuous Monitoring & Dedicated Support',
+      description: 'Benefit from 24/7 real-time monitoring to detect and resolve issues instantly, coupled with our dedicated support team ensuring your website operates flawlessly around the clock.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
@@ -180,14 +181,14 @@ export default function WebsiteMaintenanceProcessSection() {
   }, []);
 
   return (
-    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
+    <section className="bg-dark-900 py-12 md:py-12 relative overflow-hidden">
       {/* Structured Data for the Section */}
       <script type="application/ld+json">
         {JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'HowTo',
-          name: 'Website Maintenance Process',
-          description: 'Learn about Intention Infoservice’s website maintenance process in Tech City to keep your site secure, fast, and updated in 2025.',
+          name: 'Intention Infoservice Website Maintenance Process',
+          description: 'Explore Intention Infoservice’s streamlined website maintenance process, designed to keep your site secure, fast, and optimized in Tech City for 2025 and beyond. From comprehensive audits to 24/7 support, we ensure peak performance.',
           step: steps.map((step, index) => ({
             '@type': 'HowToStep',
             position: index + 1,
@@ -217,43 +218,43 @@ export default function WebsiteMaintenanceProcessSection() {
         </defs>
       </svg>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-12">
+      <div className="max-w-7xl mx-auto px-[5%] md:px-[10%] lg:px-8 relative z-10">
+        <div className="text-center mb-16">
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            Our Website Maintenance Process
+            Our Streamlined Website Maintenance Process
           </motion.h2>
           <motion.p
-            className="text-lg md:text-xl text-brand-blue font-semibold mb-6"
+            className="text-lg md:text-xl lg:text-2xl text-brand-blue font-semibold mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            A Streamlined Approach to Keep Your Site Running Smoothly
+            A Proven Approach to Keep Your Digital Presence Flawless
           </motion.p>
           <motion.p
-            className="text-md md:text-lg text-gray-400 max-w-3xl mx-auto"
+            className="text-base md:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            From initial audits to ongoing support, our website maintenance process in Tech City ensures your site stays secure, fast, and optimized in 2025. Start with a free website health check today!
+            From initial comprehensive audits to ongoing 24/7 support, our website maintenance process ensures your site stays secure, fast, and optimized for peak performance in 2025. Partner with us for peace of mind and a thriving online presence.
           </motion.p>
         </div>
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           {/* Left: Process Steps (Vertical List on Mobile, Cards on Desktop) */}
           <div className="lg:w-1/2 w-full">
             {steps.map((step, index) => (
               <motion.div
                 key={step.title}
-                className={`step-card group p-6 rounded-lg border shadow-lg transition-all duration-500 hover:shadow-xl mb-4 lg:mb-0 ${
+                className={`step-card group p-8 rounded-xl border shadow-lg transition-all duration-500 hover:shadow-2xl mb-6 lg:mb-0 ${
                   index % 2 === 0
                     ? 'bg-dark-800 border-gray-700 hover:bg-dark-700 hover:border-brand-blue'
                     : 'bg-dark-700 border-gray-700 hover:bg-dark-600 hover:border-brand-indigo'
@@ -266,12 +267,12 @@ export default function WebsiteMaintenanceProcessSection() {
                 tabIndex={0}
                 aria-label={`Learn more about step ${index + 1}: ${step.title}`}
               >
-                <div className="flex items-start gap-4">
-                  <div className="step-icon transition-transform duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
+                <div className="flex items-start gap-6">
+                  <div className="step-icon transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
                     {step.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="step-title text-xl font-bold text-white mb-2 transition-transform duration-500">
+                    <h3 className="step-title text-2xl font-bold text-white mb-3 transition-transform duration-500">
                       Step {index + 1}: {step.title}
                     </h3>
                     <p className="step-description text-base text-gray-400 transition-all duration-500">{step.description}</p>
@@ -326,7 +327,7 @@ export default function WebsiteMaintenanceProcessSection() {
           </div>
         </div>
         <motion.div
-          className="flex justify-center mt-12"
+          className="flex justify-center mt-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -334,16 +335,18 @@ export default function WebsiteMaintenanceProcessSection() {
         >
           <Button
             size="lg"
-            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
+            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.6)] transition-all duration-300 transform hover:-translate-y-1"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="../contact-us"
             ariaLabel="Start your website maintenance project today with a free website health check"
           >
-            Start Your Project Today
+            Get Your Free Website Health Check
           </Button>
         </motion.div>
       </div>
     </section>
   );
 }
+
+

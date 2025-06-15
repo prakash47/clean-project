@@ -314,7 +314,7 @@ export default function WebsiteMaintenanceCTASection() {
   }, []);
 
   return (
-    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
+    <section className="bg-dark-900 py-12 md:py-12 relative overflow-hidden">
       {/* Structured Data for the Section */}
       <script type="application/ld+json">
         {JSON.stringify({

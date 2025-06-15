@@ -168,8 +168,8 @@ export default function MobileAppCTABannerSection() {
               <FaRocket className="text-brand-blue mr-2" />
               <span className="text-white font-medium">40% Faster Delivery</span>
             </div>
-            <div className="flex items-center bg-brand-indigo/20 px-4 py-2 rounded-full border border-brand-indigo/30">
-              <FaMobile className="text-brand-indigo mr-2" />
+            <div className="flex items-center bg-brand-blue/20 px-4 py-2 rounded-full border border-brand-blue/30">
+              <FaMobile className="text-brand-blue mr-2" />
               <span className="text-white font-medium">Native Performance</span>
             </div>
             <div className="flex items-center bg-brand-blue/20 px-4 py-2 rounded-full border border-brand-blue/30">
