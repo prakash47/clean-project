@@ -61,14 +61,14 @@ export const metadata: Metadata = {
     description: 'Expert web design & development services for 2025. Custom responsive websites, e-commerce solutions, mobile-first design, SEO optimization, and modern web applications that drive business growth.',
     images: [
       {
-        url: '/images/web-design-services-og.webp',
+        url: '/images/intention-infoservice-web-design-services-og.webp',
         width: 1200,
         height: 630,
         alt: 'Professional Web Design & Development Services - Custom Responsive Websites by Intention Infoservice',
         type: 'image/webp',
       },
       {
-        url: '/images/web-design-services-square.webp',
+        url: '/images/intention-infoservice-web-design-services-square.webp',
         width: 1200,
         height: 1200,
         alt: 'Web Design & Development Services - Mobile-First Responsive Design',
@@ -81,11 +81,11 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@intentioninfo',
-    creator: '@intentioninfo',
+    site: '@IInfoservice',
+    creator: '@IInfoservice',
     title: 'Professional Web Design & Development Services 2025 | Intention Infoservice',
-    description: 'Expert web design & development services. Custom responsive websites, e-commerce solutions, mobile-first design, SEO optimization. 150+ projects delivered with 4.9/5 rating.',
-    images: ['/images/web-design-services-twitter.webp'],
+    description: 'Expert web design & development services. Custom responsive websites, e-commerce solutions, mobile-first design, SEO optimization.',
+    images: ['/images/intention-infoservice-web-design-services-twitter.webp'],
   },
   robots: {
     index: true,
@@ -99,8 +99,8 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
+    google: 'keAWwhgvU0F_BgBC3Iyj-isGXPno_zi5cKWxjWUNs',
+    yandex: '7931eb0b1994ec32',
     yahoo: 'your-yahoo-verification-code',
   },
   category: 'Web Design and Development Services',
@@ -280,33 +280,42 @@ const structuredData = {
       },
       image: {
         '@type': 'ImageObject',
-        url: 'https://intentioninfoservice.com/images/web-design-services-og.webp',
+        url: 'https://intentioninfoservice.com/images/intention-infoservice-web-design-services-og.webp',
         width: 1200,
         height: 630,
       },
-      description: 'Professional web design and development company with 5+ years of experience, specializing in custom websites, e-commerce solutions, and web applications.',
+      description: 'Professional web design and development company with 10+ years of experience, specializing in custom websites, e-commerce solutions, and web applications.',
       address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Naigaon East, Juchandra',
-        addressLocality: 'Naigaon',
-        addressRegion: 'Maharashtra',
-        postalCode: '401208',
-        addressCountry: 'IN',
-      },
-      contactPoint: {
+      '@type': 'PostalAddress',
+      addressCountry: 'IN',
+      addressRegion: 'Maharashtra',
+      addressLocality: 'Mumbai, Naigaon, Palghar',
+      postalCode: '401208',
+      streetAddress: 'Naigaon East',
+    },
+    contactPoint: [
+      {
         '@type': 'ContactPoint',
-        telephone: '+91-9876543210',
+        telephone: '+91-70215 39267',
         contactType: 'customer service',
-        areaServed: 'IN',
         availableLanguage: ['English', 'Hindi'],
+        areaServed: 'Worldwide',
       },
-      sameAs: [
-        'https://www.facebook.com/intentioninfoservice',
-        'https://www.linkedin.com/company/intentioninfoservice',
-        'https://twitter.com/intentioninfo',
-        'https://www.instagram.com/intentioninfoservice',
-      ],
-      foundingDate: '2019',
+      {
+        '@type': 'ContactPoint',
+        email: 'contact@intentioninfoservice.com',
+        contactType: 'customer service',
+        availableLanguage: ['English'],
+        areaServed: 'Worldwide',
+      },
+    ],
+    sameAs: [
+      'https://in.linkedin.com/company/intentioninfoservice',
+      'https://x.com/IInfoservice',
+      'https://www.facebook.com/intentioninfoservice/',
+      'https://www.instagram.com/intention_infoservice/',
+    ],
+      foundingDate: '2015',
       numberOfEmployees: {
         '@type': 'QuantitativeValue',
         value: '10-50',
@@ -360,21 +369,6 @@ export default function WebDesignDevelopmentPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      
-      {/* Preload critical resources */}
-      <link
-        rel="preload"
-        href="/fonts/inter-var.woff2"
-        as="font"
-        type="font/woff2"
-        crossOrigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="/images/web-design-hero-bg.webp"
-        as="image"
-        type="image/webp"
       />
       
       {/* DNS prefetch for external resources */}

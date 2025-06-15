@@ -1,7 +1,8 @@
 'use client';
 import { motion } from 'framer-motion';
+import Button from '@/components/ui/Button';
 import { 
-  FaStar, FaUsers, FaRocket, FaShieldAlt, FaClock, FaCheckCircle, FaAward, FaChartLine,
+  FaArrowRight, FaStar, FaUsers, FaRocket, FaShieldAlt, FaClock, FaCheckCircle, FaAward, FaChartLine,
   FaDesktop, FaMobileAlt, FaCode, FaSearch, FaTools, FaHeadset, FaGlobe, FaTachometerAlt
 } from 'react-icons/fa';
 
@@ -9,7 +10,7 @@ export default function WhyChooseUsSection() {
   const reasons = [
     {
       title: '10+ Years of Proven Expertise',
-      description: 'Our experienced team has successfully delivered 150+ web projects across diverse industries, from startups to enterprise-level businesses, ensuring quality and reliability.',
+      description: 'Our experienced team has successfully delivered many web projects across diverse industries, from startups to enterprise-level businesses, ensuring quality and reliability.',
       icon: <FaAward className="w-8 h-8 text-brand-blue mb-4" />,
       stats: '150+ Projects Delivered',
       highlight: 'Industry Leader',
@@ -122,7 +123,7 @@ export default function WhyChooseUsSection() {
     { number: '4.9/5', label: 'Client Rating', icon: <FaStar className="w-6 h-6 text-yellow-400" /> },
     { number: '98%', label: 'On-Time Delivery', icon: <FaClock className="w-6 h-6 text-blue-400" /> },
     { number: '24/7', label: 'Support Available', icon: <FaHeadset className="w-6 h-6 text-purple-400" /> },
-    { number: '5+', label: 'Years Experience', icon: <FaAward className="w-6 h-6 text-orange-400" /> },
+    { number: '10+', label: 'Years Experience', icon: <FaAward className="w-6 h-6 text-orange-400" /> },
     { number: '95+', label: 'Lighthouse Score', icon: <FaTachometerAlt className="w-6 h-6 text-red-400" /> },
   ];
 
@@ -292,7 +293,7 @@ export default function WhyChooseUsSection() {
               </div>
 
               {/* Description */}
-              <p className="text-sm text-center text-gray-400 mb-4 flex-grow leading-relaxed">
+              <p className="text-base text-center text-gray-400 mb-4 flex-grow leading-relaxed">
                 {reason.description}
               </p>
 
@@ -320,18 +321,20 @@ export default function WhyChooseUsSection() {
             Ready to Experience the Intention Infoservice Difference?
           </h3>
           <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
-            Join 150+ satisfied clients who have transformed their digital presence with our expert web design and development services. 
+            Join Our satisfied clients who have transformed their digital presence with our expert web design and development services. 
             Let's discuss how we can help your business achieve its online goals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
-              className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,160,227,0.5)] flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FaRocket className="mr-2" />
+            <Button
+                                      size="lg"
+                                      className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,160,227,0.5)]"
+                                      icon={<FaArrowRight />}
+                                      iconPosition="right"
+                                      href="/contact-us"
+                                      ariaLabel="Get your free web design consultation and quote"
+                                    >
               Start Your Project Today
-            </motion.button>
+                                    </Button>
             {/* <motion.button
               className="border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center"
               whileHover={{ scale: 1.05 }}

@@ -97,7 +97,7 @@ export default function CTABannerSection() {
     'description': 'Professional software development company specializing in web development, mobile app development, and digital marketing services worldwide',
     'contactPoint': {
       '@type': 'ContactPoint',
-      'telephone': '+1-XXX-XXX-XXXX',
+      'telephone': '+91-70215 39267',
       'contactType': 'Customer Service',
       'availableLanguage': 'English',
       'areaServed': 'Worldwide',
@@ -111,7 +111,7 @@ export default function CTABannerSection() {
       },
       {
         '@type': 'QuoteAction',
-        'target': 'https://intentioninfoservice.com/get-quote',
+        'target': 'https://intentioninfoservice.com/contact-us',
         'name': 'Get Free Project Quote',
         'description': 'Receive a detailed quote for your web development or mobile app project',
       },

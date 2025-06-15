@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import Button from '@/components/ui/Button';
 import { 
-  FaSearch, FaPalette, FaCode, FaRocket, FaCheckCircle, FaUsers, FaClock, FaShieldAlt,
+  FaArrowRight, FaSearch, FaPalette, FaCode, FaRocket, FaCheckCircle, FaUsers, FaClock, FaShieldAlt,
   FaLightbulb, FaDesktop, FaMobileAlt, FaDatabase, FaTools, FaChartLine
 } from 'react-icons/fa';
 
@@ -449,14 +450,16 @@ export default function OurProcessSection() {
             Our team is ready to guide you through every step of the process.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
-              className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,160,227,0.5)] flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FaRocket className="mr-2" />
-              Start Your Project Today
-            </motion.button>
+            <Button
+                                                  size="lg"
+                                                  className="bg-brand-blue hover:bg-brand-blue/90 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,160,227,0.5)]"
+                                                  icon={<FaArrowRight />}
+                                                  iconPosition="right"
+                                                  href="/contact-us"
+                                                  ariaLabel="Get your free web design consultation and quote"
+                                                >
+                          Start Your Project Today
+                                                </Button>
             {/* <motion.button
               className="border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center"
               whileHover={{ scale: 1.05 }}
