@@ -369,7 +369,7 @@ export default function WebDesignHeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Transform your digital presence with our expert web design and development services. We create SEO-optimized, mobile-responsive websites that convert visitors into customers. From custom business websites to advanced e-commerce platforms, our team delivers modern web solutions that rank higher and perform better in 2025's competitive digital landscape.
+              Transform your digital presence with our expert web design and development services. We create SEO-optimized, mobile-responsive websites that convert visitors into customers.
             </motion.p>
 
             {/* Key Services Highlights */}
