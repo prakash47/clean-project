@@ -74,8 +74,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@intentioninfo',
-    creator: '@intentioninfo',
+    site: '@IInfoservice',
+    creator: '@IInfoservice',
     title: 'Professional Web Development & Mobile App Development Services | Custom Digital Solutions 2025',
     description: 'Leading software development company offering custom web development, mobile app development, UI/UX design, and digital marketing services.',
     images: ['/images/Professional_Web_Mobile_Dev_Services_2025.webp'],

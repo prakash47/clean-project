@@ -185,7 +185,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative bg-dark-950 pt-8 md:py-12 overflow-hidden">
+    <section className="relative bg-dark-950 pt-8 md:pt-16 md:py-12 overflow-hidden">
       {/* Structured Data */}
       <script
         type="application/ld+json"
