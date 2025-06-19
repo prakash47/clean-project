@@ -9,18 +9,19 @@ import { FaArrowRight } from 'react-icons/fa';
 export default function WebsiteMaintenanceProcessSection() {
   const steps = [
     {
-      title: 'Comprehensive Website Audit',
-      description: 'We begin with an in-depth analysis of your website, meticulously identifying security vulnerabilities, performance bottlenecks, and areas ripe for optimization to ensure a robust foundation.',
+      title: 'Initial Comprehensive Audit',
+      description: 'We start with a thorough audit of your website to identify security risks, performance issues, and areas for improvement. This foundational step ensures a tailored maintenance plan.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
           <path d="M20,20 L20,10 A10,10 0 0,1 30,20" fill="none" stroke="#0F172A" strokeWidth="2" />
         </svg>
       ),
+      keywords: 'website audit, security risks, performance issues, website analysis',
     },
     {
-      title: 'Proactive Updates & Patching',
-      description: 'Our expert team ensures your site remains secure and functional through regular software updates, critical security patches, and systematic content refreshes, minimizing risks and maximizing stability.',
+      title: 'Proactive Security & Software Updates',
+      description: 'Our team performs regular updates to keep your site secure, including software patches, content updates, and backups. We ensure your digital assets are shielded from evolving threats.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
@@ -28,20 +29,22 @@ export default function WebsiteMaintenanceProcessSection() {
           <path d="M30,20 L35,15 M30,20 L35,25" fill="none" stroke="#0F172A" strokeWidth="2" />
         </svg>
       ),
+      keywords: 'software updates, security patches, website backups, threat protection',
     },
     {
-      title: 'Advanced Performance Optimization',
-      description: 'We fine-tune your website for unparalleled speed and an exceptional user experience, focusing on achieving rapid load times and superior Core Web Vitals scores for enhanced engagement and SEO benefits.',
+      title: 'Performance Optimization & Speed',
+      description: 'We optimize your website for speed and user experience, ensuring fast load times and high Core Web Vitals scores. This includes image optimization, code minification, and database cleanup.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <path d="M20,5 Q30,0 40,10 Q30,20 20,30 Q10,20 0,10 Q10,0 20,5 Z" fill="#00a0e3" />
           <path d="M10,20 L20,30 L30,20" fill="none" stroke="#0F172A" strokeWidth="2" />
         </svg>
       ),
+      keywords: 'website speed, Core Web Vitals, image optimization, code minification',
     },
     {
       title: 'Continuous Monitoring & Dedicated Support',
-      description: 'Benefit from 24/7 real-time monitoring to detect and resolve issues instantly, coupled with our dedicated support team ensuring your website operates flawlessly around the clock.',
+      description: 'We provide 24/7 monitoring and support to ensure your website runs smoothly, addressing issues in real-time. Our team is always ready to assist, ensuring uninterrupted online presence.',
       icon: (
         <svg width="40" height="40" viewBox="0 0 40 40" className="step-icon-svg" aria-hidden="true">
           <circle cx="20" cy="20" r="15" fill="#00a0e3" />
@@ -49,6 +52,7 @@ export default function WebsiteMaintenanceProcessSection() {
           <path d="M20,5 L25,10 M20,35 L25,30 M5,20 L10,25 M35,20 L30,25" stroke="#0F172A" strokeWidth="2" />
         </svg>
       ),
+      keywords: '24/7 website monitoring, real-time support, uptime monitoring, website issue resolution',
     },
   ];
 
@@ -181,20 +185,65 @@ export default function WebsiteMaintenanceProcessSection() {
   }, []);
 
   return (
-    <section className="bg-dark-900 py-12 md:py-12 relative overflow-hidden">
+    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
       {/* Structured Data for the Section */}
       <script type="application/ld+json">
         {JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'HowTo',
           name: 'Intention Infoservice Website Maintenance Process',
-          description: 'Explore Intention Infoservice’s streamlined website maintenance process, designed to keep your site secure, fast, and optimized in Tech City for 2025 and beyond. From comprehensive audits to 24/7 support, we ensure peak performance.',
+          description: 'Our streamlined process for website maintenance ensures your site remains secure, fast, and optimized. From initial audit to continuous support, we cover all aspects of professional website care.',
           step: steps.map((step, index) => ({
             '@type': 'HowToStep',
             position: index + 1,
             name: step.title,
             text: step.description,
+            url: 'https://intentioninfoservice.com/services/website-maintenance#process-step-' + (index + 1),
           })),
+          supply: steps.map((step) => ({
+            '@type': 'HowToSupply',
+            name: step.title,
+            url: 'https://intentioninfoservice.com/services/website-maintenance#process-step-' + (steps.indexOf(step) + 1),
+            description: step.description,
+          })),
+          tool: [
+            {
+              '@type': 'HowToTool',
+              'name': 'Website Audit Tools',
+              'url': 'https://intentioninfoservice.com/services/website-maintenance#initial-audit-tools'
+            },
+            {
+              '@type': 'HowToTool',
+              'name': 'Security Scanning Software',
+              'url': 'https://intentioninfoservice.com/services/website-maintenance#security-tools'
+            },
+            {
+              '@type': 'HowToTool',
+              'name': 'Performance Monitoring Tools',
+              'url': 'https://intentioninfoservice.com/services/website-maintenance#performance-tools'
+            },
+            {
+              '@type': 'HowToTool',
+              'name': 'Backup Solutions',
+              'url': 'https://intentioninfoservice.com/services/website-maintenance#backup-tools'
+            },
+            {
+              '@type': 'HowToTool',
+              'name': 'Content Management Systems (CMS)',
+              'url': 'https://intentioninfoservice.com/services/website-maintenance#cms-tools'
+            }
+          ],
+          totalTime: 'P1M', // Assuming a monthly maintenance cycle
+          estimatedCost: {
+            '@type': 'MonetaryAmount',
+            'currency': 'USD',
+            'value': '299' // Example starting price
+          },
+          mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': 'https://intentioninfoservice.com/services/website-maintenance',
+          },
+          keywords: steps.map(step => step.keywords).join(', '),
         })}
       </script>
 
@@ -218,10 +267,10 @@ export default function WebsiteMaintenanceProcessSection() {
         </defs>
       </svg>
 
-      <div className="max-w-7xl mx-auto px-[5%] md:px-[10%] lg:px-8 relative z-10">
-        <div className="text-center mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-12">
           <motion.h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight"
+            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -230,31 +279,32 @@ export default function WebsiteMaintenanceProcessSection() {
             Our Streamlined Website Maintenance Process
           </motion.h2>
           <motion.p
-            className="text-lg md:text-xl lg:text-2xl text-brand-blue font-semibold mb-6"
+            className="text-lg md:text-xl text-brand-blue font-semibold mb-6"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            A Proven Approach to Keep Your Digital Presence Flawless
+            A Transparent Approach to Keep Your Digital Presence Flawless
           </motion.p>
           <motion.p
-            className="text-base md:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto"
+            className="text-md md:text-lg text-gray-400 max-w-3xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            From initial comprehensive audits to ongoing 24/7 support, our website maintenance process ensures your site stays secure, fast, and optimized for peak performance in 2025. Partner with us for peace of mind and a thriving online presence.
+            At Intention Infoservice, our meticulous website maintenance process is designed to ensure your site remains secure, performs optimally, and stays ahead of digital threats. We provide comprehensive care, from proactive updates to continuous monitoring, allowing you to focus on your business.
           </motion.p>
         </div>
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
           {/* Left: Process Steps (Vertical List on Mobile, Cards on Desktop) */}
           <div className="lg:w-1/2 w-full">
             {steps.map((step, index) => (
               <motion.div
                 key={step.title}
-                className={`step-card group p-8 rounded-xl border shadow-lg transition-all duration-500 hover:shadow-2xl mb-6 lg:mb-0 ${
+                id={`process-step-${index + 1}`}
+                className={`step-card group p-6 rounded-lg border shadow-lg transition-all duration-500 hover:shadow-xl mb-4 lg:mb-0 ${
                   index % 2 === 0
                     ? 'bg-dark-800 border-gray-700 hover:bg-dark-700 hover:border-brand-blue'
                     : 'bg-dark-700 border-gray-700 hover:bg-dark-600 hover:border-brand-indigo'
@@ -267,12 +317,12 @@ export default function WebsiteMaintenanceProcessSection() {
                 tabIndex={0}
                 aria-label={`Learn more about step ${index + 1}: ${step.title}`}
               >
-                <div className="flex items-start gap-6">
-                  <div className="step-icon transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-xl">
+                <div className="flex items-start gap-4">
+                  <div className="step-icon transition-transform duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
                     {step.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="step-title text-2xl font-bold text-white mb-3 transition-transform duration-500">
+                    <h3 className="step-title text-xl font-bold text-white mb-2 transition-transform duration-500">
                       Step {index + 1}: {step.title}
                     </h3>
                     <p className="step-description text-base text-gray-400 transition-all duration-500">{step.description}</p>
@@ -327,7 +377,7 @@ export default function WebsiteMaintenanceProcessSection() {
           </div>
         </div>
         <motion.div
-          className="flex justify-center mt-16"
+          className="flex justify-center mt-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -335,18 +385,17 @@ export default function WebsiteMaintenanceProcessSection() {
         >
           <Button
             size="lg"
-            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_20px_rgba(0,160,227,0.6)] transition-all duration-300 transform hover:-translate-y-1"
+            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
             icon={<FaArrowRight />}
             iconPosition="right"
             href="../contact-us"
             ariaLabel="Start your website maintenance project today with a free website health check"
           >
-            Get Your Free Website Health Check
+            Start Your Project Today
           </Button>
         </motion.div>
       </div>
     </section>
   );
 }
-
 
