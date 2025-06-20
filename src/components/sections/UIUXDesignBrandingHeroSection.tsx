@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -339,52 +340,29 @@ export default function UIUXDesignBrandingHeroSection() {
                 </g>
               </g>
               {/* Wireframe (Prototyping & Wireframing) */}
-              <g className="wireframe" transform="translate(50, 280)">
-                <rect x="0" y="0" width="120" height="20" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
-                <rect x="0" y="30" width="120" height="60" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
-                <rect x="5" y="35" width="110" height="20" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
-                <rect x="5" y="60" width="50" height="25" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
-                <rect x="60" y="60" width="50" height="25" fill="none" stroke="#666" strokeWidth="1" strokeDasharray="5,5" className="wireframe-line" />
+              <g className="wireframe" transform="translate(100, 250)">
+                <rect x="0" y="0" width="150" height="100" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="1" strokeDasharray="5,5" />
+                <line x1="10" y1="10" x2="140" y2="10" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
+                <line x1="10" y1="30" x2="140" y2="30" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
+                <line x1="10" y1="50" x2="140" y2="50" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
+                <line x1="10" y1="70" x2="140" y2="70" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
               </g>
-              {/* User Research & Testing */}
-              <g className="user-research" transform="translate(300, 280)">
-                {/* User Icon */}
-                <g className="user-icon" transform="translate(0, 0)">
-                  <circle cx="15" cy="15" r="10" fill="none" stroke="#393185" strokeWidth="2" />
-                  <path d="M15,25 Q20,30 25,25" fill="none" stroke="#393185" strokeWidth="2" />
-                </g>
-                {/* Magnifying Glass */}
-                <g className="magnifier" transform="translate(40, 0)">
-                  <circle cx="15" cy="15" r="10" fill="none" stroke="#393185" strokeWidth="2" />
-                  <line x1="22" y1="22" x2="30" y2="30" stroke="#393185" strokeWidth="2" />
+              {/* User Research (Magnifying Glass) */}
+              <g className="user-research" transform="translate(30, 300)">
+                <circle cx="20" cy="20" r="20" fill="#00a0e3" />
+                <path d="M35,35 L50,50" stroke="#0F172A" strokeWidth="3" className="magnifier" />
+                <circle cx="20" cy="20" r="10" fill="#1E293B" stroke="#0F172A" strokeWidth="1" />
+                <g className="user-icon" transform="translate(15, 15)">
+                  <circle cx="5" cy="5" r="3" fill="#0F172A" />
+                  <path d="M2,10 Q5,15 8,10" fill="none" stroke="#0F172A" strokeWidth="1" />
                 </g>
               </g>
-              {/* UI/UX Element Icons */}
-              <g transform="translate(200, 180)">
-                {/* Cursor Icon (User Interaction) */}
-                <g className="uiux-icon" transform="translate(0, 0)">
-                  <path d="M0,0 L10,10 L5,10 L5,20 L0,15 Z" fill="#00a0e3" />
-                </g>
-                {/* Grid Icon (Layout Design) */}
-                <g className="uiux-icon" transform="translate(40, 0)">
-                  <rect x="0" y="0" width="20" height="20" fill="none" stroke="#393185" strokeWidth="1" strokeDasharray="3,3" />
-                  <line x1="0" y1="10" x2="20" y2="10" stroke="#393185" strokeWidth="1" strokeDasharray="3,3" />
-                  <line x1="10" y1="0" x2="10" y2="20" stroke="#393185" strokeWidth="1" strokeDasharray="3,3" />
-                </g>
-                {/* User Flow Arrow (Navigation Flow) */}
-                <g className="uiux-icon" transform="translate(80, 0)">
-                  <path d="M0,10 L15,10 M10,5 L15,10 L10,15" fill="none" stroke="#00a0e3" strokeWidth="2" />
-                </g>
+              {/* UI/UX Icons */}
+              <g className="uiux-icons" transform="translate(400, 300)">
+                <rect x="0" y="0" width="30" height="30" rx="5" fill="#00a0e3" className="uiux-icon" />
+                <circle cx="15" cy="50" r="15" fill="#393185" className="uiux-icon" />
+                <path d="M0,80 L30,80 L15,110 Z" fill="#00a0e3" className="uiux-icon" />
               </g>
-              {/* Connection Lines and Nodes */}
-              <line x1="180" y1="120" x2="230" y2="80" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="230" cy="80" r="5" fill="#00a0e3" className="connection-node" />
-              <line x1="180" y1="120" x2="230" y2="160" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="230" cy="160" r="5" fill="#00a0e3" className="connection-node" />
-              <line x1="300" y1="280" x2="250" y2="240" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="250" cy="240" r="5" fill="#00a0e3" className="connection-node" />
-              <line x1="300" y1="280" x2="250" y2="320" stroke="#00a0e3" strokeWidth="1" strokeDasharray="100" className="connection-line" />
-              <circle cx="250" cy="320" r="5" fill="#00a0e3" className="connection-node" />
             </svg>
           </div>
         </div>
@@ -392,3 +370,5 @@ export default function UIUXDesignBrandingHeroSection() {
     </section>
   );
 }
+
+

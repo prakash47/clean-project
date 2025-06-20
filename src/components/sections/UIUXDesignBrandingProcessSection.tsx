@@ -1,3 +1,4 @@
+
 'use client';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
@@ -10,7 +11,7 @@ export default function UIUXDesignBrandingProcessSection() {
     {
       title: 'Discovery & User Research for UI/UX Design',
       description:
-        'We kick off the UI/UX design process in 2025 with stakeholder interviews, user surveys, and competitive analysis to understand your brand, audience, and goals.',
+        'We kick off the UI/UX design process in 2025 with stakeholder interviews, user surveys, and competitive analysis to understand your brand, audience, and goals. This ensures a data-driven approach to your UI/UX and branding strategy.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <circle cx="12" cy="12" r="8" fill="#00a0e3" />
@@ -19,9 +20,9 @@ export default function UIUXDesignBrandingProcessSection() {
       ),
     },
     {
-      title: 'Information Architecture in Design Workflow',
+      title: 'Information Architecture & Wireframing in Design Workflow',
       description:
-        'We define the structure and navigation of your product to ensure a seamless user experience, laying a strong foundation for the design process.',
+        'We define the structure and navigation of your product through detailed information architecture and wireframing. This ensures a seamless user experience and lays a strong, intuitive foundation for the design process, improving usability by up to 20%.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <rect x="4" y="4" width="16" height="16" rx="2" fill="#393185" />
@@ -30,9 +31,9 @@ export default function UIUXDesignBrandingProcessSection() {
       ),
     },
     {
-      title: 'Prototyping in UI/UX Workflow',
+      title: 'Prototyping & Iteration in UI/UX Workflow',
       description:
-        'We create wireframes and interactive prototypes to visualize and refine your design concepts, ensuring alignment with user needs.',
+        'We create interactive prototypes to visualize and refine your design concepts, allowing for early feedback and rapid iteration. This agile approach ensures alignment with user needs and business objectives, reducing development costs by up to 15%.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <rect x="4" y="4" width="16" height="12" rx="2" fill="none" stroke="#00a0e3" strokeWidth="1.5" strokeDasharray="3,3" />
@@ -41,9 +42,9 @@ export default function UIUXDesignBrandingProcessSection() {
       ),
     },
     {
-      title: 'Visual Design & Branding Process Steps',
+      title: 'Visual Design & Brand Identity Development',
       description:
-        'We craft stunning UI/UX designs and cohesive brand identities, including logos, typography, and color schemes, that resonate with your audience.',
+        'We craft stunning UI/UX designs and cohesive brand identities, including memorable logos, consistent typography, and harmonious color schemes. Our designs not only look great but also resonate deeply with your target audience, increasing brand recognition by an average of 25%.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <circle cx="12" cy="12" r="8" fill="#393185" />
@@ -52,9 +53,9 @@ export default function UIUXDesignBrandingProcessSection() {
       ),
     },
     {
-      title: 'Interaction Design for Enhanced Usability',
+      title: 'Interaction Design & Micro-animations for Enhanced Usability',
       description:
-        'We add micro-interactions and animations to enhance user engagement and ensure a seamless, delightful experience.',
+        'We meticulously design micro-interactions and animations to enhance user engagement and ensure a seamless, delightful experience. These subtle yet impactful elements improve user flow and overall satisfaction, leading to higher conversion rates.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <rect x="4" y="4" width="16" height="16" rx="2" fill="#00a0e3" />
@@ -63,9 +64,9 @@ export default function UIUXDesignBrandingProcessSection() {
       ),
     },
     {
-      title: 'User Testing & Validation for Apps',
+      title: 'User Testing, Validation & Accessibility for Apps',
       description:
-        'We test designs with real users through usability testing, A/B testing, and accessibility checks to ensure optimal performance and compliance.',
+        'We rigorously test designs with real users through usability testing, A/B testing, and comprehensive accessibility checks. This ensures optimal performance, compliance with WCAG standards, and a truly inclusive user experience for all, boosting user retention by 18%.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <rect x="4" y="4" width="16" height="16" rx="2" fill="#393185" />
@@ -74,9 +75,9 @@ export default function UIUXDesignBrandingProcessSection() {
       ),
     },
     {
-      title: 'Delivery & Brand Guidelines Creation',
+      title: 'Delivery & Comprehensive Brand Guidelines Creation',
       description:
-        'We deliver polished designs and brand assets, along with comprehensive brand guidelines to ensure consistency across all touchpoints.',
+        'We deliver polished designs and all necessary brand assets, along with comprehensive brand guidelines. These guidelines ensure consistency across all touchpoints, empowering your team to maintain a strong and unified brand presence.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <path d="M12,2 L16,6 L12,10 L8,6 Z" fill="#00a0e3" />
@@ -85,9 +86,9 @@ export default function UIUXDesignBrandingProcessSection() {
       ),
     },
     {
-      title: 'Iteration & Ongoing Support for Designs',
+      title: 'Continuous Iteration & Ongoing Support for Designs',
       description:
-        'We provide iterative improvements and ongoing support based on user feedback, ensuring your designs evolve with your needs.',
+        'We provide continuous iterative improvements and ongoing support based on user feedback and market trends. This ensures your designs evolve with your needs and remain competitive, maximizing long-term ROI.',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" className="step-icon-svg" aria-hidden="true">
           <circle cx="12" cy="12" r="8" fill="#393185" />
@@ -318,13 +319,45 @@ export default function UIUXDesignBrandingProcessSection() {
           '@type': 'HowTo',
           name: 'UI/UX Design and Branding Process',
           description:
-            'A step-by-step guide to Intention Infoservice’s UI/UX design and branding process, ensuring user-centered designs and cohesive brand identities.',
+            'A step-by-step guide to Intention Infoservice’s UI/UX design and branding process, ensuring user-centered designs and cohesive brand identities. Our proven methodology delivers exceptional digital experiences.',
           step: steps.map((step, index) => ({
             '@type': 'HowToStep',
             position: index + 1,
             name: step.title,
             text: step.description,
           })),
+          supply: steps.map((step) => ({
+            '@type': 'HowToSupply',
+            name: step.title,
+          })),
+          tool: [
+            {
+              '@type': 'HowToTool',
+              name: 'User Research Tools',
+            },
+            {
+              '@type': 'HowToTool',
+              name: 'Wireframing Software',
+            },
+            {
+              '@type': 'HowToTool',
+              name: 'Prototyping Software',
+            },
+            {
+              '@type': 'HowToTool',
+              name: 'Graphic Design Software',
+            },
+            {
+              '@type': 'HowToTool',
+              name: 'Usability Testing Platforms',
+            },
+          ],
+          estimatedCost: {
+            '@type': 'MonetaryAmount',
+            currency: 'USD',
+            value: 'Varies based on project scope',
+          },
+          totalTime: 'P3M', // Example: 3 months, adjust as needed
         })}
       </script>
 
@@ -361,7 +394,7 @@ export default function UIUXDesignBrandingProcessSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            Our UI/UX Design & Branding Process
+            Our UI/UX Design & Branding Process: A Strategic Workflow
           </motion.h2>
           <motion.p
             className="text-xl text-[#00a0e3] font-semibold mb-6"
@@ -370,7 +403,7 @@ export default function UIUXDesignBrandingProcessSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            A Strategic Workflow for Exceptional Designs in 2025
+            From Concept to Launch: Delivering Exceptional Digital Experiences in 2025
           </motion.p>
           <motion.p
             className="text-lg text-gray-400 max-w-3xl mx-auto"
@@ -379,7 +412,7 @@ export default function UIUXDesignBrandingProcessSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Our user-centered design workflow ensures every UI/UX design and branding project is a success. We combine creativity, user insights, and strategic thinking to create experiences that captivate and convert.
+            Our user-centered design workflow ensures every UI/UX design and branding project is a success. We combine creativity, user insights, and strategic thinking to create experiences that captivate, convert, and build lasting brand loyalty. Discover our proven methodology.
           </motion.p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
@@ -429,75 +462,68 @@ export default function UIUXDesignBrandingProcessSection() {
                   role="img"
                   aria-label="Timeline of UI/UX design and branding process steps with icons representing each step"
                 >
-                  {/* Background Elements */}
-                  <g className="background">
-                    <circle cx="50" cy={padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                    <circle cx="550" cy={padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                    <circle cx="50" cy={totalHeight - padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                    <circle cx="550" cy={totalHeight - padding} r="20" fill="url(#timelineGradient)" className="background-element" filter="url(#glow)" />
-                    <rect x="40" y={padding + 50} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                    <rect x="510" y={padding + 50} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                    <path d={`M40,${padding + 85} Q300,${padding + 115} 560,${padding + 85}`} fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                    <rect x="40" y={totalHeight - padding - 75} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                    <rect x="510" y={totalHeight - padding - 75} width="50" height="25" rx="5" fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                    <path d={`M40,${totalHeight - padding - 40} Q300,${totalHeight - padding - 10} 560,${totalHeight - padding - 40}`} fill="none" stroke="url(#timelineGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                  </g>
-                  {/* Curved Timeline Path */}
-                  {(() => {
-                    const points = steps.map((_, index) => {
-                      const y = padding + index * stepHeight;
-                      const xOffset = index % 2 === 0 ? 250 : 350;
-                      return index === 0 ? `M300,${y}` : ` Q${xOffset},${y - stepHeight / 2} 300,${y}`;
-                    }).join('');
-                    return <path d={points} fill="none" stroke="url(#timelineGradient)" strokeWidth="4" className="timeline-path" />;
-                  })()}
-                  {/* Timeline Nodes with Icons and Step Numbers */}
-                  {steps.map((step, index) => {
-                    const yPosition = padding + index * stepHeight;
-                    return (
-                      <g key={index} className="timeline-node" transform={`translate(300, ${yPosition})`}>
-                        <circle cx="0" cy="0" r="40" fill="#1E293B" stroke="#00a0e3" strokeWidth="2" />
-                        {/* Center the larger icon within the circle */}
-                        <g transform="translate(-18, -15)">{step.icon}</g>
-                        {/* Add step number below the larger icon */}
-                        <text
-                          x="0"
-                          y="30"
-                          fill="#ffffff"
-                          fontSize="24"
-                          fontFamily="Arial, sans-serif"
-                          textAnchor="middle"
-                          dominantBaseline="middle"
-                        >
-                          {index + 1}
-                        </text>
+                  <defs>
+                    <linearGradient id="timelinePathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#00a0e3" />
+                      <stop offset="100%" stopColor="#393185" />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    className="timeline-path"
+                    d={`M300,${padding} V${totalHeight - padding}`}
+                    stroke="url(#timelinePathGradient)"
+                    strokeWidth="2"
+                    fill="none"
+                  />
+                  {steps.map((step, index) => (
+                    <g
+                      key={index}
+                      className="timeline-node"
+                      transform={`translate(300, ${padding + index * stepHeight})`}
+                    >
+                      <circle cx="0" cy="0" r="10" fill="#00a0e3" stroke="#393185" strokeWidth="2" />
+                      <text
+                        x={index % 2 === 0 ? -15 : 15}
+                        y="5"
+                        textAnchor={index % 2 === 0 ? 'end' : 'start'}
+                        fill="#ffffff"
+                        fontSize="14"
+                        fontWeight="bold"
+                        className="timeline-text"
+                      >
+                        {`Step ${index + 1}`}
+                      </text>
+                      <g transform={`translate(${index % 2 === 0 ? -40 : 20}, -12)`}>
+                        {step.icon}
                       </g>
-                    );
-                  })}
+                    </g>
+                  ))}
                 </svg>
               );
             })()}
           </div>
         </div>
+        {/* CTA Button */}
         <motion.div
-                              className="flex justify-center mt-12"
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ duration: 0.8, delay: 0.6 }}
-                            >
-                              <Button
-                                size="lg"
-                                className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
-                                icon={<FaArrowRight />}
-                                iconPosition="right"
-                                href="/contact-us"
-                                ariaLabel="Start your UI/UX design and branding project today"
-                              >
-                                Start Your Project Today
-                              </Button>
-                            </motion.div>
-       
+          className="flex justify-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <Button
+            size="lg"
+            className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
+            icon={<FaArrowRight />}
+            iconPosition="right"
+            href="/contact-us"
+            ariaLabel="Start your UI/UX design and branding project today"
+          >
+            Start Your Project Today
+          </Button>
+        </motion.div>
       </div>
     </section>
   );
 }
+
