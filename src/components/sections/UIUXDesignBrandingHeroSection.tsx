@@ -341,27 +341,23 @@ export default function UIUXDesignBrandingHeroSection() {
               </g>
               {/* Wireframe (Prototyping & Wireframing) */}
               <g className="wireframe" transform="translate(100, 250)">
-                <rect x="0" y="0" width="150" height="100" rx="5" fill="#0F172A" stroke="#00a0e3" strokeWidth="1" strokeDasharray="5,5" />
+                <rect x="0" y="0" width="150" height="100" rx="5" fill="#1E293B" stroke="#00a0e3" strokeWidth="1" />
                 <line x1="10" y1="10" x2="140" y2="10" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
                 <line x1="10" y1="30" x2="140" y2="30" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
                 <line x1="10" y1="50" x2="140" y2="50" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
                 <line x1="10" y1="70" x2="140" y2="70" stroke="#00a0e3" strokeWidth="1" className="wireframe-line" />
               </g>
               {/* User Research (Magnifying Glass) */}
-              <g className="user-research" transform="translate(30, 300)">
-                <circle cx="20" cy="20" r="20" fill="#00a0e3" />
-                <path d="M35,35 L50,50" stroke="#0F172A" strokeWidth="3" className="magnifier" />
-                <circle cx="20" cy="20" r="10" fill="#1E293B" stroke="#0F172A" strokeWidth="1" />
-                <g className="user-icon" transform="translate(15, 15)">
-                  <circle cx="5" cy="5" r="3" fill="#0F172A" />
-                  <path d="M2,10 Q5,15 8,10" fill="none" stroke="#0F172A" strokeWidth="1" />
-                </g>
+              <g className="user-research" transform="translate(350, 50)">
+                <circle cx="20" cy="20" r="15" fill="#393185" className="user-icon" />
+                <circle cx="30" cy="30" r="10" fill="#00a0e3" className="magnifier" />
+                <line x1="35" y1="35" x2="50" y2="50" stroke="#00a0e3" strokeWidth="2" />
               </g>
               {/* UI/UX Icons */}
               <g className="uiux-icons" transform="translate(400, 300)">
-                <rect x="0" y="0" width="30" height="30" rx="5" fill="#00a0e3" className="uiux-icon" />
-                <circle cx="15" cy="50" r="15" fill="#393185" className="uiux-icon" />
-                <path d="M0,80 L30,80 L15,110 Z" fill="#00a0e3" className="uiux-icon" />
+                <circle cx="20" cy="20" r="10" fill="#00a0e3" className="uiux-icon" />
+                <rect x="40" y="10" width="20" height="20" rx="5" fill="#393185" className="uiux-icon" />
+                <path d="M70,20 L80,10 L90,20 L80,30 Z" fill="#00a0e3" className="uiux-icon" />
               </g>
             </svg>
           </div>

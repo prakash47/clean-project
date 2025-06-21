@@ -27,8 +27,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@intentioninfo',
-    creator: '@intentioninfo',
+    site: '@IInfoservice',
+    creator: '@IInfoservice',
     title: 'Expert Website Maintenance Services | Secure & Optimized',
     description: 'Keep your website secure, fast, and up-to-date with Intention Infoservice\'s comprehensive maintenance solutions.',
     images: ['/images/website-maintenance-twitter-card.webp'],
