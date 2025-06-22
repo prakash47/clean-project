@@ -29,7 +29,7 @@ export default function WebDesignCTASection() {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-[rgba(0,160,227,0.3)] to-[rgba(57,49,133,0.3)]" />
       </motion.div>
-      <div className="w-full px-2 sm:px-[10%] relative z-10">
+      <div className="w-full px-[5%] md:px-[10%] relative z-10">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

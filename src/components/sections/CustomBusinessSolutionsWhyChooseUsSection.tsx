@@ -1,252 +1,276 @@
+
 'use client';
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import {
+  FaArrowRight,
+  FaLightbulb,
+  FaHandshake,
+  FaChartLine,
+  FaShieldAlt,
+  FaUsers,
+  FaCloud,
+  FaLaptopCode,
+  FaStar,
+} from 'react-icons/fa';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function CustomBusinessSolutionsWhyChooseUsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
   useEffect(() => {
-    // Ensure GSAP animations are only applied on the client side
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !sectionRef.current) return;
 
-    // Ensure elements exist before applying animations
-    const cards = gsap.utils.toArray('.card') as HTMLElement[];
-    const lightFlares = gsap.utils.toArray('.light-flare') as HTMLElement[];
-    const ctaButton = document.querySelector('.cta-button');
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+      },
+    });
 
-    if (cards.length > 0) {
-      cards.forEach((card, index) => {
-        // Initial animation for cards
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 50 },
-          { opacity: 1, y: 0, duration: 0.8, delay: 1 + index * 0.2, ease: 'power2.out' }
-        );
+    // Headline and description animation
+    tl.fromTo(
+      '.why-choose-us-headline',
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+    )
+    .fromTo(
+      '.why-choose-us-description',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+      '-=0.5'
+    );
 
-        // Parallax effect on scroll
-        gsap.to(card, {
-          y: () => index % 2 === 0 ? -20 : 20,
-          scrollTrigger: {
-            trigger: card,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-
-        // 3D Tilt effect on hover
-        card.addEventListener('mousemove', (e: MouseEvent) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const tiltX = (centerY - y) / 30;
-          const tiltY = (x - centerX) / 30;
-
-          gsap.to(card, {
-            rotationX: tiltX,
-            rotationY: tiltY,
-            scale: 1.05,
-            duration: 0.3,
-            ease: 'power2.out',
-          });
-        });
-
-        card.addEventListener('mouseleave', () => {
-          gsap.to(card, {
-            rotationX: 0,
-            rotationY: 0,
-            scale: 1,
-            duration: 0.5,
-            ease: 'power2.out',
-          });
-        });
-      });
-    }
-
-    if (lightFlares.length > 0) {
-      lightFlares.forEach((flare, index) => {
-        gsap.fromTo(
-          flare,
-          { x: -500 },
-          { x: 1500, duration: 5 + index * 0.5, repeat: -1, ease: 'linear', delay: index * 0.3 }
-        );
-      });
-    }
-
-    if (ctaButton) {
-      gsap.fromTo(
-        ctaButton,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, delay: 2.5, ease: 'power2.out' }
+    // Reason cards animation (staggered)
+    const reasonCards = gsap.utils.toArray('.reason-card') as HTMLElement[];
+    reasonCards.forEach((card, index) => {
+      tl.fromTo(
+        card,
+        { opacity: 0, x: index % 2 === 0 ? -50 : 50 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+        },
+        '-=0.3'
       );
-      gsap.to(ctaButton, {
-        scale: 1.05,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 3,
-      });
-    }
+    });
 
+    // Cleanup function
     return () => {
-      // Cleanup event listeners
-      cards.forEach((card) => {
-        card.removeEventListener('mousemove', () => {});
-        card.removeEventListener('mouseleave', () => {});
-      });
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
   const reasons = [
     {
-      title: 'Expertise in Custom Software Development',
-      description: 'Our team excels in custom software development for enterprises, delivering tailored CRM, ERP, and SaaS solutions to streamline operations and reduce costs by 15%.',
+      title: 'Tailored Solutions',
+      description: 'We craft bespoke software that perfectly aligns with your unique business processes and goals, ensuring maximum relevance and impact.',
+      icon: <FaLightbulb className="w-10 h-10 text-brand-blue" />,
     },
     {
-      title: 'Innovative UI/UX Design Services',
-      description: 'We provide innovative UI/UX design services, creating user-centered interfaces that boost engagement by 20% through intuitive design and usability testing.',
+      title: 'Expert Team',
+      description: 'Our team comprises seasoned developers, designers, and strategists with deep expertise in various technologies and industries.',
+      icon: <FaUsers className="w-10 h-10 text-brand-blue" />,
     },
     {
-      title: 'Comprehensive Digital Marketing Solutions',
-      description: 'Our comprehensive digital marketing solutions, including SEO, PPC, and social media marketing, enhance your online presence and increase conversions by 25%.',
+      title: 'Agile Methodology',
+      description: 'We adopt an agile development approach, ensuring flexibility, transparency, and rapid iteration to deliver results efficiently.',
+      icon: <FaLaptopCode className="w-10 h-10 text-brand-blue" />,
     },
     {
-      title: 'Industry-Specific Software Solutions',
-      description: 'We offer industry-specific software solutions for sectors like healthcare, finance, and retail, ensuring compliance (e.g., HIPAA, GDPR) and tailored functionality.',
+      title: 'Scalability & Future-Proofing',
+      description: 'Our solutions are built with scalability in mind, designed to grow with your business and adapt to future technological advancements.',
+      icon: <FaChartLine className="w-10 h-10 text-brand-blue" />,
     },
     {
-      title: 'End-to-End Development and Support',
-      description: 'From ideation to deployment, our end-to-end development and support services ensure your project succeeds, with ongoing maintenance and performance optimization.',
+      title: 'Robust Security',
+      description: 'Security is paramount. We implement industry-leading practices to protect your data and ensure the integrity of your custom applications.',
+      icon: <FaShieldAlt className="w-10 h-10 text-brand-blue" />,
     },
     {
-      title: 'Cloud & DevOps Expertise',
-      description: 'Our cloud & DevOps expertise ensures scalable solutions with AWS, Azure, and CI/CD pipelines, improving deployment speed by 40%.',
+      title: 'Cloud Integration',
+      description: 'Leverage the power of the cloud with our expertise in cloud-native development and seamless integration with leading cloud platforms.',
+      icon: <FaCloud className="w-10 h-10 text-brand-blue" />,
     },
     {
-      title: 'Branding & Creative Excellence',
-      description: 'We deliver branding & creative excellence, crafting cohesive brand identities and engaging motion graphics to elevate your market presence.',
-    },
-    {
-      title: 'Agile Project Management',
-      description: 'Our agile project management approach ensures flexibility, transparency, and rapid delivery, aligning projects with your business goals.',
+      title: 'Dedicated Support',
+      description: 'From initial consultation to post-deployment support, we offer dedicated assistance to ensure your solution runs smoothly and efficiently.',
+      icon: <FaHandshake className="w-10 h-10 text-brand-blue" />,
     },
   ];
 
-  // Structured data for the section
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Intention Infoservice',
-    url: 'https://intentioninfoservice.com',
-    description: 'A leading custom software development company offering enterprise software solutions, innovative UI/UX design services, comprehensive digital marketing solutions, and industry-specific software solutions.',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: '123 Digital Avenue',
-      addressLocality: 'Tech City',
-      postalCode: 'TC 12345',
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.05,
+      },
     },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Custom Business Solutions',
-      itemListElement: reasons.map((reason, index) => ({
-        '@type': 'Service',
-        position: index + 1,
-        name: reason.title,
-        description: reason.description,
-      })),
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, scale: 0.9, rotateX: 10 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      rotateX: 0,
+      transition: {
+        duration: 0.8,
+        ease: "backOut",
+      },
     },
   };
 
   return (
-    <section className="relative bg-dark-950 py-16 md:py-24 overflow-hidden">
-      {/* Structured Data */}
-      <script
+    <section 
+      ref={sectionRef}
+      id="why-choose-us"
+      className="relative bg-gradient-to-b from-dark-950 to-dark-800 py-12 md:py-12 lg:py-12 overflow-hidden"
+      aria-labelledby="why-choose-us-heading"
+    >
+      {/* Structured Data for AboutPage */}
+      <script 
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'AboutPage',
+            name: 'Why Choose Intention Infoservice for Custom Business Solutions',
+            description: 'Discover the key reasons to partner with Intention Infoservice for your custom software development needs, including tailored solutions, expert team, agile methodology, and robust security.',
+            mainEntity: {
+              '@type': 'ItemList',
+              itemListElement: reasons.map((reason, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                item: {
+                  '@type': 'Thing',
+                  name: reason.title,
+                  description: reason.description,
+                },
+              })),
+            },
+          })
+        }}
       />
-      {/* Background with Animated Light Flares */}
-      <div className="absolute inset-0 pointer-events-none">
-        <svg width="100%" height="100%">
-          <line x1="-500" y1="20%" x2="1500" y2="20%" stroke="#00a0e3" strokeWidth="2" opacity="0.2" className="light-flare" />
-          <line x1="-500" y1="40%" x2="1500" y2="40%" stroke="#393185" strokeWidth="2" opacity="0.2" className="light-flare" />
-          <line x1="-500" y1="60%" x2="1500" y2="60%" stroke="#00a0e3" strokeWidth="2" opacity="0.2" className="light-flare" />
-          <line x1="-500" y1="80%" x2="1500" y2="80%" stroke="#393185" strokeWidth="2" opacity="0.2" className="light-flare" />
-        </svg>
-      </div>
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <div className="text-center mb-12">
+
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.05)_0%,_transparent_70%)] pointer-events-none" />
+
+      <div className="container mx-auto px-[5%] md:px-[10%] relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-center mb-16"
+        >
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            id="why-choose-us-heading"
+            className="why-choose-us-headline text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+            variants={itemVariants}
           >
-            Why Choose Us as Your Custom Software Development Company
+            Why Choose Us for Your Custom Business{' '}
+            <span className="bg-gradient-to-r from-brand-blue to-brand-blue bg-clip-text text-transparent">
+              Solutions
+            </span>
           </motion.h2>
           <motion.p
-            className="text-lg text-brand-blue font-semibold mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            className="why-choose-us-description text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8"
+            variants={itemVariants}
           >
-            Delivering Tailored Enterprise Software Solutions for Growth
+            Partner with a team dedicated to delivering innovative, scalable, and secure software solutions that drive real business value.
           </motion.p>
-          <motion.p
-            className="text-base text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            As a leading custom software development company, we specialize in delivering enterprise software solutions that drive digital transformation, enhance user experiences, and boost business growth. Partner with us for innovative UI/UX design, comprehensive digital marketing, and industry-specific solutions tailored to your needs.
-          </motion.p>
-        </div>
-        {/* Interactive Glass Card Grid with 3D Tilt and Parallax Effects */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        </motion.div>
+
+        {/* Reasons Grid - New Layout */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+        >
           {reasons.map((reason, index) => (
             <motion.div
               key={index}
-              className="card backdrop-blur-sm bg-white/10 bg-gradient-to-br from-dark-900 to-dark-800 rounded-lg shadow-lg border border-[rgba(0,160,227,0.3)] hover:border-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] focus:ring-2 focus:ring-brand-blue transition-all duration-300 perspective-1000"
-              role="button"
-              tabIndex={0}
-              aria-label={`Learn more about ${reason.title}`}
-              style={{
-                minHeight: '300px', // Use min-height to accommodate content
-                width: '100%',
-              }}
+              variants={cardVariants}
+              className="reason-card group relative bg-gradient-to-br from-dark-700 to-dark-800 rounded-2xl p-8 border border-gray-700 hover:border-brand-blue transition-all duration-300 hover:shadow-glow-sm flex flex-col items-center text-center"
             >
-              <div className="relative z-10 p-6 flex flex-col justify-center items-center min-h-80 text-center space-y-2">
-                <h3 className="text-lg font-semibold text-white drop-shadow-sm">{reason.title}</h3>
-                <p className="text-sm text-gray-300 drop-shadow-sm">{reason.description}</p>
+              {/* Icon */}
+              <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                {reason.icon}
               </div>
+
+              {/* Title */}
+              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-brand-blue transition-colors duration-300">
+                {reason.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-gray-300 leading-relaxed">
+                {reason.description}
+              </p>
+
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
+
+        {/* Call to Action */}
         <motion.div
-          className="flex justify-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          variants={itemVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-center"
         >
-          <Button
-            size="lg"
-            icon={<FaArrowRight />}
-            iconPosition="right"
-            href="/contact-us" // Updated href to /contact-us
-            className="cta-button btn btn-primary hover:bg-brand-blue transition-all duration-300"
-            ariaLabel="Partner with us today for custom business solutions"
+          <motion.div
+            className="inline-block"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Partner with Us Today
-          </Button>
+            <Button
+              size="lg"
+              className="btn btn-primary hover:bg-brand-blue hover:shadow-glow-md transition-all duration-300"
+              icon={<FaArrowRight />}
+              iconPosition="right"
+              href="/contact-us"
+              aria-label="Get a free consultation for custom business solutions"
+            >
+              Get a Free Consultation
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
+
+      {/* Performance optimization: Preload next section */}
+      <link rel="prefetch" href="#cta" />
     </section>
   );
 }
+
+

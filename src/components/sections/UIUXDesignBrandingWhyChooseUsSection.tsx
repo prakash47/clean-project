@@ -1,407 +1,327 @@
 'use client';
-import { motion } from 'framer-motion';
-import Button from '@/components/ui/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
-import { useEffect } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { 
+  FaLightbulb, 
+  FaBullseye, 
+  FaChartLine, 
+  FaPalette, 
+  FaHandshake, 
+  FaRocket,
+  FaCheckCircle,
+  FaUsers,
+  FaCogs
+} from 'react-icons/fa';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function UIUXDesignBrandingWhyChooseUsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+
   const reasons = [
     {
-      title: 'Proven UI/UX Design Expertise in 2025',
-      description:
-        'With over a decade of experience, we deliver user-centered designs that drive engagement and conversions, making us a leader in UI/UX design services in 2025.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="reason-icon-svg" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#00a0e3" />
-          <path d="M10,20 L15,25 L30,10" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaLightbulb className="text-4xl" />,
+      title: 'Expertise & Experience in UI/UX Design',
+      description: 'Our team comprises seasoned UI/UX designers and branding specialists with a proven track record of delivering exceptional results across diverse industries and cutting-edge technologies.',
+      features: ['10+ years experience', 'Industry expertise', 'Latest design trends']
     },
     {
-      title: 'Tailored Branding Solutions for Startups',
-      description:
-        'We specialize in branding solutions for startups, creating cohesive and memorable brand identities that help you stand out in competitive markets.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="reason-icon-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="15" fill="#393185" />
-          <text x="10" y="25" fill="#0F172A" fontSize="12" fontFamily="monospace">Logo</text>
-        </svg>
-      ),
+      icon: <FaBullseye className="text-4xl" />,
+      title: 'User-Centric Design Approach',
+      description: 'We prioritize your users above all. Our designs are meticulously crafted to enhance user satisfaction, improve usability, and drive meaningful engagement that converts visitors into customers.',
+      features: ['User research focused', 'Conversion optimization', 'Accessibility first']
     },
     {
-      title: 'User-Centered Design Approach',
-      description:
-        'Our user-centered design approach ensures intuitive experiences through in-depth research, testing, and iterative design tailored to your audience’s needs.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="reason-icon-svg" aria-hidden="true">
-          <circle cx="20" cy="20" r="15" fill="#00a0e3" />
-          <path d="M15,25 Q20,30 25,25" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaChartLine className="text-4xl" />,
+      title: 'Data-Driven Design Decisions',
+      description: 'We don\'t just design; we analyze and optimize. Our strategies are backed by thorough research, user testing, and performance metrics to ensure optimal outcomes and measurable results.',
+      features: ['Analytics integration', 'A/B testing', 'Performance tracking']
     },
     {
-      title: 'Proven Results with Measurable Impact',
-      description:
-        'Our projects have delivered up to 40% increase in user engagement and 25% higher conversion rates, showcasing the impact of our design and branding solutions.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="reason-icon-svg" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#393185" />
-          <path d="M10,30 L20,10 L30,30" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaPalette className="text-4xl" />,
+      title: 'Holistic Brand Solutions',
+      description: 'From captivating visuals to compelling brand narratives, we offer end-to-end branding services that resonate with your target audience and foster lasting emotional connections.',
+      features: ['Complete brand identity', 'Visual storytelling', 'Brand guidelines']
     },
     {
-      title: 'Seamless Collaboration and Support',
-      description:
-        'We work closely with clients throughout the process, offering ongoing support to ensure your designs evolve with your business needs.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="reason-icon-svg" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#00a0e3" />
-          <path d="M10,20 Q20,10 30,20 Q20,30 10,20" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaHandshake className="text-4xl" />,
+      title: 'Collaborative Partnership Approach',
+      description: 'Your vision is our blueprint. We work closely with you at every stage, ensuring transparency, incorporating your feedback, and delivering solutions that align perfectly with your business goals.',
+      features: ['Regular communication', 'Feedback integration', 'Goal alignment']
     },
     {
-      title: 'Cutting-Edge Design Tools and Trends',
-      description:
-        'We leverage the latest design tools like Figma and AI-driven insights to stay ahead of trends, ensuring your project is future-proof in 2025.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="reason-icon-svg" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#393185" />
-          <path d="M20,10 L30,20 L20,30 L10,20 Z" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      icon: <FaRocket className="text-4xl" />,
+      title: 'Future-Proof Design Solutions',
+      description: 'We design for tomorrow. Our solutions are scalable, adaptable, and built to evolve with emerging technologies and changing market trends, ensuring long-term relevance and growth.',
+      features: ['Scalable architecture', 'Technology adaptable', 'Future-ready designs']
     },
   ];
 
   useEffect(() => {
-    // Ensure GSAP animations are only applied on the client side
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !sectionRef.current) return;
 
-    // SVG Illustration Animations
-    const designTools = document.querySelector('.design-tools');
-    const userPersona = document.querySelector('.user-persona');
-    const brandAssets = document.querySelector('.brand-assets');
-    const backgroundElements = document.querySelectorAll('.background-element');
+    const cards = gsap.utils.toArray('.reason-card') as HTMLElement[];
 
-    if (designTools) {
-      gsap.fromTo(
-        designTools,
-        { opacity: 0, scale: 0.95 },
-        { opacity: 1, scale: 1, duration: 1, ease: 'power3.out' }
+    cards.forEach((card, index) => {
+      gsap.fromTo(card, 
+        { opacity: 0, y: 50, scale: 0.95 },
+        { 
+          opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          }
+        }
       );
-    }
-    if (userPersona) {
-      gsap.fromTo(
-        userPersona,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' }
-      );
-      gsap.to(userPersona, {
-        scale: 1.05,
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 1,
-      });
-    }
-    if (brandAssets) {
-      gsap.fromTo(
-        brandAssets,
-        { opacity: 0, scale: 0 },
-        { opacity: 1, scale: 1, duration: 0.8, delay: 0.5, ease: 'power3.out' }
-      );
-    }
-    if (backgroundElements.length > 0) {
-      gsap.fromTo(
-        backgroundElements,
-        { opacity: 0, scale: 0 },
-        { opacity: 0.3, scale: 1, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 0.5 }
-      );
-      gsap.to(backgroundElements, {
-        y: -20,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        stagger: 0.2,
-        delay: 0.8,
-      });
-    }
 
-    // Hover animations for reason cards
-    const reasonCards = gsap.utils.toArray('.reason-card') as HTMLElement[];
-    reasonCards.forEach((card) => {
       const icon = card.querySelector('.reason-icon') as HTMLElement;
-      const svgIcon = card.querySelector('.reason-icon svg') as SVGElement;
       const title = card.querySelector('.reason-title') as HTMLElement;
       const description = card.querySelector('.reason-description') as HTMLElement;
 
+      // Enhanced hover animations
       card.addEventListener('mouseenter', () => {
-        gsap.killTweensOf([icon, svgIcon, title, description]);
-
-        gsap.to(icon, {
-          scale: 1.3,
-          rotate: 15,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        gsap.to(svgIcon, {
-          filter: 'url(#glow)',
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-          onComplete: () => {
-            gsap.to(svgIcon, {
-              filter: 'url(#glow-pulse)',
-              duration: 1,
-              repeat: -1,
-              yoyo: true,
-              ease: 'sine.inOut',
-              overwrite: 'auto',
-            });
-          },
-        });
-
-        gsap.to(title, {
-          color: card.classList.contains('bg-dark-800') ? '#00a0e3' : '#393185',
-          scale: 1.05,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        gsap.to(description, {
-          color: '#d1d5db',
-          y: -4,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        gsap.to(icon, { scale: 1.2, rotate: 10, duration: 0.3, ease: 'power2.out' });
+        gsap.to(title, { color: '#00a0e3', duration: 0.3 });
+        gsap.to(description, { y: -5, duration: 0.3 });
+        gsap.to(card, { y: -10, duration: 0.3, ease: 'power2.out' });
       });
 
       card.addEventListener('mouseleave', () => {
-        gsap.killTweensOf([icon, svgIcon, title, description]);
-
-        gsap.to(icon, {
-          scale: 1,
-          rotate: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        gsap.to(svgIcon, {
-          filter: 'none',
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        gsap.to(title, {
-          color: '#ffffff',
-          scale: 1,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        gsap.to(description, {
-          color: '#9ca3af',
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        gsap.to(icon, { scale: 1, rotate: 0, duration: 0.3, ease: 'power2.out' });
+        gsap.to(title, { color: '#ffffff', duration: 0.3 });
+        gsap.to(description, { y: 0, duration: 0.3 });
+        gsap.to(card, { y: 0, duration: 0.3, ease: 'power2.out' });
       });
     });
+
+    // Headline and tagline animation
+    gsap.fromTo('.why-choose-headline', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', 
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+    gsap.fromTo('.why-choose-tagline', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.2,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+    gsap.fromTo('.why-choose-description', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.4,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
-      {/* Structured Data for the Section */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Service',
-          serviceType: 'UI/UX Design and Branding Services',
-          provider: {
+    <section 
+      ref={sectionRef} 
+      id="why-choose-us"
+      className="bg-gradient-to-b from-dark-900 to-dark-800 py-12 md:py-12 lg:py-12 relative overflow-hidden"
+      aria-labelledby="why-choose-heading"
+    >
+      {/* Enhanced Structured Data for the Section */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
             '@type': 'Organization',
             name: 'Intention Infoservice',
+            description: 'Leading UI/UX design and branding agency delivering exceptional digital experiences',
             url: 'https://intentioninfoservice.com',
-          },
-          description: 'Discover why Intention Infoservice is the best choice for UI/UX design and branding services in 2025, offering proven expertise, user-centered design, and tailored solutions.',
-          feature: reasons.map((reason) => ({
-            '@type': 'PropertyValue',
-            name: reason.title,
-            value: reason.description,
-          })),
-        })}
-      </script>
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: 'UI/UX Design & Branding Services',
+              itemListElement: reasons.map((reason, index) => ({
+                '@type': 'Offer',
+                position: index + 1,
+                name: reason.title,
+                description: reason.description,
+              })),
+            },
+          })
+        }}
+      />
 
-      {/* SVG Filter for Glowing Effect */}
-      <svg className="absolute w-0 h-0">
-        <defs>
-          <filter id="glow">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
-            <feMerge>
-              <feMergeNode />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="glow-pulse">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
-            <feMerge>
-              <feMergeNode />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#00a0e3', stopOpacity: 0.3 }} />
-            <stop offset="100%" style={{ stopColor: '#393185', stopOpacity: 0.3 }} />
-          </linearGradient>
-        </defs>
-      </svg>
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.05)_0%,_transparent_70%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-[10%] md:px-[10%] relative z-10">
+        {/* Section Header */}
+        <motion.div 
+          className="text-center mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            id="why-choose-heading"
+            className="why-choose-headline text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight leading-tight"
+            variants={cardVariants}
           >
-            Why Choose Intention Infoservice for UI/UX & Branding
+            Why Choose Intention Infoservice for UI/UX Design & Branding?
           </motion.h2>
+          
           <motion.p
-            className="text-xl text-[#00a0e3] font-semibold mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            className="why-choose-tagline text-xl md:text-2xl text-brand-blue font-semibold mb-6"
+            variants={cardVariants}
           >
-            Your Partner for Exceptional Design in 2025
+            Partner with Us for Unparalleled Expertise and Commitment to Your Success
           </motion.p>
+          
           <motion.p
-            className="text-lg text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            className="why-choose-description text-base md:text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed"
+            variants={cardVariants}
           >
-            Discover why Intention Infoservice is the best branding agency in 2025, offering proven UI/UX design expertise, user-centered solutions, and measurable results for businesses of all sizes.
+            We combine deep industry expertise, user-centered design principles, and cutting-edge technology to deliver UI/UX design and branding solutions that drive real business results. Discover what sets us apart in the competitive digital landscape.
           </motion.p>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
-          {/* Left: Reasons to Choose Us */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {reasons.map((reason, index) => (
-              <motion.div
-                key={reason.title}
-                className={`reason-card group p-6 rounded-lg border shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-xl ${
-                  index % 2 === 0
-                    ? 'bg-dark-800 border-gray-700 hover:bg-dark-700 hover:border-[#00a0e3]'
-                    : 'bg-dark-700 border-gray-700 hover:bg-dark-600 hover:border-[#393185]'
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                role="button"
-                tabIndex={0}
-                aria-label={`Learn more about ${reason.title}`}
-              >
-                <div className="flex flex-col items-center text-center">
-                  <div className="reason-icon mb-3 transition-transform duration-500 group-hover:-translate-y-1 group-hover:shadow-xl">
-                    {reason.icon}
-                  </div>
-                  <h3 className="reason-title text-xl font-bold text-white mb-2 transition-transform duration-500">
-                    {reason.title}
-                  </h3>
-                  <p className="reason-description text-base text-gray-400 transition-all duration-500">
-                    {reason.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          {/* Right: SVG Illustration */}
-          <div className="flex justify-center">
-            <svg
-              width="600"
-              height="500"
-              viewBox="0 0 600 500"
-              className="w-full max-w-[600px]"
-              role="img"
-              aria-label="Illustration of why choose Intention Infoservice for UI/UX design and branding, featuring design tools, user persona, and brand assets"
+        </motion.div>
+
+        {/* Reasons Grid */}
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {reasons.map((reason, index) => (
+            <motion.div
+              key={reason.title}
+              className="reason-card group relative p-6 lg:p-8 rounded-2xl border shadow-lg transition-all duration-500 cursor-pointer bg-gradient-to-br from-dark-800 to-dark-700 border-gray-700 hover:border-brand-blue hover:shadow-glow-sm"
+              variants={cardVariants}
+              onMouseEnter={() => setHoveredCard(index)}
+              onMouseLeave={() => setHoveredCard(null)}
+              role="button"
+              tabIndex={0}
+              aria-label={`Learn more about ${reason.title}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  // Handle keyboard interaction
+                  window.location.href = '/contact-us';
+                }
+              }}
             >
-              {/* Background Elements */}
-              <g className="background">
-                <circle cx="50" cy="50" r="20" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
-                <circle cx="550" cy="50" r="20" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
-                <circle cx="50" cy="450" r="20" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
-                <circle cx="550" cy="450" r="20" fill="url(#glowGradient)" className="background-element" filter="url(#glow)" />
-                <rect x="40" y="100" width="50" height="25" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                <rect x="510" y="100" width="50" height="25" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                <path d="M40,135 Q300,165 560,135" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                <rect x="40" y="375" width="50" height="25" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                <rect x="510" y="375" width="50" height="25" rx="5" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-                <path d="M40,410 Q300,440 560,410" fill="none" stroke="url(#glowGradient)" strokeWidth="1" strokeDasharray="3,3" className="background-element" />
-              </g>
-              {/* Design Tools (Figma-like Interface) */}
-              <g className="design-tools" transform="translate(50, 50)">
-                <rect x="0" y="0" width="250" height="200" rx="10" fill="#0F172A" stroke="#00a0e3" strokeWidth="2" />
-                <rect x="10" y="10" width="230" height="180" fill="#1E293B" />
-                <rect x="10" y="10" width="230" height="30" rx="5" fill="#00a0e3" />
-                <rect x="20" y="50" width="50" height="100" rx="5" fill="#393185" />
-                <rect x="80" y="50" width="140" height="50" rx="5" fill="#00a0e3" />
-                <rect x="80" y="110" width="60" height="30" rx="5" fill="#393185" />
-                <rect x="150" y="110" width="60" height="30" rx="5" fill="#393185" />
-              </g>
-              {/* User Persona */}
-              <g className="user-persona" transform="translate(350, 125)">
-                <circle cx="50" cy="50" r="50" fill="#00a0e3" />
-                <path d="M50,70 Q60,80 70,70" fill="none" stroke="#0F172A" strokeWidth="2" />
-                <circle cx="50" cy="50" r="35" fill="none" stroke="#0F172A" strokeWidth="2" />
-                <text x="15" y="125" fill="#fff" fontSize="14" fontFamily="monospace">User Persona</text>
-              </g>
-              {/* Brand Assets (Logo, Color Swatches) */}
-              <g className="brand-assets" transform="translate(175, 300)">
-                <circle cx="40" cy="40" r="30" fill="#393185" />
-                <text x="25" y="45" fill="#0F172A" fontSize="14" fontFamily="monospace">Logo</text>
-                <rect x="80" y="10" width="80" height="20" rx="5" fill="#FF6B6B" />
-                <rect x="80" y="40" width="80" height="20" rx="5" fill="#4ECDC4" />
-                <rect x="80" y="70" width="80" height="20" rx="5" fill="#45B7D1" />
-                <text x="170" y="50" fill="#fff" fontSize="14" fontFamily="monospace">Colors</text>
-              </g>
-            </svg>
-          </div>
-        </div>
+              {/* Card Header */}
+              <div className="flex flex-col items-center mb-6">
+                <div className="reason-icon mb-4 p-4 rounded-full transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-xl bg-gradient-to-br from-brand-blue to-brand-blue text-white">
+                  {reason.icon}
+                </div>
+                <h3 className="reason-title text-lg lg:text-xl font-bold text-white text-center transition-colors duration-500 leading-tight">
+                  {reason.title}
+                </h3>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-gray-600 mb-4 transition-colors duration-500 group-hover:border-gray-500" />
+
+              {/* Card Body */}
+              <p className="reason-description text-sm lg:text-base text-gray-300 text-center mb-6 transition-all duration-500 leading-relaxed">
+                {reason.description}
+              </p>
+
+              {/* Features */}
+              <div className="space-y-2">
+                {reason.features.map((feature, featureIndex) => (
+                  <div key={featureIndex} className="flex items-center text-xs lg:text-sm text-gray-400">
+                    <FaCheckCircle className="mr-2 text-xs text-brand-blue" />
+                    {feature}
+                  </div>
+                ))}
+              </div>
+
+              {/* Hover Effect Overlay */}
+              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none bg-brand-blue" />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Additional Benefits Section */}
         <motion.div
-                    className="flex justify-center mt-12 z-20 relative"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.8 }}
-                  >
-                    <Button
-                      size="lg"
-                      className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
-                      icon={<FaArrowRight />}
-                      iconPosition="right"
-                      href="/contact-us"
-                      ariaLabel="Discover why Intention Infoservice is the best choice for your design needs"
-                    >
-                      Discover the Difference
-                    </Button>
-                  </motion.div>
-        
+          className="text-center bg-gradient-to-r from-dark-800 to-dark-700 rounded-2xl p-8 lg:p-12 border border-gray-700"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <h3 className="text-2xl lg:text-3xl font-bold text-white mb-6">
+            What You Get When You Choose Us
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="flex flex-col items-center text-center">
+              <FaUsers className="text-3xl text-brand-blue mb-3" />
+              <h4 className="text-lg font-semibold text-white mb-2">Dedicated Team</h4>
+              <p className="text-sm text-gray-300">A dedicated team of experts working exclusively on your project</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <FaCogs className="text-3xl text-brand-blue mb-3" />
+              <h4 className="text-lg font-semibold text-white mb-2">Agile Process</h4>
+              <p className="text-sm text-gray-300">Flexible and iterative approach ensuring quick turnaround times</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <FaRocket className="text-3xl text-brand-blue mb-3" />
+              <h4 className="text-lg font-semibold text-white mb-2">Ongoing Support</h4>
+              <p className="text-sm text-gray-300">Continuous support and maintenance to keep your designs fresh</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Performance optimization: Preload next section */}
+      <link rel="prefetch" href="#faq" />
     </section>
   );
 }
+

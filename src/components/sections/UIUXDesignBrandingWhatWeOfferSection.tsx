@@ -1,351 +1,408 @@
-
 'use client';
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from '@/components/ui/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import { 
+  FaArrowRight, 
+  FaLightbulb, 
+  FaDraftingCompass, 
+  FaSearch, 
+  FaMobileAlt, 
+  FaPalette, 
+  FaChartLine, 
+  FaCogs, 
+  FaUsers,
+  FaCheckCircle,
+  FaStar
+} from 'react-icons/fa';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function UIUXDesignBrandingWhatWeOfferSection() {
-  useEffect(() => {
-    // Ensure GSAP animations are only applied on the client side
-    if (typeof window === 'undefined') return;
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
 
-    // Set up GSAP animations for each card
+  useEffect(() => {
+    if (typeof window === 'undefined' || !sectionRef.current) return;
+
     const cards = gsap.utils.toArray('.service-card') as HTMLElement[];
-    cards.forEach((card) => {
+
+    cards.forEach((card, index) => {
+      gsap.fromTo(card, 
+        { opacity: 0, y: 50, scale: 0.95 },
+        { 
+          opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+
       const icon = card.querySelector('.service-icon') as HTMLElement;
-      const svgIcon = card.querySelector('.service-icon svg') as SVGElement;
       const title = card.querySelector('.service-title') as HTMLElement;
       const description = card.querySelector('.service-description') as HTMLElement;
 
-      // Hover animations for the icon
-      gsap.set(icon, { scale: 1, rotate: 0 });
-      gsap.set(svgIcon, { filter: 'none' });
-
-      // Hover animations for the title and description
-      gsap.set(title, { color: '#ffffff' });
-      gsap.set(description, { color: '#9ca3af', y: 0 });
-
-      // Hover in
+      // Enhanced hover animations
       card.addEventListener('mouseenter', () => {
-        // Kill any ongoing animations to prevent conflicts
-        gsap.killTweensOf([icon, svgIcon, title, description]);
-
-        // Icon animation
-        gsap.to(icon, {
-          scale: 1.3,
-          rotate: 15,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        // Glowing effect with pulsing
-        gsap.to(svgIcon, {
-          filter: 'url(#glow)',
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-          onComplete: () => {
-            gsap.to(svgIcon, {
-              filter: 'url(#glow-pulse)',
-              duration: 1,
-              repeat: -1,
-              yoyo: true,
-              ease: 'sine.inOut',
-              overwrite: 'auto',
-            });
-          },
-        });
-
-        // Title and description animation
-        gsap.to(title, {
-          color: card.classList.contains('bg-dark-800') ? '#00a0e3' : '#393185',
-          scale: 1.05,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-        gsap.to(description, {
-          color: '#d1d5db',
-          y: -4,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        gsap.to(icon, { scale: 1.2, rotate: 10, duration: 0.3, ease: 'power2.out' });
+        gsap.to(title, { color: '#00a0e3', duration: 0.3 });
+        gsap.to(description, { y: -5, duration: 0.3 });
+        gsap.to(card, { y: -10, duration: 0.3, ease: 'power2.out' });
       });
 
-      // Hover out
       card.addEventListener('mouseleave', () => {
-        // Kill any ongoing animations to prevent conflicts
-        gsap.killTweensOf([icon, svgIcon, title, description]);
-
-        // Reset icon animation
-        gsap.to(icon, {
-          scale: 1,
-          rotate: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        // Reset glowing effect
-        gsap.to(svgIcon, {
-          filter: 'none',
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-
-        // Reset title and description animation
-        gsap.to(title, {
-          color: '#ffffff',
-          scale: 1,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
-        gsap.to(description, {
-          color: '#9ca3af',
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-          overwrite: 'auto',
-        });
+        gsap.to(icon, { scale: 1, rotate: 0, duration: 0.3, ease: 'power2.out' });
+        gsap.to(title, { color: '#ffffff', duration: 0.3 });
+        gsap.to(description, { y: 0, duration: 0.3 });
+        gsap.to(card, { y: 0, duration: 0.3, ease: 'power2.out' });
       });
     });
+
+    // Headline and tagline animation
+    gsap.fromTo('.what-we-offer-headline', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', 
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+    gsap.fromTo('.what-we-offer-tagline', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.2,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+    gsap.fromTo('.what-we-offer-description', 
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out', delay: 0.4,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   const services = [
     {
-      title: 'UI/UX Design Services 2025',
-      description:
-        'Create intuitive, visually stunning interfaces with our UI/UX design services in 2025, boosting user engagement by up to 35%.',
-      className: 'uiux-design-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="uiux-design-icon" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#00a0e3" />
-          <path d="M10,30 Q20,10 30,30" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      title: 'Strategic UI/UX Design Services 2025',
+      description: 'Craft intuitive, visually stunning interfaces with our UI/UX design services, boosting user engagement by up to 35% and ensuring seamless digital experiences across all platforms.',
+      icon: <FaLightbulb className="text-4xl" />,
+      keywords: 'UI/UX design, user interface, user experience, intuitive design, digital experience',
+      benefits: ['35% increase in user engagement', 'Responsive design', 'Accessibility compliant'],
+      color: 'blue'
     },
     {
-      title: 'Prototyping & Wireframing Services',
-      description:
-        'Visualize your ideas with interactive prototypes and detailed wireframes using our expert prototyping services.',
-      className: 'prototyping-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="prototyping-icon" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="30" rx="3" fill="none" stroke="#393185" strokeWidth="2" strokeDasharray="5,5" />
-          <rect x="5" y="5" width="30" height="20" fill="none" stroke="#393185" strokeWidth="2" strokeDasharray="5,5" />
-        </svg>
-      ),
+      title: 'Advanced Prototyping & Wireframing',
+      description: 'Visualize your ideas with interactive prototypes and detailed wireframes, accelerating development cycles by 40% and validating concepts before coding.',
+      icon: <FaDraftingCompass className="text-4xl" />,
+      keywords: 'prototyping, wireframing, interactive mockups, concept validation, rapid prototyping',
+      benefits: ['40% faster development', 'Risk reduction', 'Stakeholder alignment'],
+      color: 'indigo'
     },
     {
-      title: 'User Research & Usability Testing',
-      description:
-        'Understand your audience with in-depth user research and usability testing services to ensure optimal design solutions.',
-      className: 'research-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="research-icon" aria-hidden="true">
-          <circle cx="20" cy="20" r="15" fill="#00a0e3" />
-          <path d="M15,25 L25,15 M15,15 L25,25" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      title: 'In-depth User Research & Usability Testing',
+      description: 'Understand your audience with comprehensive user research and usability testing, ensuring optimal design solutions that meet real user needs and drive 25% higher satisfaction.',
+      icon: <FaSearch className="text-4xl" />,
+      keywords: 'user research, usability testing, user insights, audience understanding, design validation',
+      benefits: ['25% higher user satisfaction', 'Data-driven decisions', 'Reduced bounce rate'],
+      color: 'blue'
     },
     {
-      title: 'Interaction Design for Apps',
-      description:
-        'Enhance user engagement with seamless micro-interactions and animations through our interaction design services.',
-      className: 'interaction-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="interaction-icon" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#393185" />
-          <path d="M10,10 L20,20 L30,10" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      title: 'Engaging Interaction Design for Apps',
+      description: 'Enhance user engagement with seamless micro-interactions and animations, creating delightful and memorable experiences that increase app retention by 30%.',
+      icon: <FaMobileAlt className="text-4xl" />,
+      keywords: 'interaction design, micro-interactions, app design, animation, user engagement',
+      benefits: ['30% higher retention', 'Memorable experiences', 'Smooth animations'],
+      color: 'indigo'
     },
     {
-      title: 'Brand Identity Development for Startups',
-      description:
-        'Craft a cohesive brand identity with logos, typography, and color schemes that reflect your vision and build loyalty.',
-      className: 'branding-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="branding-icon" aria-hidden="true">
-          <circle cx="20" cy="20" r="15" fill="#00a0e3" />
-          <text x="10" y="25" fill="#0F172A" fontSize="12" fontFamily="monospace">Logo</text>
-        </svg>
-      ),
+      title: 'Cohesive Brand Identity Development',
+      description: 'Craft a powerful brand identity with logos, typography, and color schemes that reflect your vision, resonate with your audience, and build lasting brand loyalty.',
+      icon: <FaPalette className="text-4xl" />,
+      keywords: 'brand identity, logo design, typography, color palette, brand guidelines, brand loyalty',
+      benefits: ['Stronger brand recognition', 'Consistent messaging', 'Emotional connection'],
+      color: 'blue'
     },
     {
-      title: 'Brand Strategy Solutions',
-      description:
-        'Develop a strategic roadmap for brand positioning and messaging with our expert brand strategy services.',
-      className: 'strategy-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="strategy-icon" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#393185" />
-          <path d="M10,10 L30,10 L20,30 Z" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      title: 'Data-Driven Brand Strategy Solutions',
+      description: 'Develop a strategic roadmap for brand positioning and messaging, ensuring your brand stands out in a competitive market and achieves measurable business objectives.',
+      icon: <FaChartLine className="text-4xl" />,
+      keywords: 'brand strategy, brand positioning, market analysis, competitive advantage, brand messaging',
+      benefits: ['Market differentiation', 'Clear positioning', 'ROI tracking'],
+      color: 'indigo'
     },
     {
-      title: 'Visual Storytelling for Brands',
-      description:
-        'Connect emotionally with your audience through visual storytelling that enhances your brand’s narrative.',
-      className: 'storytelling-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="storytelling-icon" aria-hidden="true">
-          <circle cx="20" cy="20" r="15" fill="#00a0e3" />
-          <path d="M10,20 Q20,10 30,20 Q20,30 10,20" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      title: 'Compelling Visual Storytelling',
+      description: 'Connect emotionally with your audience through visual storytelling that enhances your brand\'s narrative, making your message unforgettable and increasing engagement by 45%.',
+      icon: <FaUsers className="text-4xl" />,
+      keywords: 'visual storytelling, brand narrative, emotional connection, brand communication, impactful design',
+      benefits: ['45% more engagement', 'Emotional resonance', 'Brand memorability'],
+      color: 'blue'
     },
     {
-      title: 'Design Systems for Consistency',
-      description:
-        'Build scalable design systems that integrate UI/UX and branding for consistent experiences across platforms.',
-      className: 'design-system-icon',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40" className="design-system-icon" aria-hidden="true">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#393185" />
-          <rect x="10" y="10" width="10" height="10" fill="none" stroke="#0F172A" strokeWidth="2" />
-          <rect x="20" y="20" width="10" height="10" fill="none" stroke="#0F172A" strokeWidth="2" />
-        </svg>
-      ),
+      title: 'Scalable Design Systems & Guidelines',
+      description: 'Build scalable design systems that integrate UI/UX and branding for consistent experiences across all platforms, reducing design debt by 60% and streamlining development.',
+      icon: <FaCogs className="text-4xl" />,
+      keywords: 'design systems, brand consistency, UI kit, component library, scalable design, design guidelines',
+      benefits: ['60% less design debt', 'Faster development', 'Brand consistency'],
+      color: 'indigo'
     },
   ];
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <section className="bg-dark-900 py-12 md:py-16 relative overflow-hidden">
-      {/* Structured Data for the Section */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'ItemList',
-          itemListElement: services.map((service, index) => ({
-            '@type': 'Service',
-            position: index + 1,
-            name: service.title,
-            description: service.description,
-            provider: {
-              '@type': 'Organization',
-              name: 'Intention Infoservice',
-            },
-            keywords: service.title.toLowerCase().replace(/ & /g, ', '),
-          })),
-        })}
-      </script>
+    <section 
+      ref={sectionRef} 
+      id="what-we-offer"
+      className="bg-gradient-to-b from-dark-900 to-dark-800 py-12 md:py-12 lg:py-12 relative overflow-hidden"
+      aria-labelledby="services-heading"
+    >
+      {/* Enhanced Structured Data for the Section */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'UI/UX Design & Branding Services',
+            description: 'Comprehensive UI/UX design and branding services for digital transformation',
+            itemListElement: services.map((service, index) => ({
+              '@type': 'Service',
+              position: index + 1,
+              name: service.title,
+              description: service.description,
+              provider: {
+                '@type': 'Organization',
+                name: 'Intention Infoservice',
+                url: 'https://intentioninfoservice.com'
+              },
+              keywords: service.keywords,
+              offers: {
+                '@type': 'Offer',
+                description: `Professional ${service.title.toLowerCase()} services`,
+                priceRange: '$$'
+              }
+            })),
+          })
+        }}
+      />
 
-      {/* SVG Filter for Glowing Effect */}
-      <svg className="absolute w-0 h-0">
-        <defs>
-          <filter id="glow">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
-            <feMerge>
-              <feMergeNode />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="glow-pulse">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
-            <feMerge>
-              <feMergeNode />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-      </svg>
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.05)_0%,_transparent_70%)] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-[5%] md:px-[10%] relative z-10">
+        {/* Section Header */}
+        <motion.div 
+          className="text-center mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            id="services-heading"
+            className="what-we-offer-headline text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight leading-tight"
+            variants={cardVariants}
           >
             Comprehensive UI/UX Design & Branding Services
           </motion.h2>
+          
           <motion.p
-            className="text-xl text-[#00a0e3] font-semibold mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            className="what-we-offer-tagline text-xl md:text-2xl text-brand-blue font-semibold mb-6"
+            variants={cardVariants}
           >
             From Startups to Enterprises, We Deliver User-Centered Design Solutions
           </motion.p>
+          
           <motion.p
-            className="text-lg text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            className="what-we-offer-description text-base md:text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed"
+            variants={cardVariants}
           >
-            Our UI/UX design and branding services combine creativity, strategy, and user insights to deliver experiences that captivate and convert. Explore our offerings to see how we can elevate your digital presence in 2025.
+            Our UI/UX design and branding services combine creativity, strategy, and user insights to deliver experiences that captivate and convert. Explore our comprehensive offerings to see how we can elevate your digital presence and drive measurable results in 2025.
           </motion.p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+
+          {/* Key Stats */}
+          {/* <motion.div 
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12 max-w-4xl mx-auto"
+            variants={cardVariants}
+          >
+            <div className="text-center">
+              <div className="text-3xl font-bold text-brand-blue mb-2">150+</div>
+              <div className="text-sm text-gray-400">Projects Completed</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-brand-indigo mb-2">98%</div>
+              <div className="text-sm text-gray-400">Client Satisfaction</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-brand-blue mb-2">35%</div>
+              <div className="text-sm text-gray-400">Avg. Engagement Boost</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-brand-indigo mb-2">24/7</div>
+              <div className="text-sm text-gray-400">Support Available</div>
+            </div>
+          </motion.div> */}
+        </motion.div>
+
+        {/* Services Grid */}
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 lg:gap-8 mb-16"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {services.map((service, index) => (
             <motion.div
               key={service.title}
-              className={`service-card group relative p-6 rounded-lg border shadow-lg transition-all duration-500 hover:scale-105 hover:shadow-xl ${
-                index % 2 === 0
-                  ? 'bg-dark-800 border-gray-700 hover:bg-dark-700 hover:border-[#00a0e3]'
-                  : 'bg-dark-700 border-gray-700 hover:bg-dark-600 hover:border-[#393185]'
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`service-card group relative p-6 lg:p-8 rounded-2xl border shadow-lg transition-all duration-500 cursor-pointer
+                ${service.color === 'blue' 
+                  ? 'bg-gradient-to-br from-dark-800 to-dark-700 border-gray-700 hover:border-brand-blue hover:shadow-glow-sm' 
+                  : 'bg-gradient-to-br from-dark-700 to-dark-600 border-gray-600 hover:border-brand-indigo hover:shadow-glow-sm'
+                }
+              `}
+              variants={cardVariants}
+              onMouseEnter={() => setHoveredCard(index)}
+              onMouseLeave={() => setHoveredCard(null)}
               role="button"
               tabIndex={0}
               aria-label={`Learn more about ${service.title}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  // Handle keyboard interaction
+                  window.location.href = '/contact-us';
+                }
+              }}
             >
               {/* Card Header */}
-              <div className="flex flex-col items-center mb-4">
+              <div className="flex flex-col items-center mb-6">
                 <div
-                  className={`service-icon ${service.className} mb-3 p-2 rounded-full transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:bg-gradient-to-r ${
-                    index % 2 === 0 ? 'group-hover:from-[#00a0e3] group-hover:to-[#393185]' : 'group-hover:from-[#393185] group-hover:to-[#00a0e3]'
-                  }`}
+                  className={`service-icon mb-4 p-4 rounded-full transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-xl
+                    ${service.color === 'blue' 
+                      ? 'bg-gradient-to-br from-brand-blue to-brand-indigo text-white' 
+                      : 'bg-gradient-to-br from-brand-indigo to-brand-blue text-white'
+                    }
+                  `}
                 >
                   {service.icon}
                 </div>
-                <h3 className="service-title text-2xl font-bold text-white text-center transition-transform duration-500">
+                <h3 className="service-title text-lg lg:text-xl font-bold text-white text-center transition-colors duration-500 leading-tight">
                   {service.title}
                 </h3>
               </div>
+
               {/* Divider */}
               <div className="border-t border-gray-600 mb-4 transition-colors duration-500 group-hover:border-gray-500" />
+
               {/* Card Body */}
-              <p className="service-description text-base text-gray-400 text-center transition-all duration-500">
+              <p className="service-description text-sm lg:text-base text-gray-300 text-center mb-4 transition-all duration-500 leading-relaxed">
                 {service.description}
               </p>
+
+              {/* Benefits */}
+              <div className="space-y-2 mb-4">
+                {service.benefits.map((benefit, benefitIndex) => (
+                  <div key={benefitIndex} className="flex items-center text-xs lg:text-sm text-gray-400">
+                    <FaCheckCircle className={`mr-2 text-xs ${service.color === 'blue' ? 'text-brand-blue' : 'text-brand-indigo'}`} />
+                    {benefit}
+                  </div>
+                ))}
+              </div>
+
+              {/* Rating */}
+              {/* <div className="flex items-center justify-center space-x-1 mt-4">
+                {[...Array(5)].map((_, i) => (
+                  <FaStar key={i} className="text-yellow-400 text-sm" />
+                ))}
+                <span className="text-xs text-gray-400 ml-2">4.9/5</span>
+              </div> */}
+
+              {/* Hover Effect Overlay */}
+              <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none
+                ${service.color === 'blue' ? 'bg-brand-blue' : 'bg-brand-indigo'}
+              `} />
             </motion.div>
           ))}
-        </div>
-        {/* CTA Button */}
+        </motion.div>
+
+        {/* CTA Section */}
         <motion.div   
-                      className="flex justify-center "
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: 0.6 }}
-                    >
-                      <Button
-                        size="lg"
-                        className="btn btn-primary hover:bg-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)] transition-all duration-300"
-                        icon={<FaArrowRight />}
-                        iconPosition="right"
-                        href="/contact-us"
-                        ariaLabel="Explore our UI/UX design and branding services"
-                      >
-                        Explore Our Services
-                      </Button>
-                    </motion.div>
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <div className="bg-gradient-to-r from-dark-800 to-dark-700 rounded-2xl p-8 lg:p-12 border border-gray-700 max-w-4xl mx-auto">
+            <h3 className="text-2xl lg:text-3xl font-bold text-white mb-4">
+              Ready to Transform Your Digital Presence?
+            </h3>
+            <p className="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+              Get a free consultation and discover how our UI/UX design and branding services can drive your business growth.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                size="lg"
+                className="btn btn-primary hover:bg-brand-blue hover:shadow-glow-md transition-all duration-300 transform hover:-translate-y-1"
+                icon={<FaArrowRight />}
+                iconPosition="right"
+                href="/contact-us"
+                aria-label="Get your free consultation for UI/UX design and branding services"
+              >
+                Get Free Consultation
+              </Button>
+              
+            </div>
+          </div>
+        </motion.div>
       </div>
+
+      {/* Performance optimization: Preload next section */}
+      <link rel="prefetch" href="#our-process" />
     </section>
   );
 }

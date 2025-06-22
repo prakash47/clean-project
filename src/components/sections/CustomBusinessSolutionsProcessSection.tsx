@@ -1,431 +1,246 @@
+
 'use client';
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import {
+  FaArrowRight,
+  FaLightbulb,
+  FaDraftingCompass,
+  FaCode,
+  FaVial,
+  FaRocket,
+} from 'react-icons/fa';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function CustomBusinessSolutionsProcessSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
   useEffect(() => {
-    // Ensure GSAP animations are only applied on the client side
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !sectionRef.current) return;
 
-    // Ensure elements exist before applying animations
-    const conveyorPath = document.querySelector('.conveyor-path');
-    const stations = gsap.utils.toArray('.station') as HTMLElement[];
-    const components = gsap.utils.toArray('.component') as HTMLElement[];
-    const sparks = gsap.utils.toArray('.spark') as HTMLElement[];
-    const ctaButton = document.querySelector('.cta-button');
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+      },
+    });
 
-    if (conveyorPath) {
-      gsap.fromTo(
-        conveyorPath,
-        { strokeDasharray: 600, strokeDashoffset: 600 },
-        { strokeDashoffset: 0, duration: 2, ease: 'power2.out', delay: 0.5 }
+    // Headline and description animation
+    tl.fromTo(
+      '.process-headline',
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
+    )
+    .fromTo(
+      '.process-description',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+      '-=0.5'
+    );
+
+    // Process steps animation
+    const processSteps = gsap.utils.toArray('.process-step') as HTMLElement[];
+    processSteps.forEach((step, index) => {
+      tl.fromTo(
+        step,
+        { opacity: 0, x: index % 2 === 0 ? -50 : 50 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+        },
+        '-=0.3'
       );
-    }
-    if (stations.length > 0) {
-      stations.forEach((station, index) => {
-        gsap.fromTo(
-          station,
-          { opacity: 0, scale: 0 },
-          { opacity: 1, scale: 1, duration: 0.5, delay: 1 + index * 0.3, ease: 'power2.out' }
-        );
-        gsap.to(station, {
-          scale: 1.05,
-          duration: 1,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-          delay: 1 + index * 0.3,
-        });
-        station.addEventListener('mouseenter', () => {
-          gsap.to(station, {
-            scale: 1.2,
-            filter: 'drop-shadow(0 0 10px rgba(0, 160, 227, 0.5))',
-            duration: 0.3,
-          });
-          gsap.to(components[index], {
-            motionPath: {
-              path: '.conveyor-path',
-              align: '.conveyor-path',
-              alignOrigin: [0.5, 0.5],
-              start: index * 0.2,
-              end: index * 0.2, // Pause at the station
-            },
-            duration: 0.3,
-          });
-        });
-        station.addEventListener('mouseleave', () => {
-          gsap.to(station, {
-            scale: 1.05,
-            filter: 'none',
-            duration: 0.3,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-          });
-          gsap.to(components[index], {
-            motionPath: {
-              path: '.conveyor-path',
-              align: '.conveyor-path',
-              alignOrigin: [0.5, 0.5],
-              start: 0,
-              end: 1,
-            },
-            duration: 10,
-            repeat: -1,
-            ease: 'none',
-          });
-        });
-        station.addEventListener('click', () => {
-          gsap.to(station, {
-            filter: 'drop-shadow(0 0 15px rgba(0, 160, 227, 0.7))',
-            scale: 1.3,
-            duration: 0.3,
-            overwrite: 'auto',
-          });
-        });
-      });
-    }
-    if (components.length > 0) {
-      components.forEach((component, index) => {
-        gsap.to(component, {
-          motionPath: {
-            path: '.conveyor-path',
-            align: '.conveyor-path',
-            alignOrigin: [0.5, 0.5],
-            start: 0,
-            end: 1,
-          },
-          duration: 10,
-          repeat: -1,
-          ease: 'none',
-          delay: index * 0.5,
-        });
-        // Transform at each station
-        gsap.to(component, {
-          scale: 1.2,
-          rotation: 360,
-          duration: 2,
-          repeat: -1,
-          ease: 'linear',
-          delay: index * 0.5,
-        });
-      });
-    }
-    if (sparks.length > 0) {
-      sparks.forEach((spark, index) => {
-        gsap.fromTo(
-          spark,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.5, repeat: -1, yoyo: true, delay: index * 0.3, ease: 'power2.out' }
-        );
-      });
-    }
-    if (ctaButton) {
-      gsap.fromTo(
-        ctaButton,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, delay: 2.5, ease: 'power2.out' }
-      );
-      gsap.to(ctaButton, {
-        scale: 1.05,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 3,
-      });
-    }
+    });
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   const steps = [
     {
-      title: 'Discovery & Needs Analysis for Enterprises',
-      description: 'We begin with a thorough discovery & needs analysis for enterprises, identifying your goals and challenges to create a tailored software roadmap.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <circle cx="20" cy="20" r="15" fill="#00a0e3" opacity="0.7" />
-          <path d="M15,25 L25,15 M15,15 L25,25" stroke="#393185" strokeWidth="2" />
-          <title>Discovery & Needs Analysis</title>
-        </svg>
-      ),
-      markerIcon: (
-        <svg width="19" height="19" viewBox="0 0 19 19">
-          <circle cx="9.5" cy="9.5" r="6" fill="#fff" />
-          <path d="M7,12 L12,7 M7,7 L12,12" stroke="#393185" strokeWidth="1.2" />
-          <title>Discovery & Needs Analysis Icon</title>
-        </svg>
-      ),
+      title: 'Discovery & Needs Analysis',
+      description: 'We begin with a thorough discovery and needs analysis, identifying your goals, challenges, and technical requirements to create a tailored software roadmap.',
+      icon: <FaLightbulb className="w-8 h-8 text-brand-blue" />,
     },
     {
-      title: 'Solution Design with Trending Technologies',
-      description: 'Our team designs enterprise software solutions, ensuring user-friendly architecture and leveraging trending technologies like AI and IoT.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#00a0e3" opacity="0.7" />
-          <path d="M10,30 Q20,10 30,30" fill="none" stroke="#393185" strokeWidth="2" />
-          <title>Solution Design</title>
-        </svg>
-      ),
-      markerIcon: (
-        <svg width="19" height="19" viewBox="0 0 19 19">
-          <rect x="2.5" y="2.5" width="14" height="14" rx="2" fill="#fff" />
-          <path d="M4.5,14 Q9.5,4.5 14.5,14" fill="none" stroke="#393185" strokeWidth="1.2" />
-          <title>Solution Design Icon</title>
-        </svg>
-      ),
+      title: 'Solution Design & Architecture',
+      description: 'Our expert team designs a robust and scalable architecture, focusing on user experience, system integration, and leveraging the latest technologies like AI and cloud.',
+      icon: <FaDraftingCompass className="w-8 h-8 text-brand-blue" />,
     },
     {
-      title: 'Development & Integration with AI and Cloud',
-      description: 'We develop and integrate AI and cloud-based software, building scalable solutions with modern frameworks to meet enterprise needs.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#00a0e3" opacity="0.7" />
-          <path d="M10,20 L15,15 L20,20 L25,15 L30,20" fill="none" stroke="#393185" strokeWidth="2" />
-          <title>Development & Integration</title>
-        </svg>
-      ),
-      markerIcon: (
-        <svg width="19" height="19" viewBox="0 0 19 19">
-          <rect x="2.5" y="2.5" width="14" height="14" rx="2" fill="#fff" />
-          <path d="M4.5,9.5 L7,7 L9.5,9.5 L12,7 L14.5,9.5" fill="none" stroke="#393185" strokeWidth="1.2" />
-          <title>Development & Integration Icon</title>
-        </svg>
-      ),
+      title: 'Development & Integration',
+      description: 'We develop your custom solution using agile methodologies, ensuring clean code, seamless integration with existing systems, and continuous collaboration.',
+      icon: <FaCode className="w-8 h-8 text-brand-blue" />,
     },
     {
-      title: 'Testing & Optimization for Performance',
-      description: 'Our rigorous testing & optimization for performance ensures your enterprise software is secure, efficient, and meets all expectations.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <rect x="0" y="0" width="40" height="40" rx="5" fill="#00a0e3" opacity="0.7" />
-          <path d="M10,20 L15,25 L30,10" fill="none" stroke="#393185" strokeWidth="2" />
-          <title>Testing & Optimization</title>
-        </svg>
-      ),
-      markerIcon: (
-        <svg width="19" height="19" viewBox="0 0 19 19">
-          <rect x="2.5" y="2.5" width="14" height="14" rx="2" fill="#fff" />
-          <path d="M4.5,9.5 L7,12 L14.5,4.5" fill="none" stroke="#393185" strokeWidth="1.2" />
-          <title>Testing & Optimization Icon</title>
-        </svg>
-      ),
+      title: 'Testing & Quality Assurance',
+      description: 'Rigorous testing and quality assurance are performed to ensure the software is secure, high-performing, and bug-free, meeting all functional and non-functional requirements.',
+      icon: <FaVial className="w-8 h-8 text-brand-blue" />,
     },
     {
-      title: 'Deployment & Support with Ongoing Security',
-      description: 'We provide deployment & support with ongoing security, ensuring your software evolves and remains protected against emerging threats.',
-      icon: (
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <path d="M20,0 L30,10 L20,20 L10,10 Z" fill="#00a0e3" opacity="0.7" />
-          <path d="M20,20 L20,30 L10,30 L10,40 L30,40 L30,30 L20,30 Z" fill="#00a0e3" opacity="0.7" />
-          <title>Deployment & Support</title>
-        </svg>
-      ),
-      markerIcon: (
-        <svg width="19" height="19" viewBox="0 0 19 19">
-          <path d="M9.5,0 L14.5,4.5 L9.5,9.5 L4.5,4.5 Z" fill="#fff" />
-          <path d="M9.5,9.5 L9.5,14.5 L4.5,14.5 L4.5,19 L14.5,19 L14.5,14.5 L9.5,14.5 Z" fill="#fff" />
-          <title>Deployment & Support Icon</title>
-        </svg>
-      ),
+      title: 'Deployment & Ongoing Support',
+      description: 'We handle the seamless deployment of your solution and provide comprehensive ongoing support, maintenance, and updates to ensure long-term success and adaptability.',
+      icon: <FaRocket className="w-8 h-8 text-brand-blue" />,
     },
   ];
 
-  // Structured data for the section
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'Service',
-    serviceType: 'Custom Software Development',
-    provider: {
-      '@type': 'Organization',
-      name: 'Intention Infoservice',
-      url: 'https://intentioninfoservice.com',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: '123 Digital Avenue',
-        addressLocality: 'Tech City',
-        postalCode: 'TC 12345',
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
       },
     },
-    description: 'Our custom software development process for enterprises ensures tailored enterprise software solutions that integrate AI, leverage cloud technology, and enhance security.',
-    areaServed: 'Global',
-    offers: {
-      '@type': 'Offer',
-      url: 'https://intentioninfoservice.com/services/custom-business-solutions',
-      name: 'Custom Software Development Process for Enterprises',
-      description: 'A proven custom software development process for enterprises, including discovery, solution design, development with AI and cloud integration, testing, and ongoing support.',
-    },
-    mainEntity: {
-      '@type': 'HowTo',
-      name: 'Custom Software Development Process for Enterprises',
-      description: 'A step-by-step process to deliver tailored enterprise software solutions.',
-      step: steps.map((step, index) => ({
-        '@type': 'HowToStep',
-        position: index + 1,
-        name: step.title,
-        description: step.description,
-      })),
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
     },
   };
 
   return (
-    <section className="relative bg-dark-900 py-16 md:py-24 overflow-hidden">
-      {/* Structured Data */}
+    <section 
+      ref={sectionRef}
+      id="process"
+      className="relative bg-gradient-to-b from-dark-900 to-dark-950 py-12 md:py-12 lg:py-12 overflow-hidden"
+      aria-labelledby="process-heading"
+    >
+      {/* Structured Data for HowTo */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'HowTo',
+            name: 'Custom Software Development Process',
+            description: 'A step-by-step guide to our custom software development process, from discovery to deployment and support.',
+            step: steps.map((step, index) => ({
+              '@type': 'HowToStep',
+              position: index + 1,
+              name: step.title,
+              text: step.description,
+            })),
+          })
+        }}
       />
-      {/* Subtle Background Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.05)_0%,_rgba(0,0,0,0)_70%)] opacity-30 pointer-events-none" />
-      <div className="w-full px-[10%] relative z-10">
-        <div className="text-center mb-12">
+
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.05)_0%,_transparent_70%)] pointer-events-none" />
+
+      <div className="container mx-auto px-[5%] md:px-[10%] relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-center mb-16"
+        >
           <motion.h2
-            className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            id="process-heading"
+            className="process-headline text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+            variants={itemVariants}
           >
-            Our Custom Software Development Process for Enterprises
+            Our Streamlined Development{' '}
+            <span className="bg-gradient-to-r from-brand-blue to-brand-blue bg-clip-text text-transparent">
+              Process
+            </span>
           </motion.h2>
           <motion.p
-            className="text-lg text-brand-blue font-semibold mb-6"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            className="process-description text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8"
+            variants={itemVariants}
           >
-            A Proven Approach to Deliver Enterprise Software Solutions
+            We follow a proven agile methodology to deliver high-quality, tailored software solutions that align perfectly with your business objectives.
           </motion.p>
-          <motion.p
-            className="text-base text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            Our custom software development process for enterprises ensures tailored solutions that integrate AI, leverage cloud technology, and enhance security, helping you overcome digital transformation challenges and reduce costs by 15%.
-          </motion.p>
-        </div>
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-          {/* Left: Process Steps */}
-          <div className="lg:w-1/2">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.title}
-                className="flex items-start gap-4 mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-              >
-                <div className="w-10 h-10 flex items-center justify-center">{step.icon}</div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2">{`${index + 1}. ${step.title}`}</h3>
-                  <p className="text-base text-gray-400">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
+        </motion.div>
+
+        {/* Process Steps Layout */}
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-12 items-center">
+          {/* Vertical Line for larger screens */}
+          <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-700 rounded-full">
+            <motion.div
+              className="h-full w-full bg-brand-blue origin-top"
+              initial={{ scaleY: 0 }}
+              animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
+              transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+            />
           </div>
-          {/* Right: Updated Blueprint Assembly Line Illustration */}
-          <div className="lg:w-1/2 flex justify-center">
-            <svg
-              width="500"
-              height="300"
-              viewBox="0 0 500 300"
-              className="w-full max-w-[500px]"
-              role="img"
-              aria-label="Blueprint assembly line illustrating the custom software development process"
+
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              className={`process-step flex items-start gap-6 ${index % 2 === 0 ? 'lg:pr-20' : 'lg:pl-20 lg:justify-end lg:text-right'}`}
+              variants={itemVariants}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
             >
-              {/* Definitions for Gradients */}
-              <defs>
-                <linearGradient id="conveyorGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" style={{ stopColor: '#393185', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: '#00a0e3', stopOpacity: 1 }} />
-                </linearGradient>
-                <linearGradient id="stationGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: '#393185', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: '#00a0e3', stopOpacity: 1 }} />
-                </linearGradient>
-              </defs>
-              {/* Background Grid Lines */}
-              <g opacity="0.1">
-                <line x1="0" y1="50" x2="500" y2="50" stroke="#00a0e3" strokeWidth="1" />
-                <line x1="0" y1="150" x2="500" y2="150" stroke="#00a0e3" strokeWidth="1" />
-                <line x1="0" y1="250" x2="500" y2="250" stroke="#00a0e3" strokeWidth="1" />
-                <line x1="100" y1="0" x2="100" y2="300" stroke="#00a0e3" strokeWidth="1" />
-                <line x1="300" y1="0" x2="300" y2="300" stroke="#00a0e3" strokeWidth="1" />
-              </g>
-              {/* Sparks */}
-              <g>
-                <circle cx="80" cy="80" r="3" fill="#00a0e3" className="spark" />
-                <circle cx="150" cy="220" r="3" fill="#00a0e3" className="spark" />
-                <circle cx="320" cy="70" r="3" fill="#00a0e3" className="spark" />
-                <circle cx="420" cy="230" r="3" fill="#00a0e3" className="spark" />
-              </g>
-              {/* Conveyor Path */}
-              <path
-                d="M50,150 Q150,50 250,150 Q350,250 450,150"
-                fill="none"
-                stroke="url(#conveyorGradient)"
-                strokeWidth="6"
-                strokeDasharray="600"
-                className="conveyor-path"
-              />
-              {/* Stations and Components */}
-              {steps.map((step, index) => {
-                const x = 50 + index * 100;
-                const y = 150 + (index % 2 === 0 ? -100 : 100); // Alternate above/below the path
-                return (
-                  <g key={index}>
-                    {/* Station */}
-                    <g
-                      transform={`translate(${x}, ${y})`}
-                      className="station transition-all duration-300 cursor-pointer"
-                    >
-                      <circle cx="0" cy="0" r="30" fill="url(#stationGradient)" />
-                      <circle cx="0" cy="0" r="24" fill="#393185" />
-                      <circle cx="0" cy="0" r="18" fill="#00a0e3" />
-                      {step.markerIcon}
-                      <text x="40" y="5" fill="#fff" fontSize="15">{index + 1}</text>
-                      <title>Station for {step.title}</title>
-                    </g>
-                    {/* Moving Component */}
-                    <g className="component">
-                      <circle cx="0" cy="0" r="10" fill="#00a0e3" opacity="0.7" />
-                      {index % 2 === 0 ? (
-                        <path d="M-5,0 L0,-5 L5,0 L0,5 Z" fill="#393185" />
-                      ) : (
-                        <rect x="-5" y="-5" width="10" height="10" fill="#393185" />
-                      )}
-                    </g>
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
+              <div className={`flex-shrink-0 ${index % 2 === 0 ? '' : 'lg:order-2'}`}>
+                <div className="w-16 h-16 rounded-full bg-dark-700 flex items-center justify-center border-2 border-brand-blue shadow-lg">
+                  {step.icon}
+                </div>
+              </div>
+              <div className={`${index % 2 === 0 ? '' : 'lg:order-1'}`}>
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  <span className="text-brand-blue">{`0${index + 1}.`}</span> {step.title}
+                </h3>
+                <p className="text-gray-300 leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            </motion.div>
+          ))}
         </div>
+
+        {/* Call to Action */}
         <motion.div
-          className="flex justify-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          variants={itemVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-center mt-16"
         >
-          <Button
-            size="lg"
-            icon={<FaArrowRight />}
-            iconPosition="right"
-            href="/contact"
-            className="cta-button"
-            ariaLabel="Start your custom software project today"
+          <motion.div
+            className="inline-block"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Start Your Project Today
-          </Button>
+            <Button
+              size="lg"
+              className="btn btn-primary hover:bg-brand-blue hover:shadow-glow-md transition-all duration-300"
+              icon={<FaArrowRight />}
+              iconPosition="right"
+              href="/contact-us"
+              aria-label="Start your custom software project today"
+            >
+              Start Your Project Today
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
+
+      {/* Performance optimization: Preload next section */}
+      <link rel="prefetch" href="#why-choose-us" />
     </section>
   );
 }
+

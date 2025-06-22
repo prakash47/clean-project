@@ -1,303 +1,297 @@
 'use client';
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Image from 'next/image';
+import { useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { FaArrowRight } from 'react-icons/fa';
+import {
+  FaArrowRight,
+  FaCogs,
+  FaDatabase,
+  FaCloud,
+  FaShieldAlt,
+  FaChartLine,
+  FaRobot,
+  FaNetworkWired,
+  FaLaptopCode,
+  FaMobile,
+  FaUsers,
+  FaLock
+} from 'react-icons/fa';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function CustomBusinessSolutionsWhatWeOfferSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+
   useEffect(() => {
-    // Ensure GSAP animations are only applied on the client side
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !sectionRef.current) return;
 
-    // Ensure elements exist before applying animations
-    const cards = gsap.utils.toArray('.service-card') as HTMLElement[];
-    const icons = gsap.utils.toArray('.service-icon') as HTMLElement[];
-    const ctaButton = document.querySelector('.cta-button');
-    const particles = gsap.utils.toArray('.background-particle') as HTMLElement[];
+    // Enhanced GSAP animations
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+      },
+    });
 
-    if (cards.length > 0) {
-      cards.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.5, delay: index * 0.1, ease: 'power2.out' }
-        );
-      });
-    }
-    if (icons.length > 0) {
-      icons.forEach((icon, index) => {
-        gsap.to(icon, {
-          scale: 1.2,
-          filter: 'drop-shadow(0 0 5px rgba(0, 160, 227, 0.5))',
-          duration: 0.3,
+    // Service cards animation
+    const serviceCards = gsap.utils.toArray('.service-card') as HTMLElement[];
+    serviceCards.forEach((card, index) => {
+      tl.fromTo(
+        card,
+        { opacity: 0, y: 50, scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
           delay: index * 0.1,
-        });
-      });
-    }
-    if (ctaButton) {
-      gsap.fromTo(
-        ctaButton,
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.5, delay: 0.8, ease: 'power2.out' }
+          ease: 'back.out(1.7)',
+        },
+        index === 0 ? 0 : '-=0.4'
       );
-      gsap.to(ctaButton, {
-        scale: 1.05,
-        duration: 1,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: 1.3,
-      });
-    }
-    if (particles.length > 0) {
-      particles.forEach((particle, index) => {
-        gsap.fromTo(
-          particle,
-          { opacity: 0.3, x: 0, y: 0 },
-          { opacity: 0, x: gsap.utils.random(-50, 50), y: gsap.utils.random(-50, 50), duration: 3, repeat: -1, delay: index * 0.5, ease: 'power2.out' }
-        );
-      });
-    }
+    });
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "backOut",
+      },
+    },
+  };
 
   const offerings = [
     {
-      title: 'Custom Software Development for Enterprises',
-      description: 'Transform your operations with custom software development for enterprises, designed to meet unique business needs, enhance scalability, and increase efficiency by 30%.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing custom software development"
-        >
-          <rect x="8" y="8" width="32" height="32" rx="4" fill="#00a0e3" opacity="0.7" />
-          <path d="M16,32 L24,24 L32,32 M16,16 L24,24 L32,16" stroke="#393185" strokeWidth="2" />
-          <title>Custom Software Development</title>
-        </svg>
-      ),
+      title: 'Custom CRM Development',
+      description: 'Transform customer relationships with tailored CRM systems designed to increase sales efficiency by 40% and improve customer satisfaction through personalized experiences.',
+      icon: <FaUsers className="w-8 h-8 text-brand-blue" />,
+      features: ['Lead Management', 'Sales Pipeline', 'Customer Analytics', 'Integration Ready'],
+      benefits: 'Boost sales conversion rates and customer retention'
     },
     {
-      title: 'Business Process Automation Software',
-      description: 'Streamline workflows with business process automation software, reducing operational costs by 25% and boosting productivity through AI-powered solutions.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing business process automation"
-        >
-          <circle cx="24" cy="24" r="16" fill="#00a0e3" opacity="0.7" />
-          <path d="M24,12 L24,24 L36,24 M24,12 L24,24 L12,24" stroke="#393185" strokeWidth="2" />
-          <title>Business Process Automation</title>
-        </svg>
-      ),
+      title: 'Enterprise ERP Solutions',
+      description: 'Streamline business operations with comprehensive ERP systems that integrate all departments, reduce operational costs by 30%, and provide real-time business insights.',
+      icon: <FaCogs className="w-8 h-8 text-brand-blue" />,
+      features: ['Resource Planning', 'Financial Management', 'Supply Chain', 'Reporting Dashboard'],
+      benefits: 'Optimize workflows and reduce operational overhead'
     },
     {
-      title: 'Data Analytics Solutions for Decision-Making',
-      description: 'Gain actionable insights with data analytics solutions for decision-making, empowering your business with cloud-based software to drive informed strategies.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing data analytics solutions"
-        >
-          <rect x="8" y="8" width="32" height="32" rx="4" fill="#00a0e3" opacity="0.7" />
-          <path d="M12,36 L18,24 L24,32 L30,20 L36,28" fill="none" stroke="#393185" strokeWidth="2" />
-          <title>Data Analytics Solutions</title>
-        </svg>
-      ),
+      title: 'AI-Powered Business Tools',
+      description: 'Leverage artificial intelligence to automate decision-making, predict market trends, and enhance productivity with machine learning algorithms tailored to your industry.',
+      icon: <FaRobot className="w-8 h-8 text-brand-blue" />,
+      features: ['Predictive Analytics', 'Process Automation', 'Smart Insights', 'ML Integration'],
+      benefits: 'Gain competitive advantage through intelligent automation'
     },
     {
-      title: 'E-Commerce Solutions for Businesses',
-      description: 'Build custom e-commerce solutions for businesses, increasing conversions by 20% with seamless payment gateways and inventory management.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing e-commerce solutions"
-        >
-          <rect x="8" y="8" width="32" height="32" rx="4" fill="#00a0e3" opacity="0.7" />
-          <path d="M12,36 Q24,24 36,36 M12,12 H36" stroke="#393185" strokeWidth="2" />
-          <title>E-Commerce Solutions</title>
-        </svg>
-      ),
+      title: 'Cloud-Based Solutions',
+      description: 'Scale your business with secure, flexible cloud applications that ensure 99.9% uptime, reduce infrastructure costs, and enable remote workforce collaboration.',
+      icon: <FaCloud className="w-8 h-8 text-brand-blue" />,
+      features: ['Scalable Architecture', 'Data Security', 'Remote Access', 'Cost Optimization'],
+      benefits: 'Achieve flexibility and cost savings with cloud technology'
     },
     {
-      title: 'UI/UX Design Services',
-      description: 'Elevate user experiences with UI/UX design services, creating intuitive interfaces that boost engagement through user-centered design.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing UI/UX design services"
-        >
-          <circle cx="24" cy="24" r="16" fill="#00a0e3" opacity="0.7" />
-          <path d="M24,12 Q24,24 36,24 Q24,24 24,36" fill="none" stroke="#393185" strokeWidth="2" />
-          <title>UI/UX Design Services</title>
-        </svg>
-      ),
+      title: 'Mobile Business Applications',
+      description: 'Extend your business reach with custom mobile apps that engage customers, streamline field operations, and provide real-time access to critical business data.',
+      icon: <FaMobile className="w-8 h-8 text-brand-blue" />,
+      features: ['Cross-Platform', 'Offline Capability', 'Push Notifications', 'Secure Authentication'],
+      benefits: 'Enhance customer engagement and operational mobility'
     },
     {
-      title: 'Digital Marketing Solutions',
-      description: 'Drive online growth with digital marketing solutions, including SEO, PPC, and social media strategies to enhance brand visibility.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing digital marketing solutions"
-        >
-          <rect x="8" y="8" width="32" height="32" rx="4" fill="#00a0e3" opacity="0.7" />
-          <path d="M24,12 V36 M12,24 H36" stroke="#393185" strokeWidth="2" />
-          <title>Digital Marketing Solutions</title>
-        </svg>
-      ),
-    },
-    {
-      title: 'Cloud & DevOps Solutions',
-      description: 'Scale effortlessly with cloud & DevOps solutions, leveraging AWS and CI/CD pipelines to improve deployment speed by 40%.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing cloud and DevOps solutions"
-        >
-          <path d="M12,24 Q24,12 36,24 T48,24" fill="none" stroke="#00a0e3" strokeWidth="4" opacity="0.7" />
-          <path d="M24,12 V36 M12,24 H36" stroke="#393185" strokeWidth="2" />
-          <title>Cloud & DevOps Solutions</title>
-        </svg>
-      ),
-    },
-    {
-      title: 'Cybersecurity & Compliance Solutions',
-      description: 'Protect your business with cybersecurity & compliance solutions, ensuring GDPR-compliant, secure software development.',
-      icon: (
-        <svg
-          width="48"
-          height="48"
-          viewBox="0 0 48 48"
-          className="service-icon mb-4"
-          role="img"
-          aria-label="Icon representing cybersecurity and compliance solutions"
-        >
-          <path d="M24,12 Q24,8 20,8 Q16,8 16,12 V36 Q16,40 24,44 Q32,40 32,36 V12 Q32,8 28,8 Q24,8 24,12 Z" fill="#00a0e3" opacity="0.7" />
-          <path d="M20,30 L24,34 L32,22" fill="none" stroke="#393185" strokeWidth="2" />
-          <title>Cybersecurity & Compliance Solutions</title>
-        </svg>
-      ),
-    },
+      title: 'Enterprise Security Solutions',
+      description: 'Protect your business assets with comprehensive cybersecurity solutions including threat detection, data encryption, and compliance management systems.',
+      icon: <FaShieldAlt className="w-8 h-8 text-brand-blue" />,
+      features: ['Threat Detection', 'Data Encryption', 'Access Control', 'Compliance Management'],
+      benefits: 'Ensure data protection and regulatory compliance'
+    }
   ];
 
-  // Structured data for the offerings
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'ItemList',
-    itemListElement: offerings.map((offering, index) => ({
-      '@type': 'Service',
-      position: index + 1,
-      name: offering.title,
-      description: offering.description,
-      provider: {
-        '@type': 'Organization',
-        name: 'Intention Infoservice',
-        url: 'https://intentioninfoservice.com',
-      },
-    })),
-  };
-
   return (
-    <section className="relative bg-dark-900 py-16 md:py-24 overflow-hidden">
-      {/* Structured Data */}
-      <script
+    <section 
+      ref={sectionRef}
+      id="what-we-offer"
+      className="relative bg-gradient-to-b from-dark-800 to-dark-900 py-12 md:py-12 lg:py-12"
+      aria-labelledby="offerings-heading"
+    >
+      {/* Enhanced Structured Data for Services */}
+      <script 
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Custom Business Solutions Services',
+            description: 'Comprehensive custom software development services for enterprises',
+            itemListElement: offerings.map((offering, index) => ({
+              '@type': 'Service',
+              position: index + 1,
+              name: offering.title,
+              description: offering.description,
+              provider: {
+                '@type': 'Organization',
+                name: 'Intention Infoservice'
+              }
+            }))
+          })
+        }}
       />
-      {/* Subtle Grain Texture */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <Image
-          src="/textures/grain.webp"
-          alt="Grain texture background for visual effect"
-          fill
-          style={{ objectFit: 'cover' }}
-          priority={false}
-          quality={75}
-        />
-      </div>
-      {/* Radial Gradient Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.05)_0%,_rgba(0,0,0,0)_70%)] opacity-30 pointer-events-none" />
-      {/* Background Particles */}
-      <svg className="absolute inset-0 pointer-events-none" width="100%" height="100%">
-        <circle cx="5%" cy="10%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-        <circle cx="95%" cy="15%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-        <circle cx="10%" cy="85%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-        <circle cx="90%" cy="90%" r="3" fill="#00a0e3" opacity="0.3" className="background-particle" />
-      </svg>
-      <div className="container mx-auto px-4 md:px-[10%] relative z-10">
-        <motion.h2
-          className="text-3xl md:text-4xl font-bold text-white mb-12 text-center tracking-tight"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,160,227,0.05)_0%,_transparent_70%)] pointer-events-none" />
+
+      <div className="container mx-auto px-[5%] md:px-[10%] relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-center mb-16"
         >
-          Our Custom Software Development Offerings for Enterprises
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.h2
+            id="offerings-heading"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
+            variants={itemVariants}
+          >
+            Custom Business Solutions We{' '}
+            <span className="bg-gradient-to-r from-brand-blue to-brand-blue bg-clip-text text-transparent">
+              Deliver
+            </span>
+          </motion.h2>
+          
+          <motion.p
+            className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8"
+            variants={itemVariants}
+          >
+            Transform your business operations with our comprehensive suite of custom software solutions designed to drive growth, efficiency, and competitive advantage in the digital age.
+          </motion.p>
+        </motion.div>
+
+        {/* Services Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+        >
           {offerings.map((offering, index) => (
             <motion.div
               key={index}
-              className="service-card bg-dark-950 rounded-lg p-8 shadow-lg text-center transition-all duration-300 hover:-translate-y-2 hover:border-2 hover:border-gradient-to-r hover:from-brand-indigo hover:to-brand-blue hover:shadow-[0_0_15px_rgba(0,160,227,0.5)]"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              variants={cardVariants}
+              className="service-card group relative bg-gradient-to-br from-dark-700 to-dark-800 rounded-2xl p-8 border border-gray-700 hover:border-brand-blue transition-all duration-300 hover:shadow-glow-sm"
             >
-              {offering.icon}
-              <h3 className="text-lg font-semibold text-white mb-3">{offering.title}</h3>
-              <p className="text-base text-gray-400">{offering.description}</p>
+              {/* Icon */}
+              <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                {offering.icon}
+              </div>
+
+              {/* Title */}
+              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-brand-blue transition-colors duration-300">
+                {offering.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-gray-300 mb-6 leading-relaxed">
+                {offering.description}
+              </p>
+
+              {/* Features */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-brand-blue mb-3">Key Features:</h4>
+                <ul className="space-y-2">
+                  {offering.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center text-sm text-gray-400">
+                      <div className="w-1.5 h-1.5 bg-brand-blue rounded-full mr-3"></div>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Benefits */}
+              <div className="border-t border-gray-600 pt-4">
+                <p className="text-sm text-brand-blue font-medium">
+                  {offering.benefits}
+                </p>
+              </div>
+
+              {/* Hover Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
+
+        {/* Call to Action */}
         <motion.div
-          className="flex justify-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.8 }}
+          variants={itemVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="text-center"
         >
-          <Button
-            size="lg"
-            icon={<FaArrowRight />}
-            iconPosition="right"
-            href="/contact"
-            className="cta-button"
-            ariaLabel="Get a free quote for custom business solutions"
+          <motion.div
+            className="inline-block"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            Get a Free Quote
-          </Button>
+            <Button
+              size="lg"
+              className="btn btn-primary hover:bg-brand-blue hover:shadow-glow-md transition-all duration-300"
+              icon={<FaArrowRight />}
+              iconPosition="right"
+              href="/contact-us"
+              aria-label="Discuss your custom business solution requirements"
+            >
+              Discuss Your Requirements
+            </Button>
+          </motion.div>
+          
+          <p className="text-gray-400 mt-4 text-sm">
+            Free consultation • Custom quote • 24/7 support
+          </p>
         </motion.div>
       </div>
+
+      {/* Performance optimization: Preload next section */}
+      <link rel="prefetch" href="#process" />
     </section>
   );
 }
+
