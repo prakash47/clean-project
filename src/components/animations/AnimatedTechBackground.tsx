@@ -1,5 +1,5 @@
-
 'use client';
+
 import { useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import {
@@ -114,28 +114,39 @@ export default function AnimatedTechBackground() {
       color: techIcons[Math.floor(Math.random() * techIcons.length)].color,
       size: Math.random() * (60 - 30) + 30, // Increased random size between 30 and 60
       initialX: -50, // Start off-screen left
-      initialY: Math.random() * window.innerHeight,
+      initialY: 0, // Default to 0, will be updated in useEffect
     }))
   );
 
   useEffect(() => {
-    icons.forEach((icon) => {
-      gsap.to(`#floating-icon-${icon.id}`, {
-        x: window.innerWidth + 50, // Animate to off-screen right
-        y: `+=${Math.random() * 200 - 100}`, // Random vertical movement
-        opacity: Math.random() * 0.5 + 0.2, // Random opacity
-        scale: Math.random() * 0.5 + 0.8, // Random scale
-        duration: Math.random() * 15 + 10, // Longer random duration for slower movement
-        ease: 'none', // Linear movement
-        repeat: -1,
-        delay: Math.random() * 10, // Staggered start times
-        onRepeat: function() {
-          // Reset position to left off-screen when repeating
-          gsap.set(this.targets()[0], { x: -50, y: Math.random() * window.innerHeight });
-        }
+    if (typeof window !== 'undefined') {
+      // Update initialY with window.innerHeight
+      setIcons((prevIcons) =>
+        prevIcons.map((icon) => ({
+          ...icon,
+          initialY: Math.random() * window.innerHeight,
+        }))
+      );
+
+      // Animate icons
+      icons.forEach((icon) => {
+        gsap.to(`#floating-icon-${icon.id}`, {
+          x: window.innerWidth + 50, // Animate to off-screen right
+          y: `+=${Math.random() * 200 - 100}`, // Random vertical movement
+          opacity: Math.random() * 0.5 + 0.2, // Random opacity
+          scale: Math.random() * 0.5 + 0.8, // Random scale
+          duration: Math.random() * 15 + 10, // Longer random duration for slower movement
+          ease: 'none', // Linear movement
+          repeat: -1,
+          delay: Math.random() * 10, // Staggered start times
+          onRepeat: function() {
+            // Reset position to left off-screen when repeating
+            gsap.set(this.targets()[0], { x: -50, y: Math.random() * window.innerHeight });
+          },
+        });
       });
-    });
-  }, [icons]);
+    }
+  }, []); // Empty dependency array to run only on mount
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -155,5 +166,3 @@ export default function AnimatedTechBackground() {
     </div>
   );
 }
-
-
