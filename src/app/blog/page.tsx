@@ -222,10 +222,10 @@ export default async function BlogPage() {
         <section className="relative bg-dark-900 py-20 sm:py-12">
           <div className="container mx-auto px-4 sm:px-6 md:px-[10%] text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-              Intention Infoservice Blog
+              Latest Insights in Technology
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">
-              Stay updated with the latest insights, trends, and updates in software development, technology, and digital solutions.
+              Discover expert insights on software development,Web Development, Mobile App Development, digital marketing, UI/UX design, and custom business solutions to accelerate your business growth.
             </p>
           </div>
         </section>
