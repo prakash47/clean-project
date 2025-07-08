@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -44,17 +45,17 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
   return (
     <aside className="sticky top-8">
       {/* Search Bar */}
-      <div className="mb-8 bg-gray-200 p-8 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Search</h3>
+      <div className="mb-8 bg-dark-900 p-8 rounded-lg shadow-lg border border-dark-800">
+        <h3 className="text-xl font-semibold text-white mb-4">Search</h3>
         <div className="relative">
           <input
             type="text"
             placeholder="Search blog posts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white text-gray-800 border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-brand-blue"
+            className="w-full bg-dark-950 text-white border border-dark-700 rounded-md py-2 px-4 focus:outline-none focus:border-brand-blue placeholder-gray-500"
           />
-          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-brand-blue transition-colors">
+          <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-brand-blue transition-colors">
             <FaSearch className="w-5 h-5" />
           </button>
         </div>
@@ -62,7 +63,7 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
         {/* Display search results */}
         {searchQuery && (
           <div className="mt-4">
-            <h4 className="text-lg font-semibold text-gray-800 mb-2">Search Results</h4>
+            <h4 className="text-lg font-semibold text-white mb-2">Search Results</h4>
             {filteredPosts.length > 0 ? (
               <ul className="space-y-4">
                 {filteredPosts.map(post => (
@@ -78,30 +79,30 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                       />
                     </div>
                     <div>
-                      <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
+                      <Link href={`/blog/${post.slug}`} className="text-white hover:text-brand-blue transition-colors">
                         <h4 className="text-sm font-semibold">{post.title}</h4>
                       </Link>
                       {CONFIG.SHOW_DATES && (
-                        <p className="text-xs text-gray-600">{post.date}</p>
+                        <p className="text-xs text-gray-400">{post.date}</p>
                       )}
                     </div>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-gray-600">No posts found.</p>
+              <p className="text-gray-400">No posts found.</p>
             )}
           </div>
         )}
       </div>
 
       {/* Categories */}
-      <div className="mb-8 bg-gray-200 p-8 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Categories</h3>
+      <div className="mb-8 bg-dark-900 p-8 rounded-lg shadow-lg border border-dark-800">
+        <h3 className="text-xl font-semibold text-white mb-4">Categories</h3>
         <ul className="space-y-2">
           {categories.map(category => (
             <li key={category.slug}>
-              <Link href={`/blog/category/${category.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
+              <Link href={`/blog/category/${category.slug}`} className="text-white hover:text-brand-blue transition-colors">
                 {category.name}
               </Link>
             </li>
@@ -110,8 +111,8 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
       </div>
 
       {/* Recent Posts */}
-      <div className="bg-gray-200 p-8 rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Recent Posts</h3>
+      <div className="bg-dark-900 p-8 rounded-lg shadow-lg border border-dark-800">
+        <h3 className="text-xl font-semibold text-white mb-4">Recent Posts</h3>
         <ul className="space-y-4">
           {recentPosts.map(post => (
             <li key={post.id} className="flex gap-4">
@@ -126,11 +127,11 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
                 />
               </div>
               <div>
-                <Link href={`/blog/${post.slug}`} className="text-gray-800 hover:text-brand-blue transition-colors">
+                <Link href={`/blog/${post.slug}`} className="text-white hover:text-brand-blue transition-colors">
                   <h4 className="text-sm font-semibold">{post.title}</h4>
                 </Link>
                 {CONFIG.SHOW_DATES && (
-                  <p className="text-xs text-gray-600">{post.date}</p>
+                  <p className="text-xs text-gray-400">{post.date}</p>
                 )}
               </div>
             </li>
@@ -140,3 +141,4 @@ export default function BlogSidebar({ blogPosts, categories }: BlogSidebarProps)
     </aside>
   );
 }
+

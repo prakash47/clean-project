@@ -1,33 +1,210 @@
+
 'use client';
 import Link from 'next/link';
 import { useState, useCallback, useRef } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { FaCheckCircle, FaEnvelope, FaPhone, FaEnvelope as FaEmail, FaSpinner } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 export default function ContactForm() {
   // Country data (sample for brevity; full list should include ~240 countries)
   const countries = [
-    { code: '+91', name: 'India', flag: '🇮🇳', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+1', name: 'United States', flag: '🇺🇸', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+44', name: 'United Kingdom', flag: '🇬🇧', maxLength: 11, regex: /^\d{9,11}$/ },
-    { code: '+1', name: 'Canada', flag: '🇨🇦', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+61', name: 'Australia', flag: '🇦🇺', maxLength: 10, regex: /^\d{9,10}$/ },
-    { code: '+33', name: 'France', flag: '🇫🇷', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+49', name: 'Germany', flag: '🇩🇪', maxLength: 11, regex: /^\d{10,11}$/ },
-    { code: '+81', name: 'Japan', flag: '🇯🇵', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+86', name: 'China', flag: '🇨🇳', maxLength: 11, regex: /^\d{11}$/ },
-    { code: '+55', name: 'Brazil', flag: '🇧🇷', maxLength: 11, regex: /^\d{10,11}$/ },
-    { code: '+27', name: 'South Africa', flag: '🇿🇦', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+7', name: 'Russia', flag: '🇷🇺', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+82', name: 'South Korea', flag: '🇰🇷', maxLength: 10, regex: /^\d{9,10}$/ },
-    { code: '+34', name: 'Spain', flag: '🇪🇸', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+39', name: 'Italy', flag: '🇮🇹', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+971', name: 'United Arab Emirates', flag: '🇦🇪', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+65', name: 'Singapore', flag: '🇸🇬', maxLength: 8, regex: /^\d{8}$/ },
-    { code: '+64', name: 'New Zealand', flag: '🇳🇿', maxLength: 10, regex: /^\d{9,10}$/ },
-    { code: '+41', name: 'Switzerland', flag: '🇨🇭', maxLength: 10, regex: /^\d{10}$/ },
-    { code: '+31', name: 'Netherlands', flag: '🇳🇱', maxLength: 10, regex: /^\d{10}$/ },
-  ];
+  { code: '+93', name: 'Afghanistan', flag: '🇦🇫', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+355', name: 'Albania', flag: '🇦🇱', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+213', name: 'Algeria', flag: '🇩🇿', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+376', name: 'Andorra', flag: '🇦🇩', maxLength: 9, regex: /^\d{6,9}$/ },
+  { code: '+244', name: 'Angola', flag: '🇦🇴', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+1', name: 'Antigua and Barbuda', flag: '🇦🇬', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+54', name: 'Argentina', flag: '🇦🇷', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+374', name: 'Armenia', flag: '🇦🇲', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+61', name: 'Australia', flag: '🇦🇺', maxLength: 10, regex: /^\d{9,10}$/ },
+  { code: '+43', name: 'Austria', flag: '🇦🇹', maxLength: 11, regex: /^\d{10,11}$/ },
+  { code: '+994', name: 'Azerbaijan', flag: '🇦🇿', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+1', name: 'Bahamas', flag: '🇧🇸', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+973', name: 'Bahrain', flag: '🇧🇭', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+880', name: 'Bangladesh', flag: '🇧🇩', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+1', name: 'Barbados', flag: '🇧🇧', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+375', name: 'Belarus', flag: '🇧🇾', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+32', name: 'Belgium', flag: '🇧🇪', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+501', name: 'Belize', flag: '🇧🇿', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+229', name: 'Benin', flag: '🇧🇯', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+975', name: 'Bhutan', flag: '🇧🇹', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+591', name: 'Bolivia', flag: '🇧🇴', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+387', name: 'Bosnia and Herzegovina', flag: '🇧🇦', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+267', name: 'Botswana', flag: '🇧🇼', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+55', name: 'Brazil', flag: '🇧🇷', maxLength: 11, regex: /^\d{10,11}$/ },
+  { code: '+673', name: 'Brunei', flag: '🇧🇳', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+359', name: 'Bulgaria', flag: '🇧🇬', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+226', name: 'Burkina Faso', flag: '🇧🇫', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+257', name: 'Burundi', flag: '🇧🇮', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+855', name: 'Cambodia', flag: '🇰🇭', maxLength: 9, regex: /^\d{8,9}$/ },
+  { code: '+237', name: 'Cameroon', flag: '🇨🇲', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+1', name: 'Canada', flag: '🇨🇦', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+238', name: 'Cape Verde', flag: '🇨🇻', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+236', name: 'Central African Republic', flag: '🇨🇫', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+235', name: 'Chad', flag: '🇹🇩', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+56', name: 'Chile', flag: '🇨🇱', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+86', name: 'China', flag: '🇨🇳', maxLength: 11, regex: /^\d{11}$/ },
+  { code: '+57', name: 'Colombia', flag: '🇨🇴', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+269', name: 'Comoros', flag: '🇰🇲', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+242', name: 'Congo', flag: '🇨🇬', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+243', name: 'Congo (DRC)', flag: '🇨🇩', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+506', name: 'Costa Rica', flag: '🇨🇷', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+385', name: 'Croatia', flag: '🇭🇷', maxLength: 9, regex: /^\d{8,9}$/ },
+  { code: '+53', name: 'Cuba', flag: '🇨🇺', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+357', name: 'Cyprus', flag: '🇨🇾', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+420', name: 'Czech Republic', flag: '🇨🇿', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+45', name: 'Denmark', flag: '🇩🇰', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+253', name: 'Djibouti', flag: '🇩🇯', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+1', name: 'Dominica', flag: '🇩🇲', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+1', name: 'Dominican Republic', flag: '🇩🇴', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+593', name: 'Ecuador', flag: '🇪🇨', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+20', name: 'Egypt', flag: '🇪🇬', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+503', name: 'El Salvador', flag: '🇸🇻', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+240', name: 'Equatorial Guinea', flag: '🇬🇶', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+291', name: 'Eritrea', flag: '🇪🇷', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+372', name: 'Estonia', flag: '🇪🇪', maxLength: 8, regex: /^\d{7,8}$/ },
+  { code: '+251', name: 'Ethiopia', flag: '🇪🇹', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+679', name: 'Fiji', flag: '🇫🇯', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+358', name: 'Finland', flag: '🇫🇮', maxLength: 12, regex: /^\d{9,12}$/ },
+  { code: '+33', name: 'France', flag: '🇫🇷', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+241', name: 'Gabon', flag: '🇬🇦', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+220', name: 'Gambia', flag: '🇬🇲', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+995', name: 'Georgia', flag: '🇬🇪', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+49', name: 'Germany', flag: '🇩🇪', maxLength: 11, regex: /^\d{10,11}$/ },
+  { code: '+233', name: 'Ghana', flag: '🇬🇭', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+30', name: 'Greece', flag: '🇬🇷', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+1', name: 'Grenada', flag: '🇬🇩', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+502', name: 'Guatemala', flag: '🇬🇹', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+224', name: 'Guinea', flag: '🇬🇳', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+245', name: 'Guinea-Bissau', flag: '🇬🇼', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+592', name: 'Guyana', flag: '🇬🇾', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+509', name: 'Haiti', flag: '🇭🇹', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+504', name: 'Honduras', flag: '🇭🇳', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+852', name: 'Hong Kong', flag: '🇭🇰', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+36', name: 'Hungary', flag: '🇭🇺', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+354', name: 'Iceland', flag: '🇮🇸', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+91', name: 'India', flag: '🇮🇳', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+62', name: 'Indonesia', flag: '🇮🇩', maxLength: 12, regex: /^\d{9,12}$/ },
+  { code: '+98', name: 'Iran', flag: '🇮🇷', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+964', name: 'Iraq', flag: '🇮🇶', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+353', name: 'Ireland', flag: '🇮🇪', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+972', name: 'Israel', flag: '🇮🇱', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+39', name: 'Italy', flag: '🇮🇹', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+1', name: 'Jamaica', flag: '🇯🇲', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+81', name: 'Japan', flag: '🇯🇵', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+962', name: 'Jordan', flag: '🇯🇴', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+7', name: 'Kazakhstan', flag: '🇰🇿', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+254', name: 'Kenya', flag: '🇰🇪', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+686', name: 'Kiribati', flag: '🇰🇮', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+965', name: 'Kuwait', flag: '🇰🇼', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+996', name: 'Kyrgyzstan', flag: '🇰🇬', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+856', name: 'Laos', flag: '🇱🇦', maxLength: 10, regex: /^\d{8,10}$/ },
+  { code: '+371', name: 'Latvia', flag: '🇱🇻', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+961', name: 'Lebanon', flag: '🇱🇧', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+266', name: 'Lesotho', flag: '🇱🇸', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+231', name: 'Liberia', flag: '🇱🇷', maxLength: 9, regex: /^\d{7,9}$/ },
+  { code: '+218', name: 'Libya', flag: '🇱🇾', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+423', name: 'Liechtenstein', flag: '🇱🇮', maxLength: 9, regex: /^\d{7,9}$/ },
+  { code: '+370', name: 'Lithuania', flag: '🇱🇹', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+352', name: 'Luxembourg', flag: '🇱🇺', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+853', name: 'Macau', flag: '🇲🇴', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+389', name: 'Macedonia', flag: '🇲🇰', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+261', name: 'Madagascar', flag: '🇲🇬', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+265', name: 'Malawi', flag: '🇲🇼', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+60', name: 'Malaysia', flag: '🇲🇾', maxLength: 10, regex: /^\d{9,10}$/ },
+  { code: '+960', name: 'Maldives', flag: '🇲🇻', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+223', name: 'Mali', flag: '🇲🇱', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+356', name: 'Malta', flag: '🇲🇹', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+692', name: 'Marshall Islands', flag: '🇲🇭', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+222', name: 'Mauritania', flag: '🇲🇷', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+230', name: 'Mauritius', flag: '🇲🇺', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+52', name: 'Mexico', flag: '🇲🇽', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+691', name: 'Micronesia', flag: '🇫🇲', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+373', name: 'Moldova', flag: '🇲🇩', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+377', name: 'Monaco', flag: '🇲🇨', maxLength: 9, regex: /^\d{8,9}$/ },
+  { code: '+976', name: 'Mongolia', flag: '🇲🇳', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+382', name: 'Montenegro', flag: '🇲🇪', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+212', name: 'Morocco', flag: '🇲🇦', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+258', name: 'Mozambique', flag: '🇲🇿', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+95', name: 'Myanmar', flag: '🇲🇲', maxLength: 10, regex: /^\d{7,10}$/ },
+  { code: '+264', name: 'Namibia', flag: '🇳🇦', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+674', name: 'Nauru', flag: '🇳🇷', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+977', name: 'Nepal', flag: '🇳🇵', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+31', name: 'Netherlands', flag: '🇳🇱', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+64', name: 'New Zealand', flag: '🇳🇿', maxLength: 10, regex: /^\d{9,10}$/ },
+  { code: '+505', name: 'Nicaragua', flag: '🇳🇮', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+227', name: 'Niger', flag: '🇳🇪', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+234', name: 'Nigeria', flag: '🇳🇬', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+47', name: 'Norway', flag: '🇳🇴', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+968', name: 'Oman', flag: '🇴🇲', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+92', name: 'Pakistan', flag: '🇵🇰', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+680', name: 'Palau', flag: '🇵🇼', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+970', name: 'Palestine', flag: '🇵🇸', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+507', name: 'Panama', flag: '🇵🇦', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+675', name: 'Papua New Guinea', flag: '🇵🇬', maxLength: 8, regex: /^\d{7,8}$/ },
+  { code: '+595', name: 'Paraguay', flag: '🇵🇾', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+51', name: 'Peru', flag: '🇵🇪', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+63', name: 'Philippines', flag: '🇵🇭', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+48', name: 'Poland', flag: '🇵🇱', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+351', name: 'Portugal', flag: '🇵🇹', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+974', name: 'Qatar', flag: '🇶🇦', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+40', name: 'Romania', flag: '🇷🇴', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+7', name: 'Russia', flag: '🇷🇺', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+250', name: 'Rwanda', flag: '🇷🇼', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+1', name: 'Saint Kitts and Nevis', flag: '🇰🇳', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+1', name: 'Saint Lucia', flag: '🇱🇨', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+1', name: 'Saint Vincent and the Grenadines', flag: '🇻🇨', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+685', name: 'Samoa', flag: '🇼🇸', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+378', name: 'San Marino', flag: '🇸🇲', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+239', name: 'Sao Tome and Principe', flag: '🇸🇹', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+966', name: 'Saudi Arabia', flag: '🇸🇦', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+221', name: 'Senegal', flag: '🇸🇳', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+381', name: 'Serbia', flag: '🇷🇸', maxLength: 9, regex: /^\d{8,9}$/ },
+  { code: '+248', name: 'Seychelles', flag: '🇸🇨', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+232', name: 'Sierra Leone', flag: '🇸🇱', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+65', name: 'Singapore', flag: '🇸🇬', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+421', name: 'Slovakia', flag: '🇸🇰', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+386', name: 'Slovenia', flag: '🇸🇮', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+677', name: 'Solomon Islands', flag: '🇸🇧', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+252', name: 'Somalia', flag: '🇸🇴', maxLength: 9, regex: /^\d{8,9}$/ },
+  { code: '+27', name: 'South Africa', flag: '🇿🇦', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+82', name: 'South Korea', flag: '🇰🇷', maxLength: 10, regex: /^\d{9,10}$/ },
+  { code: '+211', name: 'South Sudan', flag: '🇸🇸', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+34', name: 'Spain', flag: '🇪🇸', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+94', name: 'Sri Lanka', flag: '🇱🇰', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+249', name: 'Sudan', flag: '🇸🇩', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+597', name: 'Suriname', flag: '🇸🇷', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+268', name: 'Swaziland', flag: '🇸🇿', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+46', name: 'Sweden', flag: '🇸🇪', maxLength: 10, regex: /^\d{9,10}$/ },
+  { code: '+41', name: 'Switzerland', flag: '🇨🇭', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+963', name: 'Syria', flag: '🇸🇾', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+886', name: 'Taiwan', flag: '🇹🇼', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+992', name: 'Tajikistan', flag: '🇹🇯', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+255', name: 'Tanzania', flag: '🇹🇿', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+66', name: 'Thailand', flag: '🇹🇭', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+670', name: 'Timor-Leste', flag: '🇹🇱', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+228', name: 'Togo', flag: '🇹🇬', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+676', name: 'Tonga', flag: '🇹🇴', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+1', name: 'Trinidad and Tobago', flag: '🇹🇹', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+216', name: 'Tunisia', flag: '🇹🇳', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+90', name: 'Turkey', flag: '🇹🇷', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+993', name: 'Turkmenistan', flag: '🇹🇲', maxLength: 8, regex: /^\d{8}$/ },
+  { code: '+688', name: 'Tuvalu', flag: '🇹🇻', maxLength: 6, regex: /^\d{6}$/ },
+  { code: '+256', name: 'Uganda', flag: '🇺🇬', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+380', name: 'Ukraine', flag: '🇺🇦', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+971', name: 'United Arab Emirates', flag: '🇦🇪', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+44', name: 'United Kingdom', flag: '🇬🇧', maxLength: 11, regex: /^\d{9,11}$/ },
+  { code: '+1', name: 'United States', flag: '🇺🇸', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+598', name: 'Uruguay', flag: '🇺🇾', maxLength: 9, regex: /^\d{8,9}$/ },
+  { code: '+998', name: 'Uzbekistan', flag: '🇺🇿', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+678', name: 'Vanuatu', flag: '🇻🇺', maxLength: 7, regex: /^\d{7}$/ },
+  { code: '+58', name: 'Venezuela', flag: '🇻🇪', maxLength: 10, regex: /^\d{10}$/ },
+  { code: '+84', name: 'Vietnam', flag: '🇻🇳', maxLength: 10, regex: /^\d{9,10}$/ },
+  { code: '+967', name: 'Yemen', flag: '🇾🇪', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+260', name: 'Zambia', flag: '🇿🇲', maxLength: 9, regex: /^\d{9}$/ },
+  { code: '+263', name: 'Zimbabwe', flag: '🇿🇼', maxLength: 9, regex: /^\d{9}$/ },
+];
 
   const servicesOptions = [
     { value: 'web-design-development', label: 'Web Design & Development' },
@@ -306,9 +483,9 @@ export default function ContactForm() {
         ref={formContainerRef}
         className="max-w-2xl mx-auto bg-dark-900 backdrop-blur-md rounded-lg p-8 shadow-xl border border-gray-600/20 animate-fade-in"
       >
-        <h2 className="text-3xl font-bold text-white mb-8 text-center">Get in Touch</h2>
+        <h2 className="text-3xl font-bold text-brand-blue mb-8 text-center">Get in Touch</h2>
         {submitted ? (
-          <div className="text-center text-teal-500 mb-6 animate-pulse">
+          <div className="text-center text-brand-blue mb-6 animate-pulse">
             <FaCheckCircle className="inline-block w-8 h-8 mb-2" />
             <p>Thank you for your submission! We’ll get back to you soon.</p>
           </div>
@@ -316,50 +493,65 @@ export default function ContactForm() {
           <form onSubmit={handleSubmit} className="space-y-8">
             {submitError && <p className="text-red-500 text-center mb-4">{submitError}</p>}
             {/* Name */}
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="relative"
+            >
               <input
                 type="text"
                 name="name"
                 id="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 peer"
+                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/30 transition-all duration-300 peer"
                 placeholder=" "
                 aria-label="Your Name"
               />
               <label
                 htmlFor="name"
-                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-teal-500 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-brand-blue peer-focus:dark:text-brand-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
                 Your Name *
               </label>
               {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-            </div>
+            </motion.div>
 
             {/* Email */}
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative"
+            >
               <input
                 type="email"
                 name="email"
                 id="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 peer"
+                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/30 transition-all duration-300 peer"
                 placeholder=" "
                 aria-label="Your Email"
               />
               <label
                 htmlFor="email"
-                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-teal-500 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-brand-blue peer-focus:dark:text-brand-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
                 Your Email *
               </label>
               {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-            </div>
+            </motion.div>
 
             {/* Phone with Country Code Dropdown */}
-            <div className="relative">
-              <div className="flex items-center border border-gray-600 rounded-lg focus-within:border-teal-500 focus-within:ring-2 focus-within:ring-teal-500/30 transition-all duration-300">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="relative"
+            >
+              <div className="flex items-center border border-gray-600 rounded-lg focus-within:border-brand-blue focus-within:ring-2 focus-within:ring-brand-blue/30 transition-all duration-300">
                 <select
                   name="countryCode"
                   value={formData.countryCode}
@@ -392,7 +584,7 @@ export default function ContactForm() {
                   htmlFor="phone"
                   className={`absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform z-10 origin-[0] bg-gray-900 px-2 ${
                     isPhoneSectionActive
-                      ? '-translate-y-4 scale-75 top-2 text-teal-500'
+                      ? '-translate-y-4 scale-75 top-2 text-brand-blue'
                       : 'scale-100 -translate-y-1/2 top-1/2 left-32'
                   }`}
                 >
@@ -400,31 +592,41 @@ export default function ContactForm() {
                 </label>
               </div>
               {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
-            </div>
+            </motion.div>
 
             {/* Company (Optional) */}
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="relative"
+            >
               <input
                 type="text"
                 name="company"
                 id="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 peer"
+                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/30 transition-all duration-300 peer"
                 placeholder=" "
                 aria-label="Your Company Name"
               />
               <label
                 htmlFor="company"
-                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-teal-500 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-brand-blue peer-focus:dark:text-brand-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
                 Your Company Name (Optional)
               </label>
-            </div>
+            </motion.div>
 
             {/* Services or Purpose of Enquiry (Checkbox Selection) */}
-            <div className="relative">
-              <label className="block text-lg text-teal-500 mb-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="relative"
+            >
+              <label className="block text-lg text-brand-blue mb-2">
                 Service or Purpose of Enquiry *
               </label>
               <div className="services-container bg-dark-900/70 border border-gray-600 rounded-md p-4">
@@ -446,7 +648,7 @@ export default function ContactForm() {
                       >
                         <span className="checkbox-icon w-5 h-5 mr-2 border border-gray-600 rounded flex items-center justify-center transition-all duration-300">
                           {formData.service.includes(option.value) && (
-                            <span className="w-3 h-3 bg-teal-500 rounded-sm animate-check"></span>
+                            <span className="w-3 h-3 bg-brand-blue rounded-sm animate-check"></span>
                           )}
                         </span>
                         <span className="text-gray-300">{option.label}</span>
@@ -456,36 +658,46 @@ export default function ContactForm() {
                 </div>
               </div>
               {errors.service && <p className="text-red-500 text-sm mt-1">{errors.service}</p>}
-            </div>
+            </motion.div>
 
             {/* Requirements */}
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              className="relative"
+            >
               <textarea
                 name="requirements"
                 id="requirements"
                 value={formData.requirements}
                 onChange={handleChange}
-                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 peer min-h-[150px]"
+                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/30 transition-all duration-300 peer min-h-[150px]"
                 placeholder=" "
                 aria-label="Your Project Requirements"
               />
               <label
                 htmlFor="requirements"
-                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-teal-500 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-brand-blue peer-focus:dark:text-brand-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
                 Your Project Requirements *
               </label>
               {errors.requirements && <p className="text-red-500 text-sm mt-1">{errors.requirements}</p>}
-            </div>
+            </motion.div>
 
             {/* Preferred Contact Method */}
-            <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="relative"
+            >
               <select
                 name="contactMethod"
                 id="contactMethod"
                 value={formData.contactMethod}
                 onChange={handleChange}
-                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 appearance-none peer"
+                className="w-full bg-dark-900/70 text-white border border-gray-600 rounded-lg py-3 px-4 focus:outline-none focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/30 transition-all duration-300 appearance-none peer"
                 aria-label="Preferred Contact Method"
               >
                 <option value="email">Email</option>
@@ -493,7 +705,7 @@ export default function ContactForm() {
               </select>
               <label
                 htmlFor="contactMethod"
-                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-teal-500 peer-focus:dark:text-teal-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                className="absolute text-m text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-brand-blue peer-focus:dark:text-brand-blue peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
               >
                 Preferred Contact Method
               </label>
@@ -502,41 +714,54 @@ export default function ContactForm() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
-            </div>
+            </motion.div>
 
             {/* Privacy Policy Checkbox */}
-            <div className="flex items-center gap-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              className="flex items-center gap-2"
+            >
               <input
                 type="checkbox"
                 name="agreePrivacy"
                 checked={formData.agreePrivacy}
                 onChange={handleChange}
-                className="h-4 w-4 text-teal-500 focus:ring-teal-500 border-gray-600 rounded transition-all duration-300"
+                className="h-4 w-4 text-brand-blue focus:ring-brand-blue border-gray-600 rounded transition-all duration-300"
                 aria-label="Agree to Privacy Policy"
               />
               <label className="text-gray-400">
                 I agree to the{' '}
-                <Link href="/privacy-policy" className="text-teal-500 hover:underline transition-colors">
+                <Link href="/privacy-policy" className="text-brand-blue hover:underline transition-colors">
                   Privacy Policy
                 </Link>{' '}
                 *
               </label>
-            </div>
+            </motion.div>
             {errors.agreePrivacy && <p className="text-red-500 text-sm">{errors.agreePrivacy}</p>}
 
             {/* reCAPTCHA */}
-            <div className="flex justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+              className="flex justify-center"
+            >
               <ReCAPTCHA
                 sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || 'your-recaptcha-site-key'}
                 onChange={onReCAPTCHAChange}
                 theme="dark"
               />
-            </div>
+            </motion.div>
 
             {/* Submit Button */}
-            <button
+            <motion.button
               type="submit"
               disabled={isSubmitting}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
               className={`w-full contact-us-button text-white font-semibold py-3 rounded-md transition-all duration-300 flex items-center justify-center ${
                 isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
               }`}
@@ -549,7 +774,7 @@ export default function ContactForm() {
               ) : (
                 'Submit Your Enquiry'
               )}
-            </button>
+            </motion.button>
           </form>
         )}
         {/* Email Animation */}
@@ -562,17 +787,17 @@ export default function ContactForm() {
 
       {/* Contact Information Section */}
       <div className="max-w-2xl mx-auto mt-8 text-center">
-        <h3 className="text-xl font-semibold text-white mb-4">Contact Us Directly</h3>
+        <h3 className="text-xl font-semibold text-brand-blue mb-4">Contact Us Directly</h3>
         <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-6 space-y-4 sm:space-y-0">
           <p className="text-gray-400 flex items-center">
-            <FaEmail className="mr-2 text-teal-500" /> 
-            <a href="mailto:contact@intentioninfoservice.com" className="text-teal-500 hover:underline">
+            <FaEmail className="mr-2 text-brand-blue" /> 
+            <a href="mailto:contact@intentioninfoservice.com" className="text-brand-blue hover:underline">
               contact@intentioninfoservice.com
             </a>
           </p>
           <p className="text-gray-400 flex items-center">
-            <FaPhone className="mr-2 text-teal-500" /> 
-            <a href="tel:+917021539267" className="text-teal-500 hover:underline">
+            <FaPhone className="mr-2 text-brand-blue" /> 
+            <a href="tel:+917021539267" className="text-brand-blue hover:underline">
               +91 7021539267
             </a>
           </p>
@@ -659,7 +884,7 @@ export default function ContactForm() {
           );
           border: solid 2px transparent;
           border-radius: 0.5em;
-          background: 
+          background:
             var(--main-bg) padding-box,
             var(--gradient-border) border-box,
             var(--main-bg) border-box;
@@ -669,7 +894,7 @@ export default function ContactForm() {
 
         .contact-us-button:hover:not(:disabled) {
           animation-play-state: paused;
-          box-shadow: 0 0 15px rgba(20, 184, 166, 0.5);
+          box-shadow: 0 0 15px rgba(0, 160, 227, 0.5);
         }
 
         /* Email Animation Styles */
@@ -684,7 +909,7 @@ export default function ContactForm() {
           left: 50%;
           transform: translate(-50%, 50%);
           font-size: 2rem;
-          color: #1a3c34;
+          color: #00a0e3;
           animation: fly-to-logo 2s ease-in-out forwards;
         }
 
@@ -698,10 +923,11 @@ export default function ContactForm() {
         }
 
         .service-checkbox:checked + label .checkbox-icon {
-          background-color: #1a3c34;
-          border-color: #1a3c34;
+          background-color: #00a0e3;
+          border-color: #00a0e3;
         }
       `}</style>
     </>
   );
 }
+

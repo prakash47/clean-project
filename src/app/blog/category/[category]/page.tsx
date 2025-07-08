@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,7 +9,9 @@ import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import DOMPurify from 'dompurify';
 import Head from 'next/head';
-import { CONFIG } from '@/config'; // Import config
+import { FaArrowRight, FaCalendarAlt, FaClock, FaUser } from 'react-icons/fa';
+import Button from '@/components/ui/Button';
+import { CONFIG } from '@/config';
 
 // Define the structure of the raw WordPress post data
 interface WordPressPost {
@@ -56,9 +59,18 @@ interface BlogPost {
   featuredImage: string;
   category: string;
   date: string;
+  readTime: string;
   author: string;
   authorImage: string;
 }
+
+// Helper function to calculate read time
+const calculateReadTime = (text: string) => {
+  const wordsPerMinute = 200;
+  const wordCount = text.split(/\s+/).length;
+  const readTime = Math.ceil(wordCount / wordsPerMinute);
+  return `${readTime} min read`;
+};
 
 // Fetch blog posts for the given category slug with pagination
 async function fetchCategoryData(categorySlug: string, after?: string) {
@@ -131,6 +143,7 @@ async function fetchCategoryData(categorySlug: string, after?: string) {
         featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
         category: post.categories.nodes[0]?.name || 'Uncategorized',
         date: post.date,
+        readTime: calculateReadTime(rawExcerpt),
         author: fullName || post.author.node.name || 'Unknown Author',
         authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
       };
@@ -315,43 +328,93 @@ export default function BlogCategoryPage() {
             {displayedPosts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 {displayedPosts.map(post => (
-                  <article key={post.id} className="bg-dark-900 rounded-lg overflow-hidden">
-                    <Link href={`/blog/${post.slug}`}>
-                      <div className="relative w-full h-[150px] sm:h-[200px] md:h-[200px]">
+                  <article key={post.id} className="blog-card group bg-dark-900 rounded-xl overflow-hidden shadow-lg hover:shadow-brand-blue/20 transition-all duration-300 border border-gray-800 hover:border-brand-blue/30">
+                    {/* Featured Image */}
+                    <div className="relative overflow-hidden">
+                      <Link href={`/blog/${post.slug}`} className="block">
                         <Image
                           src={post.featuredImage}
-                          alt={post.title}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                          className="transition-transform duration-300 hover:scale-105"
+                          alt={`Featured image for ${post.title}`}
+                          width={400}
+                          height={250}
+                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"
-                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN88v5nPQAH8wL5zBLqZQAAAABJRU5ErkJggg=="
                         />
-                      </div>
-                      <div className="p-4 sm:p-6">
-                        <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-2 sm:px-3 py-1 rounded-full mb-2">
+                      </Link>
+                      
+                      {/* Category Badge */}
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-gradient-to-r from-brand-blue to-brand-indigo text-white px-3 py-1 rounded-full text-xs font-semibold">
                           {post.category}
                         </span>
-                        <h3 className="text-lg sm:text-xl md:text-xl font-bold text-white mb-2">{post.title}</h3>
-                        <div className="text-gray-400 mb-2 sm:mb-4" dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }} />
-                        <div className="flex items-center gap-2 sm:gap-3">
-                          <Image
-                            src={post.authorImage}
-                            alt={post.author}
-                            width={24}
-                            height={24}
-                            className="rounded-full"
-                            sizes="24px"
-                          />
-                          <div>
-                            {CONFIG.SHOW_DATES && (
-                              <p className="text-xs sm:text-sm text-gray-400">{post.date}</p>
-                            )}
-                            <p className="text-xs sm:text-sm text-gray-400">{post.author}</p>
-                          </div>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      {/* Meta Information */}
+                      <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
+                        <div className="flex items-center gap-1">
+                          <FaCalendarAlt className="text-brand-blue" />
+                          <time dateTime={post.date}>{new Date(post.date).toLocaleDateString(
+                            'en-US',
+                            {
+                              month: 'short',
+                              day: 'numeric',
+                              year: 'numeric',
+                            }
+                          )}</time>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <FaClock className="text-brand-blue" />
+                          <span>{post.readTime}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <FaUser className="text-brand-blue" />
+                          <span>{post.author}</span>
                         </div>
                       </div>
-                    </Link>
+
+                      {/* Title */}
+                      <Link href={`/blog/${post.slug}`}>
+                        <h3 
+                          className="text-xl font-semibold text-white mb-3 group-hover:text-brand-blue transition-colors duration-300 line-clamp-2 cursor-pointer"
+                        >
+                          {post.title}
+                        </h3>
+                      </Link>
+
+                      {/* Excerpt */}
+                      <p 
+                        className="text-gray-400 mb-6 line-clamp-3 leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: post.sanitizedExcerpt }}
+                      />
+
+                      {/* Read More Button */}
+                      <div className="flex justify-between items-center">
+                        <Button
+                          size="sm"
+                          className="group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 text-brand-blue border border-brand-blue hover:border-brand-blue"
+                          icon={<FaArrowRight />}
+                          iconPosition="right"
+                          href={`/blog/${post.slug}`}
+                          ariaLabel={`Read more about ${post.title}`}
+                        >
+                          Read More
+                        </Button>
+                        
+                        {/* Social Proof */}
+                        <div className="flex items-center gap-2 text-xs text-gray-500">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                          <span>Trending</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Hover Effect Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-brand-indigo/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                   </article>
                 ))}
               </div>
@@ -372,3 +435,6 @@ export default function BlogCategoryPage() {
     </>
   );
 }
+
+
+

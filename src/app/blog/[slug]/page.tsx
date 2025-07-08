@@ -191,7 +191,7 @@ async function fetchSidebarData(): Promise<{ blogPosts: BlogPost[]; categories: 
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
-      sanitizedExcerpt: sanitize(truncatedExcerpt),
+      sanitizedExcerpt: truncatedExcerpt,
       featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
       category: post.categories.nodes[0]?.name || 'Uncategorized',
       date: post.date,
@@ -256,7 +256,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   }
 
   return (
-    <div className="bg-dark-950 text-gray-800 font-['Inter',sans-serif]">
+    <div className="bg-dark-950 text-white font-['Inter',sans-serif]">
       <div dangerouslySetInnerHTML={{
         __html: `<script type="application/ld+json">${JSON.stringify({
           "@context": "https://schema.org",
@@ -324,8 +324,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
       <section className="container mx-auto px-4 sm:px-6 md:px-[10%] py-6 sm:py-8 md:py-12 flex flex-col lg:flex-row gap-6 sm:gap-8">
         <article className="w-full lg:w-2/3">
-          <div className="bg-gray-200 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
-            <div className="prose prose-lg max-w-none text-gray-800">
+          <div className="bg-dark-800 p-4 sm:p-6 md:p-8 rounded-lg shadow-lg">
+            <div className="prose prose-lg max-w-none prose-headings:text-brand-blue prose-headings:font-manrope prose-headings:font-bold prose-h2:text-xl prose-h3:text-xl prose-h4:text-lg">
               <h2>{post.title}</h2>
               <div dangerouslySetInnerHTML={{ __html: post.sanitizedContent }} />
             </div>
@@ -338,3 +338,4 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     </div>
   );
 }
+

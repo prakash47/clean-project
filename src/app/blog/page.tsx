@@ -8,6 +8,7 @@ import client from '@/lib/apolloClient';
 import DOMPurify from 'dompurify';
 import Head from 'next/head';
 import { CONFIG } from '@/config'; // Import config
+import AnimatedTechBackground from '@/components/animations/AnimatedTechBackground'; // Import the new component
 
 // Define the structure of the raw WordPress post data
 interface WordPressPost {
@@ -56,6 +57,7 @@ interface BlogPost {
   date: string;
   author: string;
   authorImage: string;
+  readTime: string; // Added readTime property
 }
 
 export const metadata = {
@@ -89,6 +91,13 @@ export const metadata = {
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
+};
+
+// Helper to calculate read time
+const calculateReadTime = (text: string) => {
+  const wordCount = text.split(' ').length;
+  const readTime = Math.max(1, Math.ceil(wordCount / 200)); // Average 200 words per minute
+  return `${readTime} min read`;
 };
 
 // Fetch blog posts and categories from WordPress
@@ -144,7 +153,8 @@ async function fetchBlogData() {
       .join(' ');
     const sanitize = DOMPurify.sanitize || ((html: string) => html);
     const rawExcerpt = post.excerpt || '';
-    const truncatedExcerpt = rawExcerpt.length > 90 ? rawExcerpt.substring(0, 90) + '....' : rawExcerpt;
+    const plainExcerpt = sanitize(rawExcerpt).replace(/<\/?[^>]+(>|$)/g, ''); // Remove all HTML tags
+    const truncatedExcerpt = plainExcerpt.length > 90 ? plainExcerpt.substring(0, 90) + '....' : plainExcerpt;
     return {
       id: post.id,
       slug: post.slug,
@@ -153,9 +163,14 @@ async function fetchBlogData() {
       sanitizedExcerpt: sanitize(truncatedExcerpt),
       featuredImage: post.featuredImage?.node?.sourceUrl || 'https://placehold.co/800x400.webp?text=No+Image',
       category: post.categories.nodes[0]?.name || 'Uncategorized',
-      date: post.date,
+      date: new Date(post.date).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      }),
       author: fullName || post.author.node.name || 'Unknown Author',
       authorImage: post.author.node.avatar?.url || 'https://placehold.co/40x40.webp?text=A',
+      readTime: calculateReadTime(plainExcerpt), // Calculate and add readTime
     };
   });
 
@@ -219,8 +234,9 @@ export default async function BlogPage() {
         </script>
       </Head>
       <div className="bg-dark-950 text-white">
-        <section className="relative bg-dark-900 py-20 sm:py-12">
-          <div className="container mx-auto px-4 sm:px-6 md:px-[10%] text-center">
+        <section className="relative bg-dark-900 py-20 sm:py-12 overflow-hidden">
+          <AnimatedTechBackground />
+          <div className="container mx-auto px-4 sm:px-6 md:px-[10%] text-center relative z-10">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
               Latest Insights in Technology
             </h1>
@@ -229,53 +245,8 @@ export default async function BlogPage() {
             </p>
           </div>
         </section>
-        {blogPosts.length > 0 && (
-          <section className="container mx-auto px-4 sm:px-6 md:px-[10%] py-6">
-            <h2 className="text-2xl sm:text-3xl md:text-3xl font-bold text-white mb-8">Featured Post</h2>
-            <div className="relative">
-              <Link href={`/blog/${blogPosts[0].slug}`}>
-                <div className="relative w-full h-[250px] sm:h-[300px] md:h-[400px] rounded-lg overflow-hidden">
-                  <Image
-                    src={blogPosts[0].featuredImage}
-                    alt={blogPosts[0].title}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    className="transition-transform duration-300 hover:scale-105"
-                    priority
-                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-dark-900/80 flex items-end p-4 sm:p-6">
-                    <div className="w-full">
-                      <span className="inline-block bg-brand-blue text-white text-sm font-semibold px-2 sm:px-3 py-1 rounded-full mb-2">
-                        {blogPosts[0].category}
-                      </span>
-                      <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2 whitespace-normal break-words">
-                        {blogPosts[0].title}
-                      </h3>
-                      <div className="text-gray-300 mb-2 sm:mb-4 overflow-hidden text-ellipsis whitespace-nowrap max-w-full" dangerouslySetInnerHTML={{ __html: blogPosts[0].sanitizedExcerpt }} />
-                      <div className="flex items-center gap-2 sm:gap-3">
-                        <Image
-                          src={blogPosts[0].authorImage}
-                          alt={blogPosts[0].author}
-                          width={30}
-                          height={30}
-                          className="rounded-full"
-                          sizes="30px"
-                        />
-                        <div>
-                          {CONFIG.SHOW_DATES && (
-                            <p className="text-xs sm:text-sm text-gray-400">{blogPosts[0].date}</p>
-                          )}
-                          <p className="text-xs sm:text-sm text-gray-400">{blogPosts[0].author}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </section>
-        )}
+
+
         <section className="container mx-auto px-4 sm:px-6 md:px-[10%] py-6 flex flex-col sm:flex-col md:flex-col lg:flex-row gap-6 sm:gap-8">
           <BlogPostsList initialPosts={initialPosts} allPosts={blogPosts} />
           <aside className="w-full lg:w-1/3 sm:mt-8 md:mt-[4.25rem]">
@@ -286,3 +257,5 @@ export default async function BlogPage() {
     </>
   );
 }
+
+

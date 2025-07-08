@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
@@ -226,19 +227,16 @@ export default function CareersPageClient() {
 
       {/* Job Openings Section */}
       <section className="container mx-auto px-4 md:px-[10%] py-12">
-        <h2 className="text-3xl font-bold text-white mb-8 text-center">Open Positions</h2>
+        <h2 className="text-3xl font-bold text-brand-blue mb-8 text-center">Open Positions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {jobOpenings.map(job => (
             <div key={job.id} className="bg-dark-900 rounded-lg p-6 shadow-lg">
-              <h3 className="text-xl font-bold text-white mb-2">{job.title}</h3>
+              <h3 className="text-xl font-bold text-brand-blue mb-2">{job.title}</h3>
               <p className="text-gray-400 mb-2">
                 <span className="font-semibold">Department:</span> {job.department}
               </p>
               <p className="text-gray-400 mb-2">
                 <span className="font-semibold">Job Type:</span> {job.jobType}
-              </p>
-              <p className="text-gray-400 mb-2">
-                <span className="font-semibold">Openings:</span> {job.openings}
               </p>
               <p className="text-gray-400 mb-4">{job.description}</p>
               <button
@@ -254,13 +252,13 @@ export default function CareersPageClient() {
 
       {/* Company Culture Section */}
       <section className="container mx-auto px-4 md:px-[10%] py-12 bg-dark-900">
-        <h2 className="text-3xl font-bold text-white mb-8 text-center">Why Work With Us?</h2>
+        <h2 className="text-3xl font-bold text-brand-blue mb-8 text-center">Why Work With Us?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center">
             <div className="flex justify-center mb-4">
               <FaLightbulb className="text-brand-blue w-12 h-12" />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-4">Innovative Environment</h3>
+            <h3 className="text-xl font-semibold text-brand-blue mb-4">Innovative Environment</h3>
             <p className="text-gray-400">
               Work on cutting-edge projects with the latest technologies, pushing the boundaries of what’s possible.
             </p>
@@ -269,7 +267,7 @@ export default function CareersPageClient() {
             <div className="flex justify-center mb-4">
               <FaChartLine className="text-brand-blue w-12 h-12" />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-4">Growth Opportunities</h3>
+            <h3 className="text-xl font-semibold text-brand-blue mb-4">Growth Opportunities</h3>
             <p className="text-gray-400">
               We invest in your growth with training, mentorship, and opportunities to advance your career.
             </p>
@@ -278,7 +276,7 @@ export default function CareersPageClient() {
             <div className="flex justify-center mb-4">
               <FaBalanceScale className="text-brand-blue w-12 h-12" />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-4">Work-Life Balance</h3>
+            <h3 className="text-xl font-semibold text-brand-blue mb-4">Work-Life Balance</h3>
             <p className="text-gray-400">
               Enjoy flexible working hours, remote work options, and a supportive team culture.
             </p>
@@ -306,7 +304,7 @@ export default function CareersPageClient() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-white tracking-tight">Apply for {selectedPosition}</h3>
+                <h3 className="text-2xl font-bold text-brand-blue tracking-tight">Apply for {selectedPosition}</h3>
                 <button onClick={closeModal} className="text-gray-400 hover:text-brand-blue transition-colors">
                   <FaTimes size={24} />
                 </button>
@@ -439,3 +437,4 @@ export default function CareersPageClient() {
     </div>
   );
 }
+

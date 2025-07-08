@@ -5,6 +5,7 @@ const config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}', // App Router files
     './src/components/**/*.{js,ts,jsx,tsx,mdx}', // Components
     './src/styles/**/*.{css}', // CSS files (though prose.css is removed)
+    './node_modules/flowbite/**/*.js', // Flowbite content
   ],
   theme: {
     extend: {
@@ -30,7 +31,13 @@ const config = {
   },
   plugins: [
     require('@tailwindcss/typography'),
+    require('flowbite/plugin'),
+    require('daisyui'),
   ],
+  daisyui: {
+    themes: ["dark"], // or any other theme you prefer
+  },
 };
 
 export default config;
+
