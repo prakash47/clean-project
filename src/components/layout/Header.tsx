@@ -47,7 +47,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[theme(colors.dark.900)]">
+    <header className="sticky top-0 z-50 bg-white lg:bg-[theme(colors.dark.900)] md:bg-[theme(colors.dark.900)]">
       <style jsx global>{`
         @keyframes bg-spin {
           to {
@@ -86,10 +86,10 @@ export default function Header() {
         }
       `}</style>
 
-      <div className="mx-auto w-full px-4 md:px-[10%] py-4 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-bold text-white flex items-center gap-2">
-          <img src="/images/logo.png" alt="Intention Infoservice Logo" className="h-12 w-10" />
-          Intention Infoservice
+      <div className="mx-auto w-full px-4 md:px-[10%] py-1 md:py-2 lg:py-2 flex items-center justify-between">
+        <Link href="/" className=" flex items-center gap-2">
+          <img src="/images/logo.png" alt="Intention Infoservice Logo" className="w-40 md:w-48 lg:w-48" />
+          
         </Link>
         <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link, index) => (
@@ -150,7 +150,7 @@ export default function Header() {
           ))}
         </nav>
         <button
-          className="lg:hidden text-white"
+          className="lg:hidden text-[theme(colors.brand.blue)]"
           onClick={() => setIsOpen(!isOpen)}
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
         >

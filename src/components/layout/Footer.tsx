@@ -22,14 +22,14 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[theme(colors.dark.900)] text-white border-t border-gray-700 pt-8">
-      <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full px-4 md:px-[10%]">
+    <footer className="bg-[theme(colors.dark.900)] text-white border-t border-gray-700 pt-2">
+      <div className="container mx-auto px-4 py-2 md:py-16 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full px-0 md:px-[10%]">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <img src="/images/logo.png" alt="Intention Infoservice Logo" className="h-12 w-10" />
-              Intention Infoservice
+            <h3 className=" mb-4 flex items-center gap-2">
+              <img src="/images/logo.png" alt="Intention Infoservice Logo" className="w-40 md:w-48 lg:w-48" />
+
             </h3>
             <p className="mb-4 text-gray-300">
               We transform ideas into stunning digital realities with cutting-edge technologies and a team of creative experts.
